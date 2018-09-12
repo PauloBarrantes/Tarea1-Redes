@@ -12,6 +12,3 @@ class Node :
             connection, addr = self.socket.accept()
             print("New Connection")
             print(addr)
-        
-    def port(self, arg):
-        pass
