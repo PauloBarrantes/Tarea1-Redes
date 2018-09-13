@@ -1,8 +1,9 @@
 from socket import *
-serverName = '10.1.138.89'
-serverPort = 8080
+server = ""
+serverPort = ""
+
 clientSocket = socket(AF_INET, SOCK_STREAM)
-clientSocket.connect((serverName,serverPort))
+clientSocket.connect((str(server),serverPort))
 sentence = str.encode(input("Input lowercase sentence:"))
 clientSocket.send(sentence)
 modifiedSentence = clientSocket.recv(1024)
