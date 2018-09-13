@@ -1,4 +1,4 @@
-from socket import *
+import socket
 class UDPNode :
     """docstring for Node."""
     def __init__(self, addrIP, port):
@@ -31,4 +31,4 @@ class UDPNode :
             chunks.append(chunk)
             bytes_recd = bytes_recd + len(chunk)
         return b''.join(chunks)
-UDPNode("127.0.0.1","8080")
+gg = UDPNode("localhost",8000)
