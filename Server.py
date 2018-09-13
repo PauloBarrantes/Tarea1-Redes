@@ -12,3 +12,4 @@ class Node :
             connection, addr = self.socket.accept()
             print("New Connection")
             print(addr)
+serverSocket=socket(AF_INET,SOCK_STREAM)
