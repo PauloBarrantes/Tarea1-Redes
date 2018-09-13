@@ -1,6 +1,6 @@
 from socket import *
-server = ""
-serverPort = ""
+server = "10.1.138.89"
+serverPort = 8080
 
 clientSocket = socket(AF_INET, SOCK_STREAM)
 clientSocket.connect((str(server),serverPort))

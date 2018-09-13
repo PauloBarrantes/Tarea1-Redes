@@ -8,6 +8,5 @@ while 1:
     connectionSocket, addr = serverSocket.accept()
     sentence = connectionSocket.recv(1024)
     capitalizedSentence = sentence.upper()
-    print(sentence.upper())
     connectionSocket.send(capitalizedSentence)
     connectionSocket.close()
