@@ -1,7 +1,5 @@
-import socket
+class NodeUDP:
 
-class Node:
     def __init__(self):
         pass
-
 
