@@ -15,4 +15,4 @@ class ReachabilityTables():
             return 0
 
 
-gg = ReachabilityTables()
+#gg = ReachabilityTables()
