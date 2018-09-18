@@ -32,7 +32,7 @@ class NodeTCP(Node):
         self.client.listen()
 
         self.server.join()
-        self.ReachabilityTable
+        self.ReachabilityTable.imprimirTabla()
 
 #buscar llamado a super con el protocolo pseudoBGP
 
