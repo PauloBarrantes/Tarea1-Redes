@@ -1,5 +1,5 @@
 import threading
-import Node
+from Node import *
 from socket import *
 
 class bcolors:
@@ -49,6 +49,9 @@ class NodeTCPClient():
         self.clientSocket = socket(AF_INET, SOCK_STREAM)
         self.clientSocket.connect((str(self.ip),self.port))
         sentence = str.encode(input("Input lowercase sentence:"))
+        #ip_bytes = bytes(map(int, ip.split(".")))
+        #mascara_bytes = bytes(map(int, mascara.split(".")))
+        #costo_bytes = costo.to_bytes(3,byteorder=big)
         self.clientSocket.send(sentence)
         modifiedSentence = self.clientSocket.recv(1024)
         print ("From Server:" , modifiedSentence)
