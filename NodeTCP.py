@@ -36,7 +36,7 @@ class NodeTCP(Node):
 #buscar llamado a super con el protocolo pseudoBGP
 
 
-class NodeTCPClient():
+class NodeTCPClient(NodeTCP):
     """docstring for NodeTCPClient."""
     def __init__(self, ip, port):
         self.ip = ip
@@ -65,10 +65,8 @@ class NodeTCPClient():
             ip_bytes = bytes(map(int, ipn1.split(".")))
             byte_array.extend(bytearray(ip_bytes))
             mask_bytes = (int(mask1)).to_bytes(1,byteorder="big")
-            #for index in range(len(list(mask_bytes))):
             byte_array.extend(mask_bytes)
             cost_bytes = int((cost1)).to_bytes(3,byteorder="big")
-            #for index in range(len(list(cost_bytes))):
             byte_array.extend(cost_bytes)
         self.clientSocket.send(byte_array)
         modifiedSentence = self.clientSocket.recv(1024)
@@ -99,7 +97,7 @@ class NodeTCPClient():
             print("salir")
 
 
-class NodeTCPServidor(threading.Thread):
+class NodeTCPServidor(threading.Thread, NodeTCP):
     """docstring for NodeTCPClient."""
     def __init__(self, ip, port):
         threading.Thread.__init__(self)
