@@ -87,7 +87,9 @@ class NodeTCPClient():
         print(bcolors.OKGREEN+"Instrucciones: "+bcolors.ENDC)
         print(bcolors.BOLD+"-1-"+bcolors.ENDC,"Enviar un mensaje a otro nodo")
         print(bcolors.BOLD+"-2-"+bcolors.ENDC,"Matar a este nodo :(")
-        print(bcolors.BOLD+"-3-"+bcolors.ENDC,"Salir")
+        print(bcolors.BOLD+"-3-"+bcolors.ENDC,"Imprimir la tabla de alcanzabilidad")
+
+        print(bcolors.BOLD+"-4-"+bcolors.ENDC,"Salir")
 
 
         entrada = input("Qué desea hacer?\n")
@@ -97,6 +99,8 @@ class NodeTCPClient():
         elif entrada == "2":
             print ("Eliminando nodo")
             self.eliminarNodo()
+        elif entrada == "3":
+            print ("Imprimiendo tablita")
         else:
             print("salir")
 

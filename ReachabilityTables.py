@@ -12,13 +12,10 @@ class ReachabilityTables():
         table = Texttable()
         table.set_cols_align(["l", "r", "c","k"])
         table.set_cols_valign(["t", "m", "b","a"])
-        table.add_rows([
-                        ["IP", "Red", "Máscara","Costo"],
-                        for key in self.tabla:
-                            [value.key]
-                            ["GG", 32, "Xav'",334],
-                            ["GG", 32, "Xav'",334],
-                            ["GG", 2, "F'",1]])
+        table.add_row(["IP", "Red", "Máscara","Costo"])
+        for key in self.tabla:
+            table.add_row([key,self.tabla.get(key)[0],self.tabla.get(key)[1],self.tabla.get(key)[2]])
+
         print (table.draw() + "\n")
 
     def buscarDireccion (self, ip):
