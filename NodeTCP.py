@@ -6,7 +6,7 @@ class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
-    WARNING = '\33[93m'
+    WARNING = '\033[93m'
     FAIL = '\033[91m'
     GG = '\033[96m'
 
@@ -43,8 +43,19 @@ class NodeTCPClient():
         self.port = port
         self.clientSocket =1
 
-
+    """Enviar Mensajes a otro nodos"""
     def enviarMensajes(self):
+        ##Destino yo mismo
+        ##n
+        ipDestino = "localhost"
+        portDestino = "8080"
+        maskDestino = "24"
+        n = "1"
+        ipn1 = "173.10.98.0"
+        mask1 = "24"
+        cost1 = "1000"
+
+
         print("enviarmensaje")
         self.clientSocket = socket(AF_INET, SOCK_STREAM)
         self.clientSocket.connect((str(self.ip),self.port))
@@ -56,8 +67,12 @@ class NodeTCPClient():
         modifiedSentence = self.clientSocket.recv(1024)
         print ("From Server:" , modifiedSentence)
         self.clientSocket.close()
+
+
     def eliminarNodo(self):
-        print("morí")
+        print("Morí T.T")
+
+
     def listen(self):
         print(bcolors.WARNING+"Welcome!, Node: " +self.ip,":",str(self.port) +bcolors.ENDC)
         print(bcolors.OKGREEN+"Instrucciones: "+bcolors.ENDC)
@@ -66,7 +81,7 @@ class NodeTCPClient():
         print(bcolors.BOLD+"-3-"+bcolors.ENDC,"Salir")
 
 
-        entrada = input("Desea enviar un mensaje, borrar al nodo o salir\n")
+        entrada = input("Qué desea hacer?\n")
         print("Usted digito :", entrada)
         if entrada == "1":
             self.enviarMensajes()
