@@ -6,4 +6,11 @@ class Node:
         self.direccionNodo = dirNodo
         self.puertoNodo = int(numeroPuerto)
 
+    def __del__(self):
+        print("Node was successfully deleted")
+
+    def broadcastClosure():
+        #send messages
+        pass
+
 
