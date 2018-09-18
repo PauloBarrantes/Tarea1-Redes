@@ -1,8 +1,19 @@
 import threading
 from socket import *
 
-exitFlag = 0
-import time
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\33[93m'
+    FAIL = '\033[91m'
+    GG = '\033[96m'
+
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+## Menu
 
 from ReachabilityTables import *
 
@@ -31,7 +42,7 @@ class NodeTCPClient():
     def __init__(self, ip, port):
         self.ip = ip
         self.port = port
-        self.clientSocket = 1
+        self.clientSocket =1
 
 
     def enviarMensajes(self):
@@ -46,14 +57,23 @@ class NodeTCPClient():
     def eliminarNodo(self):
         print("morí")
     def listen(self):
-        entrada = input("Desea enviar un mensaje, borrar al nodo o irse a la chingada \n")
+        print(bcolors.WARNING+"Welcome!, Node: " +self.ip,":",str(self.port) +bcolors.ENDC)
+        print(bcolors.OKGREEN+"Instrucciones: "+bcolors.ENDC)
+        print(bcolors.BOLD+"-1-"+bcolors.ENDC,"Enviar un mensaje a otro nodo")
+        print(bcolors.BOLD+"-2-"+bcolors.ENDC,"Matar a este nodo :(")
+        print(bcolors.BOLD+"-3-"+bcolors.ENDC,"Salir")
+
+
+        entrada = input("Desea enviar un mensaje, borrar al nodo o salir\n")
         print("Usted digito :", entrada)
         if entrada == "1":
             self.enviarMensajes()
+            self.listen()
         elif entrada == "2":
-            print ("Vayasé al carajo")
-        else:
+            print ("Eliminando nodo")
             self.eliminarNodo()
+        else:
+            print("salir")
 
 
 class NodeTCPServidor(threading.Thread):
@@ -62,7 +82,6 @@ class NodeTCPServidor(threading.Thread):
         threading.Thread.__init__(self)
         self.ip = ip
         self.port = port
-        print("GG", ip, port)
         self.serverSocket = socket(AF_INET,SOCK_STREAM)
         self.serverSocket.bind((self.ip,self.port))
         self.serverSocket.listen(100)
@@ -73,7 +92,7 @@ class NodeTCPServidor(threading.Thread):
             connectionSocket, addr = self.serverSocket.accept()
             sentence = connectionSocket.recv(1024)
             capitalizedSentence = sentence.upper()
-            print("IMPRESI´ON DEL SERVIDOR",sentence.upper())
+            print("Impresión",sentence.upper())
             connectionSocket.send(capitalizedSentence)
             connectionSocket.close()
 
