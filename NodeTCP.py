@@ -24,7 +24,7 @@ class NodeTCP(Node):
         super().__init__("pseudoBGP", ip, int(port))
         self.client = NodeTCPClient(self.ip, self.port)
         self.server = NodeTCPServidor(self.ip, self.port)
-        #self.ReachbilityTable = ReachabilityTables()
+        self.ReachabilityTable = ReachabilityTables()
         #Arrancamos el hilo del servidor
         self.server.start()
         #Acá debemos crear una UI para interactuar con el usuario
@@ -32,6 +32,7 @@ class NodeTCP(Node):
         self.client.listen()
 
         self.server.join()
+        self.ReachabilityTable
 
 #buscar llamado a super con el protocolo pseudoBGP
 

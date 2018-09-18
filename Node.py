@@ -1,4 +1,5 @@
 import socket
+
 ## Colors
 class bcolors:
     HEADER = '\033[95m'
@@ -40,4 +41,3 @@ class Node:
                 #del self
             if(opcion == "3"):
                 print("Good bye!")
-
