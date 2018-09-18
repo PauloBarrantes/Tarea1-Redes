@@ -1,4 +1,5 @@
 import threading
+import Node
 from socket import *
 
 class bcolors:
@@ -17,11 +18,10 @@ class bcolors:
 
 from ReachabilityTables import *
 
-class NodeTCP():
+class NodeTCP(Node):
 
     def __init__(self, ip, port):
-        self.ip = ip
-        self.port = port
+        super().__init__("pseudoBGP", ip, int(port))
         self.client = NodeTCPClient(self.ip, self.port)
         self.server = NodeTCPServidor(self.ip, self.port)
         #self.ReachbilityTable = ReachabilityTables()
@@ -30,7 +30,6 @@ class NodeTCP():
         #Acá debemos crear una UI para interactuar con el usuario
         #Recibir los mensajes - n - ip - puerto - máscara - costo
         self.client.listen()
-
 
         self.server.join()
 

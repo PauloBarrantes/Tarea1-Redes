@@ -1,20 +1,8 @@
-import socket
-## Colors
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-
 class Node:
-    def __init__(self, protocol, ipNode, port):
-        self.protocol = protocol
-        self.ip = ipNode
-        self.port = int(port)
+    def __init__(self, protocolo, dirNodo, numeroPuerto):
+        self.protocolo = protocolo
+        self.direccionNodo = dirNodo
+        self.puertoNodo = int(numeroPuerto)
 
     def __del__(self):
         print("Node was successfully deleted")
@@ -24,7 +12,7 @@ class Node:
         opcion = "0"
         ## Menu
         while opcion != "3":
-            print(bcolors.WARNING+"You are now working with node", ip + "!" +bcolors.ENDC)
+            print("You are now working with node", self.direccionNodo + "!")
             print("What do you want to do?")
             print("1 - Enviar Mensaje ")
             print("2 - Borrar nodo ")
@@ -41,3 +29,14 @@ class Node:
             if(opcion == "3"):
                 print("Good bye!")
 
+
+class NodeTCP(Node):
+
+    def __init__(self, dirNodo,numeroPuerto):
+        super().__init__("pseudoBGP", dirNodo, numeroPuerto)
+        self.servidor = "soy un objeto servidor"
+
+
+nodo = NodeTCP("1.1.1.1", "900")
+print(nodo.protocolo, nodo.direccionNodo, nodo.puertoNodo, nodo.servidor)
+nodo.nodeMenu()
