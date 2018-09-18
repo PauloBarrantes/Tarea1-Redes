@@ -3,10 +3,10 @@ class ReachabilityTables():
     def __init__(self, arg):
         self.tabla = {}
 
-    def agregarDireccion(self, ip, mascara, costo):
-        self.tabla.update({ip+mascara:costo})
+    def agregarDireccion(self, ip, red, mascara, costo):
+        self.tabla.update({ip: red, mascara, costo})
 
-    def buscarDireccion (self, ip, mascara):
+    def buscarDireccion (self, ip):
         result = self.tabla.get(ip)
         if result :
             return 1
