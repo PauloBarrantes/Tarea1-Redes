@@ -64,11 +64,14 @@ class NodeTCPClient():
         byte_array = bytearray(cantidad_elementos)
         for i in range(0,int(n)):
             ip_bytes = bytes(map(int, ipn1.split(".")))
-            byte_array.append(list(ip_bytes))
-            mask_bytes = mask1.to_bytes(1,byteorder=big)
-            byte_array.append(list(mask_bytes))
-            cost_bytes = cost1.to_bytes(3,byteorder=big)
-            byte_array.append(list(cost_bytes))
+            for index in range(len(list(ip_bytes))):
+                byte_array.append(ip_bytes[index])
+            mask_bytes = (int(mask1)).to_bytes(1,byteorder="big")
+            for index in range(len(list(mask_bytes))):
+                byte_array.append(mask_bytes[index])
+            cost_bytes = int((cost1)).to_bytes(3,byteorder="big")
+            for index in range(len(list(cost_bytes))):
+                byte_array.append(cost_bytes[index])
         self.clientSocket.send(byte_array)
         modifiedSentence = self.clientSocket.recv(1024)
         print ("From Server:" , modifiedSentence)
