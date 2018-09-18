@@ -56,13 +56,12 @@ class NodeTCPClient():
         cost1 = "1000"
 
 
-        print("enviarmensaje")
         self.clientSocket = socket(AF_INET, SOCK_STREAM)
         self.clientSocket.connect((str(self.ip),self.port))
         sentence = str.encode(input("Input lowercase sentence:"))
         self.clientSocket.send(sentence)
-        modifiedSentence = self.clientSocket.recv(1024)
-        print ("From Server:" , modifiedSentence)
+        number = self.clientSocket.recv(1024)
+        print ("From Server:" , int.from_bytes(number,byteorder='big'))
         self.clientSocket.close()
 
 
@@ -79,7 +78,6 @@ class NodeTCPClient():
 
 
         entrada = input("Qué desea hacer?\n")
-        print("Usted digito :", entrada)
         if entrada == "1":
             self.enviarMensajes()
             self.listen()
@@ -102,13 +100,13 @@ class NodeTCPServidor(threading.Thread):
 
     def run(self):
         print ("The server is ready to receive : ", self.ip, self.port)
-        while 1:
+        while True:
             connectionSocket, addr = self.serverSocket.accept()
-            sentence = connectionSocket.recv(1024)
-            capitalizedSentence = sentence.upper()
-            print("Impresión",sentence.upper())
-            connectionSocket.send(capitalizedSentence)
+            mensaje = connectionSocket.recv(1024)
+            print("Mensaje: ", mensaje)
+            error = bytes([2])
+            connectionSocket.send(error)
             connectionSocket.close()
 
 
-Node = NodeTCP('localhost',8080)
+Node = NodeTCP('localhost',8081)
