@@ -48,20 +48,30 @@ class NodeTCPClient():
         ##Destino yo mismo
         ##n
         ipDestino = "localhost"
-        portDestino = "8080"
         maskDestino = "24"
+        portDestino = "8080"
         n = "1"
         ipn1 = "173.10.98.0"
         mask1 = "24"
         cost1 = "1000"
 
-
         self.clientSocket = socket(AF_INET, SOCK_STREAM)
         self.clientSocket.connect((str(self.ip),self.port))
         sentence = str.encode(input("Input lowercase sentence:"))
-        self.clientSocket.send(sentence)
-        number = self.clientSocket.recv(1024)
-        print ("From Server:" , int.from_bytes(number,byteorder='big'))
+        portDestino = int(portDestino)
+        maskDestino = int(maskDestino)
+        cantidad_elementos = (int(n)).to_bytes(2,byteorder="big")
+        byte_array = bytearray(cantidad_elementos)
+        for i in int(n)
+            ip_bytes = bytes(map(int, ipn1.split(".")))
+            byte_array.append(ip_bytes)
+            mask_bytes = mask1.to_bytes(1,byteorder=big)
+            byte_array.append(mask_bytes)
+            cost_bytes = cost1.to_bytes(3,byteorder=big)
+            byte_array.append(cost_bytes)
+        self.clientSocket.send(byte_array)
+        modifiedSentence = self.clientSocket.recv(1024)
+        print ("From Server:" , modifiedSentence)
         self.clientSocket.close()
 
 
