@@ -33,15 +33,10 @@ class NodeTCP(Node):
         self.listen()
 
     def serverTCP(self):
-        self.serverSocket = socket(AF_INET,SOCK_STREAM)
-        self.serverSocket.bind((self.ip,self.port))
-        self.serverSocket.listen(100)
         serverSocket = socket(AF_INET,SOCK_STREAM)
         serverSocket.bind((self.ip,self.port))
         serverSocket.listen(100)
         print ("The server is ready to receive : ", self.ip, self.port)
-        while True:
-            connectionSocket, addr = self.serverSocket.accept()
 
         while True:
             connectionSocket, addr = serverSocket.accept()
@@ -73,7 +68,6 @@ class NodeTCP(Node):
             error = bytes([2])
             connectionSocket.send(error)
 
-            connectionSocket.close()
             #connectionSocket.close()
     def serverTCPthread(self, arg):
         pass
@@ -108,8 +102,6 @@ class NodeTCP(Node):
         mask1 = "24"
         cost1 = "1080"
 
-        self.clientSocket = socket(AF_INET, SOCK_STREAM)
-        self.clientSocket.connect((str(self.ip),self.port))
         if self.TablaTCP.buscarConexion(str(self.ip),self.port):
             pass
 
@@ -126,11 +118,9 @@ class NodeTCP(Node):
             byte_array.extend(mask_bytes)
             cost_bytes = int((cost1)).to_bytes(3,byteorder="big")
             byte_array.extend(cost_bytes)
-        self.clientSocket.send(byte_array)
         clientSocket.send(byte_array)
         modifiedSentence = self.clientSocket.recv(1024)
         print ("From Server:" , int.from_bytes(modifiedSentence, byteorder="big"))
-        self.clientSocket.close()
         #clientSocket.close()
 
 
