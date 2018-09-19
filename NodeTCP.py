@@ -107,7 +107,7 @@ class NodeTCP(Node):
 
         if self.TablaTCP.buscarConexion(ipDestino,portDestino) != -1:
             print("Entro acá")
-            self.TablaTCP.buscarConexion(ipDestino,portDestino).send(bytearray)
+            self.TablaTCP.buscarConexion(ipDestino,portDestino).send(byte_array)
             estado = self.TablaTCP.buscarConexion(ipDestino,portDestino).recv(1024)
             estadoInt = int.from_bytes(estado, byteorder="big")
             if estadoInt == 1:
