@@ -61,29 +61,35 @@ class NodeUDP(Node):
 
     """Enviar Mensajes a otro nodos"""
     def enviarMensajes(self):
-        ##Destino yo mismo
-        ##n
-        ipDestino = "localhost"
-        maskDestino = "24"
-        portDestino = "8080"
-        n = "3"
-        ipn1 = "192.16.128.0"
-        mask1 = "24"
-        cost1 = "1080"
+        print("Enviar mensaje:")
+        ipDestino = input("Digite la ip de destino a la que desea enviar: ")
+        maskDestino = input("Digite la máscara de destino a la que desea enviar: ")
+        portDestino = input("Digite el puerto de destino a la que desea enviar: ")
 
-        self.clientSocket = socket(AF_INET, SOCK_DGRAM)
-        self.clientSocket.connect((str(self.ip),self.port))
+        n = input("Digite la cantidad de mensajes que va enviar a ese destino: ")
+
+        try:
+            num = int(n)
+        except ValueError:
+            print(bcolors.FAIL+ "Error: " + bcolors.ENDC +"Entrada no númerica" )
+
         portDestino = int(portDestino)
         maskDestino = int(maskDestino)
-        cantidad_elementos = (int(n)).to_bytes(2,byteorder="big")
+        cantidad_elementos = (num).to_bytes(2,byteorder="big")
         byte_array = bytearray(cantidad_elementos)
-        for i in range(0,int(n)):
-            ip_bytes = bytes(map(int, ipn1.split(".")))
+        for i in range(0,num):
+            ip1 = input("Digite una dirección ip: ")
+            mask1 = input("Digite una máscara: ")
+            cost1 = input("Digite un costo: ")
+            ip_bytes = bytes(map(int, ip1.split(".")))
             byte_array.extend(bytearray(ip_bytes))
             mask_bytes = (int(mask1)).to_bytes(1,byteorder="big")
             byte_array.extend(mask_bytes)
             cost_bytes = int((cost1)).to_bytes(3,byteorder="big")
             byte_array.extend(cost_bytes)
+
+        self.clientSocket = socket(AF_INET, SOCK_DGRAM)
+        self.clientSocket.connect((str(self.ip),self.port))
         self.clientSocket.send(byte_array)
         modifiedSentence = self.clientSocket.recv(1024)
         print ("From Server:" , modifiedSentence)
