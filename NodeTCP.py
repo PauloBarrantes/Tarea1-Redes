@@ -1,5 +1,7 @@
 import threading
 from Node import *
+from ReachabilityTables import *
+from TablaTCP import *
 from socket import *
 
 class bcolors:
@@ -15,13 +17,13 @@ class bcolors:
 
 ## Menu
 
-from ReachabilityTables import *
 
 class NodeTCP(Node):
 
     def __init__(self, ip, port):
         super().__init__("pseudoBGP", ip, int(port))
         self.ReachabilityTable = ReachabilityTables()
+        self.TablaTCP = TablaTCP()
         #Arrancamos el hilo del servidor
         self.threadServer = threading.Thread(target = self.serverTCP)
         self.threadServer.daemon = True
@@ -37,7 +39,9 @@ class NodeTCP(Node):
         print ("The server is ready to receive : ", self.ip, self.port)
         while True:
             connectionSocket, addr = self.serverSocket.accept()
-            print(addr[0])
+
+
+            #print("ADDRS",addr[1])
             mensaje = connectionSocket.recv(1024)
             cantidad_elementos = int.from_bytes(mensaje[:2], byteorder="big")
             for n in range(0,cantidad_elementos):
@@ -58,11 +62,28 @@ class NodeTCP(Node):
             print("Mensaje: ", ip_str)
             error = bytes([2])
             connectionSocket.send(error)
+
             connectionSocket.close()
 
 
     """Enviar Mensajes a otro nodos"""
     def enviarMensajes(self):
+        print("Enviar mensaje:")
+        ipDestino1 = input("Digite la ip de destino a la que desea enviar: ")
+        maskDestino1 = input("Digite la máscara de destino a la que desea enviar: ")
+        portDestino1 = input("Digite el puerto de destino a la que desea enviar: ")
+
+        n1 = input("Digite la cantidad de mensajes que va enviar a ese destino: ")
+        try:
+            num = int(n1)
+            for i in range(0,num):
+                ipn2 = input("Digite una dirección ip: ")
+                mask2 = input("Digite una máscara: ")
+                costo2 = input("Digite un costo: ")
+        except ValueError:
+            print(bcolors.FAIL+ "Error: " + bcolors.ENDC +"Entrada no númerica" )
+
+
         ##Destino yo mismo
         ##n
         ipDestino = "localhost"
