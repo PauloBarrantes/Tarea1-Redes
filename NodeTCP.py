@@ -18,6 +18,18 @@ class bcolors:
 from ReachabilityTables import *
 
 class NodeTCP(Node):
+
+    def __init__(self, ip, port):
+        super().__init__("pseudoBGP", ip, int(port))
+        self.ReachabilityTable = ReachabilityTables()
+        #Arrancamos el hilo del servidor
+        self.threadServer = threading.Thread(target = self.serverTCP)
+        self.threadServer.daemon = True
+        self.threadServer.start()
+        #Acá debemos crear una UI para interactuar con el usuario
+        #Recibir los mensajes - n - ip - puerto - máscara - costo
+        self.listen()
+
     def serverTCP(self):
         self.serverSocket = socket(AF_INET,SOCK_STREAM)
         self.serverSocket.bind((self.ip,self.port))
@@ -25,28 +37,29 @@ class NodeTCP(Node):
         print ("The server is ready to receive : ", self.ip, self.port)
         while True:
             connectionSocket, addr = self.serverSocket.accept()
+            print(addr[0])
             mensaje = connectionSocket.recv(1024)
+            cantidad_elementos = int.from_bytes(mensaje[:2], byteorder="big")
+            for n in range(0,cantidad_elementos):
+                ip_bytes = mensaje[2:6]
+                mask = mensaje[6]
+                cost_bytes = mensaje[-3:]
+                ip = list(ip_bytes)
+                ip_str = ""
+                for byte in range(0,len(ip)):
+                    if(byte < len(ip)-1):
+                        ip_str += str(ip[byte])+"."
+                    else:
+                        ip_str += str(ip[byte])
+                mask_str = str(mask)
+                cost = int.from_bytes(cost_bytes,byteorder="big")
+                print(addr[0],ip_str,mask_str,cost)
+                self.ReachabilityTable.agregarDireccion(ip_str,addr[0],mask_str,cost)
             print("Mensaje: ", mensaje)
             error = bytes([2])
             connectionSocket.send(error)
             connectionSocket.close()
-    def __init__(self, ip, port):
-        super().__init__("pseudoBGP", ip, int(port))
-        self.ReachabilityTable = ReachabilityTables()
-        self.ReachabilityTable.agregarDireccion('localhost','localhost','24',2000)
-        self.ReachabilityTable.imprimirTabla()
-        self.ReachabilityTable.agregarDireccion('localhost','localhost','24',3000)
-        self.ReachabilityTable.imprimirTabla()
-        self.ReachabilityTable.eliminarDireccion('localhost')
-        self.ReachabilityTable.imprimirTabla()
-        #Arrancamos el hilo del servidor
-        self.threadServer = threading.Thread(target = self.serverTCP)
-        ## Esto hace que cuando el hilo principal muera el thread server
-        self.threadServer.daemon = True
-        self.threadServer.start()
-        #Acá debemos crear una UI para interactuar con el usuario
-        #Recibir los mensajes - n - ip - puerto - máscara - costo
-        self.listen()
+
 
     """Enviar Mensajes a otro nodos"""
     def enviarMensajes(self):
@@ -75,7 +88,7 @@ class NodeTCP(Node):
             byte_array.extend(cost_bytes)
         self.clientSocket.send(byte_array)
         modifiedSentence = self.clientSocket.recv(1024)
-        print ("From Server:" , modifiedSentence)
+        print ("From Server:" , int.from_bytes(modifiedSentence, byteorder="big"))
         self.clientSocket.close()
 
 
