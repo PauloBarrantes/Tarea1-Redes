@@ -25,7 +25,7 @@ class NodeTCP(Node):
         self.serverSocket.bind((self.ip,self.port))
         self.serverSocket.listen(100)
         print ("The server is ready to receive : ", self.ip, self.port)
-        while True:
+        while self.flag:
             connectionSocket, addr = self.serverSocket.accept()
             mensaje = connectionSocket.recv(1024)
             print("Mensaje: ", mensaje)
@@ -34,29 +34,16 @@ class NodeTCP(Node):
             connectionSocket.close()
     def __init__(self, ip, port):
         super().__init__("pseudoBGP", ip, int(port))
-        self.client = NodeTCPClient(self.ip, self.port)
         self.serverSocket = 0
+        self.flag = True
         self.ReachabilityTable = ReachabilityTables()
         #Arrancamos el hilo del servidor
         self.hilo = threading.Thread(target = self.server)
+        self.hilo.daemon = True
         self.hilo.start()
         #Acá debemos crear una UI para interactuar con el usuario
         #Recibir los mensajes - n - ip - puerto - máscara - costo
-        self.client.listen()
-
-
-
-
-
-#buscar llamado a super con el protocolo pseudoBGP
-
-
-class NodeTCPClient(NodeTCP):
-    """docstring for NodeTCPClient."""
-    def __init__(self, ip, port):
-        self.ip = ip
-        self.port = port
-        self.clientSocket =1
+        self.listen()
 
     """Enviar Mensajes a otro nodos"""
     def enviarMensajes(self):
@@ -114,6 +101,7 @@ class NodeTCPClient(NodeTCP):
             print ("Imprimiendo tablita")
         else:
             print("salir")
+
 
 
 
