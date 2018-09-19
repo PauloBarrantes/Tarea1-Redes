@@ -17,21 +17,21 @@ class bcolors:
 
 from ReachabilityTables import *
 
-class NodeTCP(Node):
-    def serverTCP(self):
-        self.serverSocket = socket(AF_INET,SOCK_STREAM)
+class NodeUDP(Node):
+    def serverUDP(self):
+        self.serverSocket = socket(AF_INET,SOCK_DGRAM)
         self.serverSocket.bind((self.ip,self.port))
         self.serverSocket.listen(100)
         print ("The server is ready to receive : ", self.ip, self.port)
         while True:
             connectionSocket, addr = self.serverSocket.accept()
-            mensaje = connectionSocket.recv(1024)
+            mensaje = connectionSocket.recv(2048)
             print("Mensaje: ", mensaje)
             error = bytes([2])
             connectionSocket.send(error)
             connectionSocket.close()
     def __init__(self, ip, port):
-        super().__init__("pseudoBGP", ip, int(port))
+        super().__init__("intAS", ip, int(port))
         self.ReachabilityTable = ReachabilityTables()
         self.ReachabilityTable.agregarDireccion('localhost','localhost','24',2000)
         self.ReachabilityTable.imprimirTabla()
@@ -60,7 +60,7 @@ class NodeTCP(Node):
         mask1 = "24"
         cost1 = "1080"
 
-        self.clientSocket = socket(AF_INET, SOCK_STREAM)
+        self.clientSocket = socket(AF_INET, SOCK_DGRAM)
         self.clientSocket.connect((str(self.ip),self.port))
         portDestino = int(portDestino)
         maskDestino = int(maskDestino)
@@ -74,7 +74,7 @@ class NodeTCP(Node):
             cost_bytes = int((cost1)).to_bytes(3,byteorder="big")
             byte_array.extend(cost_bytes)
         self.clientSocket.send(byte_array)
-        modifiedSentence = self.clientSocket.recv(1024)
+        modifiedSentence = self.clientSocket.recv(2048)
         print ("From Server:" , modifiedSentence)
         self.clientSocket.close()
 

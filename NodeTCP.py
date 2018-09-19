@@ -55,7 +55,7 @@ class NodeTCP(Node):
                 cost = int.from_bytes(cost_bytes,byteorder="big")
                 print(addr[0],ip_str,mask_str,cost)
                 self.ReachabilityTable.agregarDireccion(ip_str,addr[0],mask_str,cost)
-            print("Mensaje: ", mensaje)
+            print("Mensaje: ", ip_str)
             error = bytes([2])
             connectionSocket.send(error)
             connectionSocket.close()
