@@ -47,33 +47,43 @@ class NodeTCP(Node):
 
 
     def serverTCPthread(self, connectionSocket,addr):
-        while True:
-            mensaje = connectionSocket.recv(1024)
-            cantidad_elementos = int.from_bytes(mensaje[:2], byteorder="big")
-            table = Texttable()
-            table.set_cols_align(["l", "r", "c","k"])
-            table.set_cols_valign(["t", "m", "b","a"])
-            table.add_row(["IP de origen", "Ip", "Máscara","Costo"])
-            for n in range(0,cantidad_elementos):
-                ip_bytes = mensaje[2+(n*8):6+(n*8)]
-                mask = mensaje[6+(n*8)]
-                cost_bytes = mensaje[7+(n*8):10+(n*8)]
-                ip = list(ip_bytes)
-                ip_str = ""
-                for byte in range(0,len(ip)):
-                    if(byte < len(ip)-1):
-                        ip_str += str(ip[byte])+"."
-                    else:
-                        ip_str += str(ip[byte])
-                mask_str = str(mask)
-                cost = int.from_bytes(cost_bytes,byteorder="big")
-                #self.imprimirMensaje(addr[0],ip_str,mask_str,cost)
-                table.add_row([addr[0],ip_str,mask_str, cost])
-                self.ReachabilityTable.agregarDireccion(ip_str,addr[0],mask_str,cost)
+        flag = True
+        while flag:
+            try:
+                mensaje = connectionSocket.recv(1024)
+                cantidad_elementos = int.from_bytes(mensaje[:2], byteorder="big")
+                table = Texttable()
+                table.set_cols_align(["l", "r", "c","k"])
+                table.set_cols_valign(["t", "m", "b","a"])
+                table.add_row(["IP de origen", "Ip", "Máscara","Costo"])
+                for n in range(0,cantidad_elementos):
+                    ip_bytes = mensaje[2+(n*8):6+(n*8)]
+                    mask = mensaje[6+(n*8)]
+                    cost_bytes = mensaje[7+(n*8):10+(n*8)]
+                    ip = list(ip_bytes)
+                    ip_str = ""
+                    for byte in range(0,len(ip)):
+                        if(byte < len(ip)-1):
+                            ip_str += str(ip[byte])+"."
+                        else:
+                            ip_str += str(ip[byte])
+                    mask_str = str(mask)
+                    cost = int.from_bytes(cost_bytes,byteorder="big")
+                    #self.imprimirMensaje(addr[0],ip_str,mask_str,cost)
+                    table.add_row([addr[0],ip_str,mask_str, cost])
+                    self.ReachabilityTable.agregarDireccion(ip_str,addr[0],mask_str,cost)
+                mensajeVuelta = bytes([1])
+                try:
+                    connectionSocket.send(mensajeVuelta)
+                except BrokenPipeError:
+                    print("Se perdió la conexión")
+                    flag = False;
+                print (table.draw() + "\n")
+            except ConnectionResetError:
+                print("La conexión se ha perdido")
+                flag = False;
+        print("Chau Hilo Servidor")
 
-            mensajeVuelta = bytes([1])
-            connectionSocket.send(mensajeVuelta)
-            print (table.draw() + "\n")
 
 
     """Enviar Mensajes a otro nodos"""
@@ -104,28 +114,29 @@ class NodeTCP(Node):
             byte_array.extend(mask_bytes)
             cost_bytes = int((cost1)).to_bytes(3,byteorder="big")
             byte_array.extend(cost_bytes)
-
-        if self.TablaTCP.buscarConexion(ipDestino,portDestino) != -1:
-            print("Entro acá")
-            self.TablaTCP.buscarConexion(ipDestino,portDestino).send(byte_array)
-            estado = self.TablaTCP.buscarConexion(ipDestino,portDestino).recv(1024)
-            estadoInt = int.from_bytes(estado, byteorder="big")
-            if estadoInt == 1:
-                print("Success")
+        try:
+            if self.TablaTCP.buscarConexion(ipDestino,portDestino) != -1:
+                self.TablaTCP.buscarConexion(ipDestino,portDestino).send(byte_array)
+                estado = self.TablaTCP.buscarConexion(ipDestino,portDestino).recv(1024)
+                estadoInt = int.from_bytes(estado, byteorder="big")
+                if estadoInt == 1:
+                    print("Success")
+                else:
+                    print("Ha ocurrido un error")
             else:
-                print("Ha ocurrido un error")
-        else:
-            clientSocket = socket(AF_INET, SOCK_STREAM)
-            clientSocket.connect((ipDestino,portDestino))
-            self.TablaTCP.guardarConexion(ipDestino, portDestino, clientSocket)
+                clientSocket = socket(AF_INET, SOCK_STREAM)
+                clientSocket.connect((ipDestino,portDestino))
+                self.TablaTCP.guardarConexion(ipDestino, portDestino, clientSocket)
 
-            clientSocket.send(byte_array)
-            estado = clientSocket.recv(1024)
-            estadoInt = int.from_bytes(estado, byteorder="big")
-            if estadoInt == 1:
-                print("Success")
-            else:
-                print("Ha ocurrido un error")
+                clientSocket.send(byte_array)
+                estado = clientSocket.recv(1024)
+                estadoInt = int.from_bytes(estado, byteorder="big")
+                if estadoInt == 1:
+                    print("Success")
+                else:
+                    print("Ha ocurrido un error")
+        except BrokenPipeError:
+            print("Se perdió la conexión con el servidor")
         #print ("From Server:" , int.from_bytes(modifiedSentence, byteorder="big"))
         #clientSocket.close()
 
