@@ -36,10 +36,20 @@ class NodeTCP(Node):
         self.serverSocket = socket(AF_INET,SOCK_STREAM)
         self.serverSocket.bind((self.ip,self.port))
         self.serverSocket.listen(100)
+        serverSocket = socket(AF_INET,SOCK_STREAM)
+        serverSocket.bind((self.ip,self.port))
+        serverSocket.listen(100)
         print ("The server is ready to receive : ", self.ip, self.port)
         while True:
             connectionSocket, addr = self.serverSocket.accept()
 
+        while True:
+            connectionSocket, addr = serverSocket.accept()
+            if not self.TablaTCP.buscarConexion(addr[0], addr[1]):
+                self.TablaTCP().guardarConexion(addr[0], addr[1], connectionSocket)
+                self.threadServer = threading.Thread(target = self.serverTCPthread)
+                self.threadServer.daemon = True
+                self.threadServer.start()
 
             #print("ADDRS",addr[1])
             mensaje = connectionSocket.recv(1024)
@@ -64,6 +74,10 @@ class NodeTCP(Node):
             connectionSocket.send(error)
 
             connectionSocket.close()
+            #connectionSocket.close()
+    def serverTCPthread(self, arg):
+        pass
+
 
 
     """Enviar Mensajes a otro nodos"""
@@ -96,6 +110,11 @@ class NodeTCP(Node):
 
         self.clientSocket = socket(AF_INET, SOCK_STREAM)
         self.clientSocket.connect((str(self.ip),self.port))
+        if self.TablaTCP.buscarConexion(str(self.ip),self.port):
+            pass
+
+        clientSocket = socket(AF_INET, SOCK_STREAM)
+        clientSocket.connect((str(self.ip),self.port))
         portDestino = int(portDestino)
         maskDestino = int(maskDestino)
         cantidad_elementos = (int(n)).to_bytes(2,byteorder="big")
@@ -108,9 +127,11 @@ class NodeTCP(Node):
             cost_bytes = int((cost1)).to_bytes(3,byteorder="big")
             byte_array.extend(cost_bytes)
         self.clientSocket.send(byte_array)
+        clientSocket.send(byte_array)
         modifiedSentence = self.clientSocket.recv(1024)
         print ("From Server:" , int.from_bytes(modifiedSentence, byteorder="big"))
         self.clientSocket.close()
+        #clientSocket.close()
 
 
     def eliminarNodo(self):
