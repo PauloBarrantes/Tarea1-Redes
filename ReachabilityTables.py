@@ -3,7 +3,7 @@ from texttable import *
 class ReachabilityTables():
     """docstring for ReachabilityTables."""
     def __init__(self):
-        self.tabla = {'localhost':[1,24,100]}
+        self.tabla = {}
 
     def agregarDireccion(self, ip, red, mascara, costo):
         self.tabla.update({ip:[red, mascara, costo]})
