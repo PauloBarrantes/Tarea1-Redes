@@ -6,18 +6,21 @@ class TablaTCP():
         self.table = {}
 
     def guardarConexion(self,ip,port,connectionSocket):
-        self.table.update({ip:connectionSocket})
+        self.table.update({(ip,port):connectionSocket})
+        print(self.table)
     def buscarConexion(self,ip, port):
-        if self.table.get(ip):
+        if self.table.get((ip,port)):
             return self.table.get(ip)
         return -1
+    def eliminarConexion(self,ip, port):
+        self.tabla.pop((ip,port))
 
-
-tablita = TablaTCP()
-tablita.guardarConexion('180.1.3.5',12412,"GG")
-
-gg = tablita.buscarConexion('180.1.3.5',4)
-print(gg)
-
-gg = tablita.buscarConexion('180.1.3.15',2 )
-print(gg)
+#
+# tablita = TablaTCP()
+# tablita.guardarConexion('180.1.3.5',12412,"GG")
+#
+# gg = tablita.buscarConexion('180.1.3.5',4)
+# print(gg)
+#
+# gg = tablita.buscarConexion('180.1.3.15',2 )
+# print(gg)

@@ -3,6 +3,7 @@ from Node import *
 from ReachabilityTables import *
 from TablaTCP import *
 from socket import *
+from texttable import *
 
 class bcolors:
     HEADER = '\033[95m'
@@ -40,15 +41,19 @@ class NodeTCP(Node):
 
         while True:
             connectionSocket, addr = serverSocket.accept()
-            if not self.TablaTCP.buscarConexion(addr[0], addr[1]):
-                self.TablaTCP().guardarConexion(addr[0], addr[1], connectionSocket)
-                self.threadServer = threading.Thread(target = self.serverTCPthread)
-                self.threadServer.daemon = True
-                self.threadServer.start()
+            self.threadServer = threading.Thread(target = self.serverTCPthread, args=(connectionSocket,addr,))
+            self.threadServer.daemon = True
+            self.threadServer.start()
 
-            #print("ADDRS",addr[1])
+
+    def serverTCPthread(self, connectionSocket,addr):
+        while True:
             mensaje = connectionSocket.recv(1024)
             cantidad_elementos = int.from_bytes(mensaje[:2], byteorder="big")
+            table = Texttable()
+            table.set_cols_align(["l", "r", "c","k"])
+            table.set_cols_valign(["t", "m", "b","a"])
+            table.add_row(["IP de origen", "Ip", "Máscara","Costo"])
             for n in range(0,cantidad_elementos):
                 ip_bytes = mensaje[2+(n*8):6+(n*8)]
                 mask = mensaje[6+(n*8)]
@@ -62,16 +67,13 @@ class NodeTCP(Node):
                         ip_str += str(ip[byte])
                 mask_str = str(mask)
                 cost = int.from_bytes(cost_bytes,byteorder="big")
-                print(addr[0],ip_str,mask_str,cost)
+                #self.imprimirMensaje(addr[0],ip_str,mask_str,cost)
+                table.add_row([addr[0],ip_str,mask_str, cost])
                 self.ReachabilityTable.agregarDireccion(ip_str,addr[0],mask_str,cost)
-                print("Mensaje: ", ip_str)
-            error = bytes([2])
-            connectionSocket.send(error)
 
-            #connectionSocket.close()
-    def serverTCPthread(self, arg):
-        pass
-
+            mensajeVuelta = bytes([1])
+            connectionSocket.send(mensajeVuelta)
+            print (table.draw() + "\n")
 
 
     """Enviar Mensajes a otro nodos"""
@@ -102,17 +104,29 @@ class NodeTCP(Node):
             byte_array.extend(mask_bytes)
             cost_bytes = int((cost1)).to_bytes(3,byteorder="big")
             byte_array.extend(cost_bytes)
-        if self.TablaTCP.buscarConexion(str(self.ip),self.port):
-            self.TablaTCP.buscarConexion(str(self.ip),self.port).send(bytearray)
 
-        clientSocket = socket(AF_INET, SOCK_STREAM)
-        clientSocket.connect((str(self.ip),self.port))
+        if self.TablaTCP.buscarConexion(ipDestino,portDestino) != -1:
+            print("Entro acá")
+            self.TablaTCP.buscarConexion(ipDestino,portDestino).send(bytearray)
+            estado = self.TablaTCP.buscarConexion(ipDestino,portDestino).recv(1024)
+            estadoInt = int.from_bytes(estado, byteorder="big")
+            if estadoInt == 1:
+                print("Success")
+            else:
+                print("Ha ocurrido un error")
+        else:
+            clientSocket = socket(AF_INET, SOCK_STREAM)
+            clientSocket.connect((ipDestino,portDestino))
+            self.TablaTCP.guardarConexion(ipDestino, portDestino, clientSocket)
 
-        clientSocket = socket(AF_INET, SOCK_STREAM)
-        clientSocket.connect((str(self.ip),self.port))
-        clientSocket.send(byte_array)
-        modifiedSentence = clientSocket.recv(1024)
-        print ("From Server:" , int.from_bytes(modifiedSentence, byteorder="big"))
+            clientSocket.send(byte_array)
+            estado = clientSocket.recv(1024)
+            estadoInt = int.from_bytes(estado, byteorder="big")
+            if estadoInt == 1:
+                print("Success")
+            else:
+                print("Ha ocurrido un error")
+        #print ("From Server:" , int.from_bytes(modifiedSentence, byteorder="big"))
         #clientSocket.close()
 
 
