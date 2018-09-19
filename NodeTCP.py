@@ -57,7 +57,7 @@ class NodeTCP(Node):
             for n in range(0,cantidad_elementos):
                 ip_bytes = mensaje[2+(n*8):6+(n*8)]
                 mask = mensaje[6+(n*8)]
-                cost_bytes = mensaje[-3-(n*8):]
+                cost_bytes = mensaje[7+(n*8):10+(n*8)]
                 ip = list(ip_bytes)
                 ip_str = ""
                 for byte in range(0,len(ip)):
@@ -69,8 +69,6 @@ class NodeTCP(Node):
                 cost = int.from_bytes(cost_bytes,byteorder="big")
                 #self.imprimirMensaje(addr[0],ip_str,mask_str,cost)
                 table.add_row([addr[0],ip_str,mask_str, cost])
-
-                #print(addr[0],ip_str,mask_str,cost)
                 self.ReachabilityTable.agregarDireccion(ip_str,addr[0],mask_str,cost)
 
             mensajeVuelta = bytes([1])
