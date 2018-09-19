@@ -24,12 +24,3 @@ class ReachabilityTables():
             return 1
         else:
             return 0
-
-
-gg = ReachabilityTables()
-gg.imprimirTabla()
-gg.agregarDireccion("172.18.190.1",3,4,599)
-gg.imprimirTabla()
-
-dir = gg.buscarDireccion("localhost")
-print(dir)

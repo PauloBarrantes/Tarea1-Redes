@@ -9,7 +9,6 @@ class bcolors:
     WARNING = '\033[93m'
     FAIL = '\033[91m'
     GG = '\033[96m'
-
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
@@ -19,20 +18,35 @@ class bcolors:
 from ReachabilityTables import *
 
 class NodeTCP(Node):
+    def server(self):
+        self.ReachabilityTable.imprimirTabla()
 
+        self.serverSocket = socket(AF_INET,SOCK_STREAM)
+        self.serverSocket.bind((self.ip,self.port))
+        self.serverSocket.listen(100)
+        print ("The server is ready to receive : ", self.ip, self.port)
+        while True:
+            connectionSocket, addr = self.serverSocket.accept()
+            mensaje = connectionSocket.recv(1024)
+            print("Mensaje: ", mensaje)
+            error = bytes([2])
+            connectionSocket.send(error)
+            connectionSocket.close()
     def __init__(self, ip, port):
         super().__init__("pseudoBGP", ip, int(port))
         self.client = NodeTCPClient(self.ip, self.port)
-        self.server = NodeTCPServidor(self.ip, self.port)
+        self.serverSocket = 0
         self.ReachabilityTable = ReachabilityTables()
         #Arrancamos el hilo del servidor
-        self.server.start()
+        self.hilo = threading.Thread(target = self.server)
+        self.hilo.start()
         #Acá debemos crear una UI para interactuar con el usuario
         #Recibir los mensajes - n - ip - puerto - máscara - costo
         self.client.listen()
 
-        self.server.join()
-        self.ReachabilityTable.imprimirTabla()
+
+
+
 
 #buscar llamado a super con el protocolo pseudoBGP
 
@@ -101,26 +115,6 @@ class NodeTCPClient(NodeTCP):
         else:
             print("salir")
 
-
-class NodeTCPServidor(threading.Thread, NodeTCP):
-    """docstring for NodeTCPClient."""
-    def __init__(self, ip, port):
-        threading.Thread.__init__(self)
-        self.ip = ip
-        self.port = port
-        self.serverSocket = socket(AF_INET,SOCK_STREAM)
-        self.serverSocket.bind((self.ip,self.port))
-        self.serverSocket.listen(100)
-
-    def run(self):
-        print ("The server is ready to receive : ", self.ip, self.port)
-        while True:
-            connectionSocket, addr = self.serverSocket.accept()
-            mensaje = connectionSocket.recv(1024)
-            print("Mensaje: ", mensaje)
-            error = bytes([2])
-            connectionSocket.send(error)
-            connectionSocket.close()
 
 
 Node = NodeTCP('localhost',8081)
