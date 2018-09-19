@@ -45,9 +45,9 @@ class NodeTCP(Node):
             mensaje = connectionSocket.recv(1024)
             cantidad_elementos = int.from_bytes(mensaje[:2], byteorder="big")
             for n in range(0,cantidad_elementos):
-                ip_bytes = mensaje[2:6]
-                mask = mensaje[6]
-                cost_bytes = mensaje[-3:]
+                ip_bytes = mensaje[2+(n*8):6+(n*8)]
+                mask = mensaje[6+(n*8)]
+                cost_bytes = mensaje[-3-(n*8):]
                 ip = list(ip_bytes)
                 ip_str = ""
                 for byte in range(0,len(ip)):
@@ -69,44 +69,34 @@ class NodeTCP(Node):
     """Enviar Mensajes a otro nodos"""
     def enviarMensajes(self):
         print("Enviar mensaje:")
-        ipDestino1 = input("Digite la ip de destino a la que desea enviar: ")
-        maskDestino1 = input("Digite la máscara de destino a la que desea enviar: ")
-        portDestino1 = input("Digite el puerto de destino a la que desea enviar: ")
+        ipDestino = input("Digite la ip de destino a la que desea enviar: ")
+        maskDestino = input("Digite la máscara de destino a la que desea enviar: ")
+        portDestino = input("Digite el puerto de destino a la que desea enviar: ")
 
-        n1 = input("Digite la cantidad de mensajes que va enviar a ese destino: ")
+        n = input("Digite la cantidad de mensajes que va enviar a ese destino: ")
+
         try:
-            num = int(n1)
-            for i in range(0,num):
-                ipn2 = input("Digite una dirección ip: ")
-                mask2 = input("Digite una máscara: ")
-                costo2 = input("Digite un costo: ")
+            num = int(n)
         except ValueError:
             print(bcolors.FAIL+ "Error: " + bcolors.ENDC +"Entrada no númerica" )
 
-
-        ##Destino yo mismo
-        ##n
-        ipDestino = "localhost"
-        maskDestino = "24"
-        portDestino = "8080"
-        n = "3"
-        ipn1 = "192.16.128.0"
-        mask1 = "24"
-        cost1 = "1080"
-
-        self.clientSocket = socket(AF_INET, SOCK_STREAM)
-        self.clientSocket.connect((str(self.ip),self.port))
         portDestino = int(portDestino)
         maskDestino = int(maskDestino)
-        cantidad_elementos = (int(n)).to_bytes(2,byteorder="big")
+        cantidad_elementos = (num).to_bytes(2,byteorder="big")
         byte_array = bytearray(cantidad_elementos)
-        for i in range(0,int(n)):
-            ip_bytes = bytes(map(int, ipn1.split(".")))
+        for i in range(0,num):
+            ip1 = input("Digite una dirección ip: ")
+            mask1 = input("Digite una máscara: ")
+            cost1 = input("Digite un costo: ")
+            ip_bytes = bytes(map(int, ip1.split(".")))
             byte_array.extend(bytearray(ip_bytes))
             mask_bytes = (int(mask1)).to_bytes(1,byteorder="big")
             byte_array.extend(mask_bytes)
             cost_bytes = int((cost1)).to_bytes(3,byteorder="big")
             byte_array.extend(cost_bytes)
+
+        self.clientSocket = socket(AF_INET, SOCK_STREAM)
+        self.clientSocket.connect((str(self.ip),self.port))
         self.clientSocket.send(byte_array)
         modifiedSentence = self.clientSocket.recv(1024)
         print ("From Server:" , int.from_bytes(modifiedSentence, byteorder="big"))
