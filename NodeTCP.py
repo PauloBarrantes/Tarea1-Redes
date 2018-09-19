@@ -33,8 +33,15 @@ class NodeTCP(Node):
     def __init__(self, ip, port):
         super().__init__("pseudoBGP", ip, int(port))
         self.ReachabilityTable = ReachabilityTables()
+        self.ReachabilityTable.agregarDireccion('localhost','localhost','24',2000)
+        self.ReachabilityTable.imprimirTabla()
+        self.ReachabilityTable.agregarDireccion('localhost','localhost','24',3000)
+        self.ReachabilityTable.imprimirTabla()
+        self.ReachabilityTable.eliminarDireccion('localhost')
+        self.ReachabilityTable.imprimirTabla()
         #Arrancamos el hilo del servidor
         self.threadServer = threading.Thread(target = self.serverTCP)
+        ## Esto hace que cuando el hilo principal muera el thread server
         self.threadServer.daemon = True
         self.threadServer.start()
         #Acá debemos crear una UI para interactuar con el usuario
@@ -101,4 +108,4 @@ class NodeTCP(Node):
 
 
 
-Node = NodeTCP('localhost',8081)
+#Node = NodeTCP('localhost',8081)
