@@ -18,20 +18,6 @@ class bcolors:
 from ReachabilityTables import *
 
 class NodeTCP(Node):
-    def server(self):
-        self.ReachabilityTable.imprimirTabla()
-
-        self.serverSocket = socket(AF_INET,SOCK_STREAM)
-        self.serverSocket.bind((self.ip,self.port))
-        self.serverSocket.listen(100)
-        print ("The server is ready to receive : ", self.ip, self.port)
-        while self.flag:
-            connectionSocket, addr = self.serverSocket.accept()
-            mensaje = connectionSocket.recv(1024)
-            print("Mensaje: ", mensaje)
-            error = bytes([2])
-            connectionSocket.send(error)
-            connectionSocket.close()
     def __init__(self, ip, port):
         super().__init__("pseudoBGP", ip, int(port))
         self.serverSocket = 0
@@ -44,6 +30,38 @@ class NodeTCP(Node):
         #Acá debemos crear una UI para interactuar con el usuario
         #Recibir los mensajes - n - ip - puerto - máscara - costo
         self.listen()
+
+    def server(self):
+        self.ReachabilityTable.imprimirTabla()
+
+        self.serverSocket = socket(AF_INET,SOCK_STREAM)
+        self.serverSocket.bind((self.ip,self.port))
+        self.serverSocket.listen(100)
+        print ("The server is ready to receive : ", self.ip, self.port)
+        while self.flag:
+            connectionSocket, addr = self.serverSocket.accept()
+            print(addr[0])
+            mensaje = connectionSocket.recv(1024)
+            cantidad_elementos = int.from_bytes(mensaje[:2], byteorder="big")
+            for n in range(0,cantidad_elementos):
+                ip_bytes = mensaje[2:6]
+                mask_bytes = mensaje[7]
+                cost_bytes = mensaje[8:]
+                ip = list(ip_bytes)
+                ip_str = ""
+                for byte in ip:
+                    if(byte < len(ip)):
+                        ip_str += str(ip[byte])+"."
+                    else:
+                        ip_str += str(ip[byte])
+                mask_str = str(int.from_bytes(mask_bytes,byteorder="big"))
+                cost = int.from_bytes(cost_bytes,byteorder="big")
+                print(addr[0],ip_str,mask_str,cost)
+                self.ReachabilityTable.agregarDireccion(addr[0],ip_str,mask_str,cost)
+            print("Mensaje: ", mensaje)
+            error = bytes([2])
+            connectionSocket.send(error)
+            connectionSocket.close()
 
     """Enviar Mensajes a otro nodos"""
     def enviarMensajes(self):
@@ -72,7 +90,7 @@ class NodeTCP(Node):
             byte_array.extend(cost_bytes)
         self.clientSocket.send(byte_array)
         modifiedSentence = self.clientSocket.recv(1024)
-        print ("From Server:" , modifiedSentence)
+        print ("From Server:" , int.from_bytes(modifiedSentence, byteorder="big"))
         self.clientSocket.close()
 
 
