@@ -13,7 +13,9 @@ class TablaTCP():
             return self.table.get((ip,port))
         return -1
     def eliminarConexion(self,ip, port):
-        self.tabla.pop((ip,port))
+        if self.table.get((ip,port)):
+            self.table.get((ip,port)).close()
+            self.tabla.pop((ip,port))
 
 #
 # tablita = TablaTCP()

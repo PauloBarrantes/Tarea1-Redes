@@ -51,38 +51,49 @@ class NodeTCP(Node):
         while flag:
             try:
                 mensaje = connectionSocket.recv(1024)
-                cantidad_elementos = int.from_bytes(mensaje[:2], byteorder="big")
-                table = Texttable()
-                table.set_cols_align(["l", "r", "c","k"])
-                table.set_cols_valign(["t", "m", "b","a"])
-                table.add_row(["IP de origen", "Ip", "Máscara","Costo"])
-                for n in range(0,cantidad_elementos):
-                    ip_bytes = mensaje[2+(n*8):6+(n*8)]
-                    mask = mensaje[6+(n*8)]
-                    cost_bytes = mensaje[7+(n*8):10+(n*8)]
-                    ip = list(ip_bytes)
-                    ip_str = ""
-                    for byte in range(0,len(ip)):
-                        if(byte < len(ip)-1):
-                            ip_str += str(ip[byte])+"."
-                        else:
-                            ip_str += str(ip[byte])
-                    mask_str = str(mask)
-                    cost = int.from_bytes(cost_bytes,byteorder="big")
-                    #self.imprimirMensaje(addr[0],ip_str,mask_str,cost)
-                    table.add_row([addr[0],ip_str,mask_str, cost])
-                    self.ReachabilityTable.agregarDireccion(ip_str,addr[0],mask_str,cost)
-                mensajeVuelta = bytes([1])
-                try:
-                    connectionSocket.send(mensajeVuelta)
-                except BrokenPipeError:
-                    print("Se perdió la conexión")
-                    flag = False;
-                print (table.draw() + "\n")
+                if int.from_bytes(mensaje, byteorder="big") != 0:
+                    cantidad_elementos = int.from_bytes(mensaje[:2], byteorder="big")
+                    table = Texttable()
+                    table.set_cols_align(["l", "r", "c","k"])
+                    table.set_cols_valign(["t", "m", "b","a"])
+                    table.add_row(["IP de origen", "Ip", "Máscara","Costo"])
+                    for n in range(0,cantidad_elementos):
+                        ip_bytes = mensaje[2+(n*8):6+(n*8)]
+                        mask = mensaje[6+(n*8)]
+                        cost_bytes = mensaje[7+(n*8):10+(n*8)]
+                        ip = list(ip_bytes)
+                        ip_str = ""
+                        for byte in range(0,len(ip)):
+                            if(byte < len(ip)-1):
+                                ip_str += str(ip[byte])+"."
+                            else:
+                                ip_str += str(ip[byte])
+                        mask_str = str(mask)
+                        cost = int.from_bytes(cost_bytes,byteorder="big")
+                        #self.imprimirMensaje(addr[0],ip_str,mask_str,cost)
+                        table.add_row([addr[0],ip_str,mask_str, cost])
+                        self.ReachabilityTable.agregarDireccion(ip_str,addr[0],mask_str,cost)
+                    mensajeVuelta = bytes([1])
+                    try:
+                        connectionSocket.send(mensajeVuelta)
+                    except BrokenPipeError:
+                        print("Se perdió la conexión")
+                        flag = False;
+                    print (table.draw() + "\n")
+    ### Hay que borrar el nodo que está en la tabla TCP y de la tabla de alcanzabilidad
+                else:
+                    ip = addr[0]
+                    puerto = int(adrr[1])
+                    self.TablaTCP.eliminarConexion(addr[0],int(addr[1]))
+                    self.ReachabilityTable.eliminarDireccion(addr[0])
+
+
             except ConnectionResetError:
-                print("La conexión se ha perdido")
+                self.TablaTCP.eliminarConexion(addr[0],int(addr[1]))
+                print("La conexión se ha perdido con ", addr[0],addr[1])
                 flag = False;
         print("Chau Hilo Servidor")
+        #connectionSocket.close()
 
 
 
