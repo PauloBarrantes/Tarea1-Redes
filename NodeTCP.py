@@ -18,14 +18,12 @@ class bcolors:
 from ReachabilityTables import *
 
 class NodeTCP(Node):
-    def server(self):
-        self.ReachabilityTable.imprimirTabla()
-
+    def serverTCP(self):
         self.serverSocket = socket(AF_INET,SOCK_STREAM)
         self.serverSocket.bind((self.ip,self.port))
         self.serverSocket.listen(100)
         print ("The server is ready to receive : ", self.ip, self.port)
-        while self.flag:
+        while True:
             connectionSocket, addr = self.serverSocket.accept()
             mensaje = connectionSocket.recv(1024)
             print("Mensaje: ", mensaje)
@@ -34,13 +32,11 @@ class NodeTCP(Node):
             connectionSocket.close()
     def __init__(self, ip, port):
         super().__init__("pseudoBGP", ip, int(port))
-        self.serverSocket = 0
-        self.flag = True
         self.ReachabilityTable = ReachabilityTables()
         #Arrancamos el hilo del servidor
-        self.hilo = threading.Thread(target = self.server)
-        self.hilo.daemon = True
-        self.hilo.start()
+        self.threadServer = threading.Thread(target = self.serverTCP)
+        self.threadServer.daemon = True
+        self.threadServer.start()
         #Acá debemos crear una UI para interactuar con el usuario
         #Recibir los mensajes - n - ip - puerto - máscara - costo
         self.listen()
@@ -77,7 +73,7 @@ class NodeTCP(Node):
 
 
     def eliminarNodo(self):
-        print("Morí T.T")
+        print("Matar al Nodo")
 
 
     def listen(self):
@@ -86,7 +82,6 @@ class NodeTCP(Node):
         print(bcolors.BOLD+"-1-"+bcolors.ENDC,"Enviar un mensaje a otro nodo")
         print(bcolors.BOLD+"-2-"+bcolors.ENDC,"Matar a este nodo :(")
         print(bcolors.BOLD+"-3-"+bcolors.ENDC,"Imprimir la tabla de alcanzabilidad")
-
         print(bcolors.BOLD+"-4-"+bcolors.ENDC,"Salir")
 
 
@@ -98,9 +93,10 @@ class NodeTCP(Node):
             print ("Eliminando nodo")
             self.eliminarNodo()
         elif entrada == "3":
-            print ("Imprimiendo tablita")
+            self.ReachabilityTable.imprimirTabla()
+            self.listen()
         else:
-            print("salir")
+            print("Saliendo")
 
 
 
