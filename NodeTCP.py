@@ -4,6 +4,7 @@ from ReachabilityTables import *
 from TablaTCP import *
 from socket import *
 from texttable import *
+import time
 
 class bcolors:
     HEADER = '\033[95m'
@@ -78,7 +79,7 @@ class NodeTCP(Node):
 
                         '''Obtenemos el recurso que es la tabla de alcanzabilidad'''
                         lock.acquire()
-                        self.ReachabilityTable.agregarDireccion(ip_str,addr[0],mask_str,cost,int(connectionSocket.getsockname()[1]))
+                        self.ReachabilityTable.agregarDireccion(ip_str,addr[0],mask_str,cost,int(connectionSocket.getpeername()[1]))
                         lock.release()
                     mensajeVuelta = bytes([1])
                     try:
@@ -89,36 +90,37 @@ class NodeTCP(Node):
                     print (table.draw() + "\n")
     ### Hay que borrar el nodo que está en la tabla TCP y de la tabla de alcanzabilidad
                 else:
-                    ip = addr[0]
-                    puerto = int(adrr[1])
-
+                    print("Entramos por el mensaje del 0")
                     '''Obtenemos el recurso que es la tabla de alcanzabilidad'''
                     lock.acquire()
-                    self.ReachabilityTable.eliminarDireccion(addr[0],int(addr[1]))
+                    self.ReachabilityTable.eliminarDireccion(addr[0],int(connectionSocket.getpeername()[1]))
                     lock.release()
-
+                    try:
+                        mensajeDeBorradoSatisfactorio =  bytes([2])
+                        connectionSocket.send(mensajeDeBorradoSatisfactorio)
+                    except BrokenPipeError:
+                        print("No se pudo enviar el mensaje de borrado satisfactorio")
+                        flag = False;
                     '''Obtenemos el recurso que es la tabla de conexiones vivas'''
                     lock.acquire()
-                    self.TablaTCP.eliminarConexion(addr[0],int(addr[1]))
+                    self.TablaTCP.eliminarConexion(addr[0],int(connectionSocket.getpeername()[1]))
                     lock.release()
                     flag = False;
             except ConnectionResetError:
                 '''Obtenemos el recurso que es la tabla de conexiones vivas'''
                 lock.acquire()
-                self.TablaTCP.eliminarConexion(addr[0],int(addr[1]))
+                self.TablaTCP.eliminarConexion(addr[0],int(connectionSocket.getpeername()[1]))
                 lock.release()
-                try:
-                    mensajeDeBorradoSatisfactorio = 2
-                    connectionSocket.send(mensajeDeBorradoSatisfactorio)
-                except BrokenPipeError:
-                    print("No se pudo enviar el mensaje de borrado satisfactorio")
-                    flag = False;
-                print("La conexión se ha perdido con ", addr[0],addr[1])
+                print("La conexión se ha perdido con ", addr[0],int(connectionSocket.getpeername()[1]))
                 flag = False;
         print("Chau Hilo Servidor")
+        lock.acquire()
+        self.ReachabilityTable.eliminarDireccion(addr[0],int(connectionSocket.getpeername()[1]))
+        lock.release()
+
         '''Obtenemos el recurso que es la tabla de conexiones vivas'''
         lock.acquire()
-        self.TablaTCP.eliminarConexion(addr[0],int(addr[1]))
+        self.TablaTCP.eliminarConexion(addr[0],int(connectionSocket.getpeername()[1]))
         lock.release()
         #connectionSocket.close()
 
@@ -171,8 +173,6 @@ class NodeTCP(Node):
                 estadoInt = int.from_bytes(estado, byteorder="big")
                 if estadoInt == 1:
                     print("Success")
-                elif estadoInt == 2:
-                    print("Se borro")
                 else:
                     print("Ocurrió un error")
         except BrokenPipeError:
@@ -180,8 +180,12 @@ class NodeTCP(Node):
 
     def eliminarNodo(self):
         print("Matar al Nodo")
+        for key in self.TablaTCP.table:
+            print("Enviamos un 0 a todos ")
 
-
+            self.TablaTCP.buscarConexion(key[0],key[1]).send(bytes([0]))
+        print("Terminamos de matar al nodo")
+        time.sleep(10)
     def listen(self):
         print(bcolors.WARNING+"Welcome!, Node: " +self.ip,":",str(self.port) +bcolors.ENDC)
         print(bcolors.OKGREEN+"Instrucciones: "+bcolors.ENDC)

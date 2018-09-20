@@ -6,14 +6,17 @@ class ReachabilityTables():
         self.tabla = {}
     ## Guarda la dirección del mensaje, la ip del origen del mensaje, la máscara del mensaje y el costo
     def agregarDireccion(self, ip, origen, mascara, costo,puerto):
-        if self.tabla.get((ip,puerto)):
-            if self.tabla.get((ip,puerto))[2] > costo:
+        if self.tabla.get((ip,mascara)):
+            if self.tabla.get((ip,mascara))[2] > costo:
                 self.tabla.update({(ip,mascara):[origen, puerto, costo]})
         else:
             self.tabla.update({(ip,mascara):[origen, puerto, costo]})
     #Elimina una fila de la tabla donde coincida con la ip que entró
-    def eliminarDireccion(self, ip):
-        self.tabla.pop((ip,puerto))
+    def eliminarDireccion(self, ip,puerto):
+        for key in self.tabla:
+            if self.tabla.get(key)[0] == ip and self.tabla.get(key)[1] == puerto:
+                self.tabla.pop(key)
+            break
     ##Imprime en formato de tabla la tabla de alcanzabilidad de un nodo
     def imprimirTabla(self):
         print("TABLA DE ALCANZABILIDAD")

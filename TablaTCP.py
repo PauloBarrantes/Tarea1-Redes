@@ -15,7 +15,7 @@ class TablaTCP():
         if self.table.get((ip,port)):
             self.table.get((ip,port)).close()
             self.tabla.pop((ip,port))
-
+    
 #
 # tablita = TablaTCP()
 # tablita.guardarConexion('180.1.3.5',12412,"GG")
