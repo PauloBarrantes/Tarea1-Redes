@@ -93,6 +93,7 @@ class NodeTCP(Node):
                 print("La conexión se ha perdido con ", addr[0],addr[1])
                 flag = False;
         print("Chau Hilo Servidor")
+        self.TablaTCP.eliminarConexion(addr[0],int(addr[1]))
         #connectionSocket.close()
 
 
