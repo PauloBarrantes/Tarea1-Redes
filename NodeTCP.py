@@ -47,6 +47,7 @@ class NodeTCP(Node):
 
 
     def serverTCPthread(self, connectionSocket,addr):
+        lock = threading.Lock()
         flag = True
         while flag:
             try:
@@ -71,8 +72,14 @@ class NodeTCP(Node):
                         mask_str = str(mask)
                         cost = int.from_bytes(cost_bytes,byteorder="big")
                         #self.imprimirMensaje(addr[0],ip_str,mask_str,cost)
+
                         table.add_row([addr[0],ip_str,mask_str, cost])
-                        self.ReachabilityTable.agregarDireccion(ip_str,addr[0],mask_str,cost)
+
+
+                        '''Obtenemos el recurso que es la tabla de alcanzabilidad'''
+                        lock.acquire()
+                        self.ReachabilityTable.agregarDireccion(ip_str,addr[0],mask_str,cost,int(connectionSocket.getsockname()[1]))
+                        lock.release()
                     mensajeVuelta = bytes([1])
                     try:
                         connectionSocket.send(mensajeVuelta)
@@ -84,15 +91,35 @@ class NodeTCP(Node):
                 else:
                     ip = addr[0]
                     puerto = int(adrr[1])
+
+                    '''Obtenemos el recurso que es la tabla de alcanzabilidad'''
+                    lock.acquire()
+                    self.ReachabilityTable.eliminarDireccion(addr[0],int(addr[1]))
+                    lock.release()
+
+                    '''Obtenemos el recurso que es la tabla de conexiones vivas'''
+                    lock.acquire()
                     self.TablaTCP.eliminarConexion(addr[0],int(addr[1]))
-                    self.ReachabilityTable.eliminarDireccion(addr[0])
-
-
+                    lock.release()
+                    flag = False;
             except ConnectionResetError:
+                '''Obtenemos el recurso que es la tabla de conexiones vivas'''
+                lock.acquire()
                 self.TablaTCP.eliminarConexion(addr[0],int(addr[1]))
+                lock.release()
+                try:
+                    mensajeDeBorradoSatisfactorio = 2
+                    connectionSocket.send(mensajeDeBorradoSatisfactorio)
+                except BrokenPipeError:
+                    print("No se pudo enviar el mensaje de borrado satisfactorio")
+                    flag = False;
                 print("La conexión se ha perdido con ", addr[0],addr[1])
                 flag = False;
         print("Chau Hilo Servidor")
+        '''Obtenemos el recurso que es la tabla de conexiones vivas'''
+        lock.acquire()
+        self.TablaTCP.eliminarConexion(addr[0],int(addr[1]))
+        lock.release()
         #connectionSocket.close()
 
 
@@ -144,13 +171,12 @@ class NodeTCP(Node):
                 estadoInt = int.from_bytes(estado, byteorder="big")
                 if estadoInt == 1:
                     print("Success")
+                elif estadoInt == 2:
+                    print("Se borro")
                 else:
-                    print("Ha ocurrido un error")
+                    print("Ocurrió un error")
         except BrokenPipeError:
             print("Se perdió la conexión con el servidor")
-        #print ("From Server:" , int.from_bytes(modifiedSentence, byteorder="big"))
-        #clientSocket.close()
-
 
     def eliminarNodo(self):
         print("Matar al Nodo")
