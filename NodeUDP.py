@@ -31,27 +31,39 @@ class NodeUDP(Node):
         self.listen()
 
     def serverUDP(self):
+        lock = threading.Lock()
+
         self.serverSocket = socket(AF_INET,SOCK_DGRAM)
         self.serverSocket.bind((self.ip,self.port))
         print ("The server is ready to receive : ", self.ip, self.port)
         while True:
             mensaje, clientAddr = self.serverSocket.recvfrom(1024)
-            cantidad_elementos = int.from_bytes(mensaje[:2], byteorder="big")
-            for n in range(0,cantidad_elementos):
-                ip_bytes = mensaje[2+(n*8):6+(n*8)]
-                mask = mensaje[6+(n*8)]
-                cost_bytes = mensaje[7+(n*8):10+(n*8)]
-                ip = list(ip_bytes)
-                ip_str = ""
-                for byte in range(0,len(ip)):
-                    if(byte < len(ip)-1):
-                        ip_str += str(ip[byte])+"."
-                    else:
-                        ip_str += str(ip[byte])
-                mask_str = str(mask)
-                cost = int.from_bytes(cost_bytes,byteorder="big")
-                self.ReachabilityTable.agregarDireccion(ip_str,clientAddr[0],mask_str,cost)
+            if int.from_bytes(mensaje, byteorder="big") != 0:
+                cantidad_elementos = int.from_bytes(mensaje[:2], byteorder="big")
+                for n in range(0,cantidad_elementos):
+                    ip_bytes = mensaje[2+(n*8):6+(n*8)]
+                    mask = mensaje[6+(n*8)]
+                    cost_bytes = mensaje[7+(n*8):10+(n*8)]
+                    ip = list(ip_bytes)
+                    ip_str = ""
+                    for byte in range(0,len(ip)):
+                        if(byte < len(ip)-1):
+                            ip_str += str(ip[byte])+"."
+                        else:
+                            ip_str += str(ip[byte])
+                    mask_str = str(mask)
+                    cost = int.from_bytes(cost_bytes,byteorder="big")
+                    lock.acquire()
+                    self.ReachabilityTable.agregarDireccion(ip_str,clientAddr[0],mask_str,cost,int(self.serverSocket.getsockname()[1]))
+                    lock.release()
+            else:
+                ip = clientAddr[0]
+                puerto = int(clientAddr[1])
 
+                '''Obtenemos el recurso que es la tabla de alcanzabilidad'''
+                lock.acquire()
+                self.ReachabilityTable.eliminarDireccion(addr[0],int(addr[1]))
+                lock.release()
             print("Message Recieved")
             error = bytes([2])
             self.serverSocket.sendto(error,clientAddr)
@@ -87,13 +99,15 @@ class NodeUDP(Node):
             byte_array.extend(mask_bytes)
             cost_bytes = int((cost1)).to_bytes(3,byteorder="big")
             byte_array.extend(cost_bytes)
-
-        self.clientSocket = socket(AF_INET, SOCK_DGRAM)
-        self.clientSocket.connect((str(ipDestino),portDestino))
-        self.clientSocket.send(byte_array)
-        modifiedSentence = self.clientSocket.recv(1024)
-        print ("From Server:" , modifiedSentence)
-        self.clientSocket.close()
+        try:
+            self.clientSocket = socket(AF_INET, SOCK_DGRAM)
+            self.clientSocket.connect((str(ipDestino),portDestino))
+            self.clientSocket.send(byte_array)
+            modifiedSentence = self.clientSocket.recv(1024)
+            print ("From Server:" , modifiedSentence)
+            self.clientSocket.close()
+        except BrokenPipeError:
+            print("Se perdió la conexión con el servidor")
 
 
     def eliminarNodo(self):
