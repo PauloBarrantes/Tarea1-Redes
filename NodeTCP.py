@@ -86,7 +86,7 @@ class NodeTCP(Node):
                         connectionSocket.send(mensajeVuelta)
                     except BrokenPipeError:
                         print("Se perdió la conexión")
-                        flag = False;
+                        flag = Falsenm
                     print (table.draw() + "\n")
     ### Hay que borrar el nodo que está en la tabla TCP y de la tabla de alcanzabilidad
                 else:
