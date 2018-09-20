@@ -50,9 +50,9 @@ class NodeUDP(Node):
                         ip_str += str(ip[byte])
                 mask_str = str(mask)
                 cost = int.from_bytes(cost_bytes,byteorder="big")
-                print(clientAddr,ip_str,mask_str,cost)
                 self.ReachabilityTable.agregarDireccion(ip_str,clientAddr[0],mask_str,cost)
-                print("Mensaje: ", ip_str,mask_str,cost)
+
+            print("Message Recieved")
             error = bytes([2])
             self.serverSocket.sendto(error,clientAddr)
 
@@ -89,7 +89,7 @@ class NodeUDP(Node):
             byte_array.extend(cost_bytes)
 
         self.clientSocket = socket(AF_INET, SOCK_DGRAM)
-        self.clientSocket.connect((str(self.ip),self.port))
+        self.clientSocket.connect((str(ipDestino),portDestino))
         self.clientSocket.send(byte_array)
         modifiedSentence = self.clientSocket.recv(1024)
         print ("From Server:" , modifiedSentence)
