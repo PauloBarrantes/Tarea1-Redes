@@ -42,9 +42,9 @@ class NodeTCP(Node):
 
         while True:
             connectionSocket, addr = serverSocket.accept()
-            self.threadServer = threading.Thread(target = self.serverTCPthread, args=(connectionSocket,addr,))
-            self.threadServer.daemon = True
-            self.threadServer.start()
+            self.threadServerC = threading.Thread(target = self.serverTCPthread, args=(connectionSocket,addr,))
+            self.threadServerC.daemon = True
+            self.threadServerC.start()
 
 
     def serverTCPthread(self, connectionSocket,addr):
@@ -113,15 +113,8 @@ class NodeTCP(Node):
                 lock.release()
                 print("La conexión se ha perdido con ", addr[0],int(connectionSocket.getpeername()[1]))
                 flag = False;
-        print("Chau Hilo Servidor")
-        lock.acquire()
-        self.ReachabilityTable.eliminarDireccion(addr[0],int(connectionSocket.getpeername()[1]))
-        lock.release()
+        
 
-        '''Obtenemos el recurso que es la tabla de conexiones vivas'''
-        lock.acquire()
-        self.TablaTCP.eliminarConexion(addr[0],int(connectionSocket.getpeername()[1]))
-        lock.release()
         #connectionSocket.close()
 
 
