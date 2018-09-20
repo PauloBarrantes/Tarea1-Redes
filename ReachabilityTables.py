@@ -8,7 +8,7 @@ class ReachabilityTables():
     def agregarDireccion(self, ip, origen, mascara, costo,puerto):
         if self.tabla.get((ip,puerto)):
             if self.tabla.get((ip,puerto))[2] > costo:
-            self.tabla.update({(ip,mascara):[origen, puerto, costo]})
+                self.tabla.update({(ip,mascara):[origen, puerto, costo]})
         else:
             self.tabla.update({(ip,mascara):[origen, puerto, costo]})
     #Elimina una fila de la tabla donde coincida con la ip que entró

@@ -7,7 +7,6 @@ class TablaTCP():
 
     def guardarConexion(self,ip,port,connectionSocket):
         self.table.update({(ip,port):connectionSocket})
-        print(self.table)
     def buscarConexion(self,ip, port):
         if self.table.get((ip,port)):
             return self.table.get((ip,port))
