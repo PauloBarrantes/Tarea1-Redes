@@ -23,7 +23,7 @@ class NodeTCP(Node):
 
     def __init__(self, ip, port):
         super().__init__("pseudoBGP", ip, int(port))
-        self.ReachabilityTable = ReachabilityTables()
+        self.reachability_table = ReachabilityTables()
         self.tcp_table = TablaTCP()
 
         # Start our server thread, which will handle new connections.
@@ -64,7 +64,9 @@ class NodeTCP(Node):
                 
                 # Case where we receive a new message.
                 if int.from_bytes(message, byteorder="big") != 0 and \
-                        len(message) > 1 :
+                        len(message) > 1:
+
+                    self.log_writer.write_log("TCP node received a message.", 1)
                     elements_quantity = int.from_bytes(message[:2], byteorder="big")
                     table = Texttable()
                     table.set_cols_align(["l", "r", "c","k"])
@@ -83,20 +85,20 @@ class NodeTCP(Node):
                                 ip_str += str(ip[byte])
                         mask_str = str(mask)
                         cost = int.from_bytes(cost_bytes,byteorder="big")
-                        #self.imprimirMensaje(addr[0],ip_str,mask_str,cost)
 
                         table.add_row([address[0], ip_str, mask_str, cost])
 
-                        '''Obtenemos el recurso que es la tabla de alcanzabilidad'''
-                        self.ReachabilityTable.save_address(ip_str, address[0], mask_str,
-                                                            cost, int(connection_socket.getpeername()[1]))
+                        # Save to our reachability table.
+                        self.reachability_table.save_address(ip_str, address[0], mask_str,
+                                                             cost, int(connection_socket.getpeername()[1]))
                     print (table.draw() + "\n")
 
                 # Remove the node from the reachability table and then send a confirmation message.
                 elif int.from_bytes(message, byteorder="big") == 0:
 
-                    self.ReachabilityTable.remove_address(connection_socket.getpeername()[0],
-                                                          int(connection_socket.getpeername()[1]))
+                    self.log_writer.write_log("TCP node received a terminating notification.", 1)
+                    self.reachability_table.remove_address(connection_socket.getpeername()[0],
+                                                           int(connection_socket.getpeername()[1]))
 
                     try:
                         print("Hemos recivido una notificación de terminación del nodo con dirección: "
@@ -116,6 +118,7 @@ class NodeTCP(Node):
                 # Enter here when we receive a termination notification from another node.
                 elif int.from_bytes(message, byteorder="big") == 2:
 
+                    self.log_writer.write_log("TCP node received a termination confirmation.", 1)
                     print("Recivimos mensaje de terminación del nodo con dirección: "
                           + connection_socket.getpeername()[0] + " y puerto: " +
                           str(connection_socket.getpeername()[1])
@@ -135,6 +138,8 @@ class NodeTCP(Node):
     # Send messages to other nodes.
     def send_message(self):
         print("Enviar mensaje:")
+
+        self.log_writer.write_log("TCP node is sending a message.", 2)
 
         # Variables that we will use to keep the user's input.
         port = ""
@@ -157,13 +162,12 @@ class NodeTCP(Node):
             port = input("Digite el puerto de destino a la que desea enviar: ")
             valid_input = self.validate_port(port)
 
-        n = input("Digite la cantidad de mensajes que va enviar a ese destino: ")
         num = 1
 
         valid_input = False
         while not valid_input:
             try:
-                num = int(n)
+                num = int(input("Digite la cantidad de mensajes que va enviar a ese destino: "))
                 valid_input = True
             except ValueError:
                 print(BColors.FAIL + "Error: " + BColors.ENDC + "Entrada no númerica")
@@ -198,14 +202,11 @@ class NodeTCP(Node):
             byte_array.extend(int(cost_message).to_bytes(3, byteorder="big"))
 
         try:
+
+            # If we already have the connection, then we just send it.
             if self.tcp_table.search_connection(ip_destination, port_destination) != -1:
                 self.tcp_table.search_connection(ip_destination, port_destination).send(byte_array)
-                estado = self.tcp_table.search_connection(ip_destination, port_destination).recv(1024)
-                estadoInt = int.from_bytes(estado, byteorder="big")
-                if estadoInt == 1:
-                    print("Success")
-                else:
-                    print("Ha ocurrido un error")
+
             else:
                 client_socket = socket(AF_INET, SOCK_STREAM)
 
@@ -284,8 +285,10 @@ class NodeTCP(Node):
             self.terminate_node()
             print("Terminando ejecucción.")
         elif user_input == "3":
-            self.ReachabilityTable.print_table()
+            self.reachability_table.print_table()
             self.listen()
+        elif user_input == "4":
+            print("Terminando ejecucción.")
         else:
             print("Por favor, escoja alguna de las opciones.")
             self.listen()

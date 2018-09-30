@@ -1,15 +1,5 @@
 import ipaddress
-
-## Colors
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+from LogWriter import *
 
 
 class Node:
@@ -18,6 +8,7 @@ class Node:
         self.protocol = protocol
         self.ip = ipNode
         self.port = int(port)
+        self.log_writer = LogWriter()
 
     def __del__(self):
         print("Node was successfully deleted")

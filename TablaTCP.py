@@ -1,8 +1,5 @@
-
-
 class TablaTCP():
 
-    """docstring for TablaTCP."""
     def __init__(self):
         self.table = {}
 
@@ -18,13 +15,3 @@ class TablaTCP():
         if self.table.get((ip, port)):
             self.table.get((ip, port)).close()
             self.table.pop((ip, port))
-    
-#
-# tablita = TablaTCP()
-# tablita.guardarConexion('180.1.3.5',12412,"GG")
-#
-# gg = tablita.buscarConexion('180.1.3.5',4)
-# print(gg)
-#
-# gg = tablita.buscarConexion('180.1.3.15',2 )
-# print(gg)

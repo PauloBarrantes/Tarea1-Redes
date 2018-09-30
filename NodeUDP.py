@@ -33,18 +33,21 @@ class NodeUDP(Node):
 
     def server_udp(self):
 
-        self.serverSocket = socket(AF_INET,SOCK_DGRAM)
-        self.serverSocket.bind((self.ip,self.port))
+        self.server_socket = socket(AF_INET, SOCK_DGRAM)
+        self.server_socket.bind((self.ip, self.port))
         print ("El servidor esta listo para ser usado : ", self.ip, self.port)
 
         while True:
-            mensaje, clientAddr = self.serverSocket.recvfrom(1024)
-            if int.from_bytes(mensaje, byteorder="big") != 0:
-                cantidad_elementos = int.from_bytes(mensaje[:2], byteorder="big")
-                for n in range(0,cantidad_elementos):
-                    ip_bytes = mensaje[2+(n*8):6+(n*8)]
-                    mask = mensaje[6+(n*8)]
-                    cost_bytes = mensaje[7+(n*8):10+(n*8)]
+            message, client_addr = self.server_socket.recvfrom(1024)
+            if int.from_bytes(message, byteorder="big") != 0:
+
+                self.log_writer.write_log("UDP node received a message.", 1)
+
+                elements_quantity = int.from_bytes(message[:2], byteorder="big")
+                for n in range(0,elements_quantity):
+                    ip_bytes = message[2+(n*8):6+(n*8)]
+                    mask = message[6+(n*8)]
+                    cost_bytes = message[7+(n*8):10+(n*8)]
                     ip = list(ip_bytes)
                     ip_str = ""
                     for byte in range(0,len(ip)):
@@ -54,21 +57,21 @@ class NodeUDP(Node):
                             ip_str += str(ip[byte])
                     mask_str = str(mask)
                     cost = int.from_bytes(cost_bytes,byteorder="big")
-                    self.reachability_table.save_address(ip_str, clientAddr[0],
-                                                         mask_str, cost, int(self.serverSocket.getsockname()[1]))
+                    self.reachability_table.save_address(ip_str, client_addr[0],
+                                                         mask_str, cost, int(self.server_socket.getsockname()[1]))
 
             else:
-                ip = clientAddr[0]
-                puerto = int(clientAddr[1])
 
                 # Remove from our reachability table.
-                self.reachability_table.remove_address(clientAddr[0], int(clientAddr[1]))
+                self.reachability_table.remove_address(client_addr[0], int(client_addr[1]))
             print("Message Recieved")
             err = bytes([2])
-            self.serverSocket.sendto(err, clientAddr)
+            self.server_socket.sendto(err, client_addr)
 
     # Send messages to another node.
     def send_message(self):
+
+        self.log_writer.write_log("UDP node is sending a message.", 2)
 
         # Variables that we will use to keep the user's input.
         port = ""
@@ -165,6 +168,9 @@ class NodeUDP(Node):
         elif user_input == "3":
             self.reachability_table.print_table()
             self.listen()
+        elif user_input == "4":
+            print("Terminando ejecucción.")
         else:
-            print("Saliendo")
+            print("Por favor, escoja alguna de las opciones.")
+            self.listen()
 
