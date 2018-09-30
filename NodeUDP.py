@@ -1,8 +1,9 @@
-import threading
 from Node import *
 from socket import *
+from ReachabilityTables import *
 
-class bcolors:
+
+class BColors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
@@ -13,29 +14,29 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-## Menu
-
-from ReachabilityTables import *
 
 class NodeUDP(Node):
+
     def __init__(self, ip, port):
         super().__init__("intAS", ip, int(port))
-        self.ReachabilityTable = ReachabilityTables()
-        #Arrancamos el hilo del servidor
-        self.threadServer = threading.Thread(target = self.serverUDP)
-        ## Esto hace que cuando el hilo principal muera el thread server
+        self.reachability_table = ReachabilityTables()
+
+        # Start server thread.
+        self.threadServer = threading.Thread(target = self.server_udp)
+
+        # Continue the server, even after our main thread dies.
         self.threadServer.daemon = True
         self.threadServer.start()
-        #Acá debemos crear una UI para interactuar con el usuario
-        #Recibir los mensajes - n - ip - puerto - máscara - costo
+
+        # Run our menu.
         self.listen()
 
-    def serverUDP(self):
-        lock = threading.Lock()
+    def server_udp(self):
 
         self.serverSocket = socket(AF_INET,SOCK_DGRAM)
         self.serverSocket.bind((self.ip,self.port))
-        print ("The server is ready to receive : ", self.ip, self.port)
+        print ("El servidor esta listo para ser usado : ", self.ip, self.port)
+
         while True:
             mensaje, clientAddr = self.serverSocket.recvfrom(1024)
             if int.from_bytes(mensaje, byteorder="big") != 0:
@@ -53,90 +54,117 @@ class NodeUDP(Node):
                             ip_str += str(ip[byte])
                     mask_str = str(mask)
                     cost = int.from_bytes(cost_bytes,byteorder="big")
-                    lock.acquire()
-                    self.ReachabilityTable.agregarDireccion(ip_str,clientAddr[0],mask_str,cost,int(self.serverSocket.getsockname()[1]))
-                    lock.release()
+                    self.reachability_table.save_address(ip_str, clientAddr[0],
+                                                         mask_str, cost, int(self.serverSocket.getsockname()[1]))
+
             else:
                 ip = clientAddr[0]
                 puerto = int(clientAddr[1])
 
-                '''Obtenemos el recurso que es la tabla de alcanzabilidad'''
-                lock.acquire()
-                self.ReachabilityTable.eliminarDireccion(addr[0],int(addr[1]))
-                lock.release()
+                # Remove from our reachability table.
+                self.reachability_table.remove_address(clientAddr[0], int(clientAddr[1]))
             print("Message Recieved")
-            error = bytes([2])
-            self.serverSocket.sendto(error,clientAddr)
+            err = bytes([2])
+            self.serverSocket.sendto(err, clientAddr)
 
-        self.serverSocket.close()
+    # Send messages to another node.
+    def send_message(self):
 
+        # Variables that we will use to keep the user's input.
+        port = ""
+        mask = ""
+        ip_destination = ""
 
-    """Enviar Mensajes a otro nodos"""
-    def enviarMensajes(self):
-        print("Enviar mensaje:")
-        ipDestino = input("Digite la ip de destino a la que desea enviar: ")
-        maskDestino = input("Digite la máscara de destino a la que desea enviar: ")
-        portDestino = input("Digite el puerto de destino a la que desea enviar: ")
+        # Variable to check each input of the user.
+        valid_input = False
+        while not valid_input:
+            ip_destination = input("Digite la ip de destino a la que desea enviar: ")
+            valid_input = self.validate_ip(ip_destination)
+
+        valid_input = False
+        while not valid_input:
+            mask = input("Digite la máscara de destino a la que desea enviar: ")
+            valid_input = self.validate_mask(mask)
+
+        valid_input = False
+        while not valid_input:
+            port = input("Digite el puerto de destino a la que desea enviar: ")
+            valid_input = self.validate_port(port)
 
         n = input("Digite la cantidad de mensajes que va enviar a ese destino: ")
+        num = 1
+
+        valid_input = False
+        while not valid_input:
+            try:
+                num = int(n)
+                valid_input = True
+            except ValueError:
+                print(BColors.FAIL + "Error: " + BColors.ENDC + "Entrada no númerica")
+
+        port_destination = int(port)
+        mask_destination = int(mask)
+        elements_quantity = num.to_bytes(2, byteorder="big")
+        byte_array = bytearray(elements_quantity)
+        for i in range(0, num):
+
+            ip_message = ""
+            mask_message = ""
+            cost_message = ""
+
+            valid_input = False
+            while not valid_input:
+                ip_message = input("Digite la ip de destino a la que desea enviar: ")
+                valid_input = self.validate_ip(ip_message)
+
+            valid_input = False
+            while not valid_input:
+                mask_message = input("Digite la máscara de destino a la que desea enviar: ")
+                valid_input = self.validate_mask(mask_message)
+
+            valid_input = False
+            while not valid_input:
+                cost_message = input("Digite un costo: ")
+                valid_input = self.validate_cost(cost_message)
+
+            byte_array.extend(bytearray(bytes(map(int, ip_message.split(".")))))
+            byte_array.extend((int(mask_message)).to_bytes(1, byteorder="big"))
+            byte_array.extend(int(cost_message).to_bytes(3, byteorder="big"))
 
         try:
-            num = int(n)
-        except ValueError:
-            print(bcolors.FAIL+ "Error: " + bcolors.ENDC +"Entrada no númerica" )
 
-        portDestino = int(portDestino)
-        maskDestino = int(maskDestino)
-        cantidad_elementos = (num).to_bytes(2,byteorder="big")
-        byte_array = bytearray(cantidad_elementos)
-        for i in range(0,num):
-            ip1 = input("Digite una dirección ip: ")
-            mask1 = input("Digite una máscara: ")
-            cost1 = input("Digite un costo: ")
-            ip_bytes = bytes(map(int, ip1.split(".")))
-            byte_array.extend(bytearray(ip_bytes))
-            mask_bytes = (int(mask1)).to_bytes(1,byteorder="big")
-            byte_array.extend(mask_bytes)
-            cost_bytes = int((cost1)).to_bytes(3,byteorder="big")
-            byte_array.extend(cost_bytes)
-        try:
-            self.clientSocket = socket(AF_INET, SOCK_DGRAM)
-            self.clientSocket.connect((str(ipDestino),portDestino))
-            self.clientSocket.send(byte_array)
-            modifiedSentence = self.clientSocket.recv(1024)
-            print ("From Server:" , modifiedSentence)
-            self.clientSocket.close()
+            self.client_socket = socket(AF_INET, SOCK_DGRAM)
+            self.client_socket.connect((str(ip_destination), port_destination))
+            self.client_socket.send(byte_array)
+            modified_sentence = self.client_socket.recv(1024)
+            print ("From Server:" , modified_sentence)
+            self.client_socket.close()
         except BrokenPipeError:
             print("Se perdió la conexión con el servidor")
 
-
-    def eliminarNodo(self):
-        print("Matar al Nodo")
-
+    def terminate_node(self):
+        print("Eliminado el nodo.")
 
     def listen(self):
-        print(bcolors.WARNING+"Welcome!, Node: " +self.ip,":",str(self.port) +bcolors.ENDC)
-        print(bcolors.OKGREEN+"Instrucciones: "+bcolors.ENDC)
-        print(bcolors.BOLD+"-1-"+bcolors.ENDC,"Enviar un mensaje a otro nodo")
-        print(bcolors.BOLD+"-2-"+bcolors.ENDC,"Matar a este nodo :(")
-        print(bcolors.BOLD+"-3-"+bcolors.ENDC,"Imprimir la tabla de alcanzabilidad")
-        print(bcolors.BOLD+"-4-"+bcolors.ENDC,"Salir")
 
+        # Print our menu.
+        print(BColors.WARNING + "Bienvenido!, Node: " + self.ip, ":", str(self.port) + BColors.ENDC)
+        print(BColors.OKGREEN + "Instrucciones: " + BColors.ENDC)
+        print(BColors.BOLD + "-1-" + BColors.ENDC, "Enviar un mensaje a otro nodo")
+        print(BColors.BOLD + "-2-" + BColors.ENDC, "Terminar a este nodo")
+        print(BColors.BOLD + "-3-" + BColors.ENDC, "Imprimir la tabla de alcanzabilidad")
+        print(BColors.BOLD + "-4-" + BColors.ENDC, "Salir")
 
-        entrada = input("Qué desea hacer?\n")
-        if entrada == "1":
-            self.enviarMensajes()
+        user_input = input("Qué desea hacer?\n")
+        if user_input == "1":
+            self.send_message()
             self.listen()
-        elif entrada == "2":
+        elif user_input == "2":
             print ("Eliminando nodo")
-            self.eliminarNodo()
-        elif entrada == "3":
-            self.ReachabilityTable.imprimirTabla()
+            self.terminate_node()
+        elif user_input == "3":
+            self.reachability_table.print_table()
             self.listen()
         else:
             print("Saliendo")
 
-
-
-
-#Node = NodeTCP('localhost',8081)
