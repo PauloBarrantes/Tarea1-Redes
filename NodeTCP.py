@@ -162,6 +162,13 @@ class NodeTCP(Node):
             port = input("Digite el puerto de destino a la que desea enviar: ")
             valid_input = self.validate_port(port)
 
+        valid_input = False
+        valid_input = self.validate_ip_network(ip_destination, mask)
+
+        if not valid_input:
+            print("Dirección ip no representa una dirección de red.")
+            return
+
         num = 1
 
         valid_input = False

@@ -73,3 +73,15 @@ class Node:
             return False
 
         return True
+
+    def validate_ip_network(self, ip, mask):
+
+        # Validate the ip address.
+        try:
+            ipaddress.ip_network(ip+"/"+mask)
+        except ValueError as err:
+            print("La dirección ip ingresada (%s) es erronear. Error: %s." %
+                  (ip+"/"+mask, err))
+            return False
+
+        return True
