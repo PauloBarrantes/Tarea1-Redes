@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f90116d3-6333-43c8-903f-c79561447044" name="Default" comment="Log and some minor improvements.&#10;- Added log features to our nodes.&#10;- Refactored some spanish variable names.&#10;- Minor improvement in code, when we already have an open TCP connection and we would like to re-send a message.">
+    <list default="true" id="f90116d3-6333-43c8-903f-c79561447044" name="Default" comment="Modify the update code in save address.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NodeUDP.py" beforeDir="false" afterPath="$PROJECT_DIR$/NodeUDP.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReachabilityTables.py" beforeDir="false" afterPath="$PROJECT_DIR$/ReachabilityTables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crearNodo.py" beforeDir="false" afterPath="$PROJECT_DIR$/crearNodo.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,14 +39,14 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="141" />
-          <entry key="py" value="9054" />
-          <entry key="txt" value="622" />
+          <entry key="py" value="9091" />
+          <entry key="txt" value="720" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="763" />
-          <entry key="Python" value="9054" />
+          <entry key="PLAIN_TEXT" value="861" />
+          <entry key="Python" value="9091" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -60,8 +61,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/NodeTCP.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-345">
-              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+            <state relative-caret-position="86">
+              <caret line="99" column="58" selection-start-line="99" selection-start-column="44" selection-end-line="99" selection-end-column="58" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
                 <marker date="1538351730272" expanded="true" signature="11530:11535" ph="..." />
@@ -73,8 +74,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crearNodo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="25" column="34" lean-forward="true" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+            <state relative-caret-position="372">
+              <caret line="25" column="29" lean-forward="true" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -109,11 +110,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/NodeUDP.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="59" column="80" lean-forward="true" selection-start-line="59" selection-start-column="80" selection-end-line="59" selection-end-column="80" />
+            <state relative-caret-position="351">
+              <caret line="55" column="29" lean-forward="true" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -121,11 +122,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ReachabilityTables.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="39" column="41" lean-forward="true" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="41" />
+            <state relative-caret-position="182">
+              <caret line="53" column="36" selection-start-line="53" selection-start-column="36" selection-end-line="53" selection-end-column="36" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -179,12 +180,13 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/ReachabilityTables.py" />
         <option value="$PROJECT_DIR$/TablaTCP.py" />
         <option value="$PROJECT_DIR$/Node.py" />
         <option value="$PROJECT_DIR$/LogWriter.py" />
         <option value="$PROJECT_DIR$/NodeTCP.py" />
         <option value="$PROJECT_DIR$/NodeUDP.py" />
+        <option value="$PROJECT_DIR$/crearNodo.py" />
+        <option value="$PROJECT_DIR$/ReachabilityTables.py" />
       </list>
     </option>
   </component>
@@ -303,7 +305,21 @@
       <option name="project" value="LOCAL" />
       <updated>1538351930582</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Error receiving and saving the right port.">
+      <created>1538425379612</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1538425379612</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Modify the update code in save address.">
+      <created>1538425887006</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1538425887006</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -351,7 +367,9 @@
     <MESSAGE value="Improvements.&#10;- Added termination notification, when a node is send to die.&#10;- Added input validation.&#10;- Added connection validation to our messages.&#10;- Now a new thread is created for the receiving TCP connection.&#10;- Improve lock usage for our dictionary." />
     <MESSAGE value="Improvements.&#10;- Added termination notification, when a node is send to die.&#10;- Added input validation.&#10;- Added connection validation to our messages.&#10;- Now a new thread is created for the receiving TCP connection.&#10;- Improve lock usage in our dictionary." />
     <MESSAGE value="Log and some minor improvements.&#10;- Added log features to our nodes.&#10;- Refactored some spanish variable names.&#10;- Minor improvement in code, when we already have an open TCP connection and we would like to re-send a message." />
-    <option name="LAST_COMMIT_MESSAGE" value="Log and some minor improvements.&#10;- Added log features to our nodes.&#10;- Refactored some spanish variable names.&#10;- Minor improvement in code, when we already have an open TCP connection and we would like to re-send a message." />
+    <MESSAGE value="Error receiving and saving the right port." />
+    <MESSAGE value="Modify the update code in save address." />
+    <option name="LAST_COMMIT_MESSAGE" value="Modify the update code in save address." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Clase12-09/Node.py" />
@@ -394,16 +412,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ReachabilityTables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="39" column="41" lean-forward="true" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TablaTCP.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -411,10 +419,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/NodeUDP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="55" column="29" lean-forward="true" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/crearNodo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="25" column="34" lean-forward="true" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+        <state relative-caret-position="372">
+          <caret line="25" column="29" lean-forward="true" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
@@ -423,8 +441,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/NodeTCP.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-345">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        <state relative-caret-position="86">
+          <caret line="99" column="58" selection-start-line="99" selection-start-column="44" selection-end-line="99" selection-end-column="58" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
             <marker date="1538351730272" expanded="true" signature="11530:11535" ph="..." />
@@ -432,12 +450,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/NodeUDP.py">
+    <entry file="file://$PROJECT_DIR$/ReachabilityTables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="59" column="80" lean-forward="true" selection-start-line="59" selection-start-column="80" selection-end-line="59" selection-end-column="80" />
+        <state relative-caret-position="182">
+          <caret line="53" column="36" selection-start-line="53" selection-start-column="36" selection-end-line="53" selection-end-column="36" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>

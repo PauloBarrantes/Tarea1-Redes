@@ -52,7 +52,6 @@ class ReachabilityTables:
                 entry_lock.acquire()
                 self.reach_table.pop(key)
                 entry_lock.release()
-            break
 
     # Print the reachability table.
     def print_table(self):

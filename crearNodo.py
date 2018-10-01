@@ -23,7 +23,7 @@ else:
     if int(splitIP[0]) >= 0 and int(splitIP[0]) <= 255 and int(splitIP[1]) >= 0 and int(splitIP[1]) <= 255 and int(splitIP[2]) >= 0 and int(splitIP[2]) <= 255 and int(splitIP[3]) >= 0 and int(splitIP[3]) <= 255:
         port = int(sys.argv[3])
         if typeNode == "-pseudoBGP":
-            NodeTCP('localhost',port)
+            NodeTCP(ip, port)
         elif typeNode == "-intAS":
             NodeUDP(ip, port)
         else:
