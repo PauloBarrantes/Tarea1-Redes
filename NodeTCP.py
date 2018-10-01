@@ -162,13 +162,6 @@ class NodeTCP(Node):
             port = input("Digite el puerto de destino a la que desea enviar: ")
             valid_input = self.validate_port(port)
 
-        valid_input = False
-        valid_input = self.validate_ip_network(ip_destination, mask)
-
-        if not valid_input:
-            print("Dirección ip no representa una dirección de red.")
-            return
-
         num = 1
 
         valid_input = False
@@ -189,20 +182,30 @@ class NodeTCP(Node):
             mask_message = ""
             cost_message = ""
 
-            valid_input = False
-            while not valid_input:
-                ip_message = input("Digite la ip de destino a la que desea enviar: ")
-                valid_input = self.validate_ip(ip_message)
+            valid_network_ip = False
 
-            valid_input = False
-            while not valid_input:
-                mask_message = input("Digite la máscara de destino a la que desea enviar: ")
-                valid_input = self.validate_mask(mask_message)
+            # Validate that the ip and mask represents a network address.
+            while not valid_network_ip:
+                valid_input = False
+                while not valid_input:
+                    ip_message = input("Digite la ip de destino a la que desea enviar: ")
+                    valid_input = self.validate_ip(ip_message)
 
-            valid_input = False
-            while not valid_input:
-                cost_message = input("Digite un costo: ")
-                valid_input = self.validate_cost(cost_message)
+                valid_input = False
+                while not valid_input:
+                    mask_message = input("Digite la máscara de destino a la que desea enviar: ")
+                    valid_input = self.validate_mask(mask_message)
+
+                valid_input = False
+                while not valid_input:
+                    cost_message = input("Digite un costo: ")
+                    valid_input = self.validate_cost(cost_message)
+
+                valid_network_ip = self.validate_ip_network(ip_message, mask_message)
+
+                if not valid_network_ip:
+                    print("Dirección ip no representa una dirección de red.")
+
 
             byte_array.extend(bytearray(bytes(map(int, ip_message.split(".")))))
             byte_array.extend((int(mask_message)).to_bytes(1, byteorder="big"))
