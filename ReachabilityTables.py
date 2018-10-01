@@ -44,7 +44,7 @@ class ReachabilityTables:
     # Remove an entry from the reachability table.
     def remove_address(self, ip, port):
 
-        for key in self.reach_table:
+        for key in list(self.reach_table):
             if self.reach_table.get(key)[0] == ip and self.reach_table.get(key)[1] == port:
                 # Acquire the lock, remove the entry and then release the lock.
                 # In order to avoid any errors, we need to keep our lock in memory.
