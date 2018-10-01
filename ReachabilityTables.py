@@ -21,12 +21,13 @@ class ReachabilityTables:
             try:
 
                 # Acquire the lock.
-                self.reach_table.get((ip, mask))[3].acquire()
+                lock = self.reach_table.get((ip, mask))[3]
+                lock.acquire()
 
                 # Now update the table and release the lock when finished.
                 if self.reach_table.get((ip, mask))[2] > cost:
-                    self.reach_table.update({(ip, mask): [origin, port, cost]})
-                    self.reach_table.get((ip, mask))[3].release()
+                    self.reach_table.update({(ip, mask): [origin, port, cost, lock]})
+                    lock.release()
 
             except threading.ThreadError:
 
