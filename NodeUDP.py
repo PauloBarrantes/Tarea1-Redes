@@ -58,7 +58,7 @@ class NodeUDP(Node):
                     mask_str = str(mask)
                     cost = int.from_bytes(cost_bytes,byteorder="big")
                     self.reachability_table.save_address(ip_str, client_addr[0],
-                                                         mask_str, cost, int(self.server_socket.getsockname()[1]))
+                                                         mask_str, cost, int(client_addr[1]))
 
             else:
 

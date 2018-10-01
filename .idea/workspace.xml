@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f90116d3-6333-43c8-903f-c79561447044" name="Default" comment="Improvements.&#10;- Added termination notification, when a node is send to die.&#10;- Added input validation.&#10;- Added connection validation to our messages.&#10;- Now a new thread is created for the receiving TCP connection.&#10;- Improve lock usage in our dictionary.">
-      <change afterPath="$PROJECT_DIR$/LogWriter.py" afterDir="false" />
+    <list default="true" id="f90116d3-6333-43c8-903f-c79561447044" name="Default" comment="Log and some minor improvements.&#10;- Added log features to our nodes.&#10;- Refactored some spanish variable names.&#10;- Minor improvement in code, when we already have an open TCP connection and we would like to re-send a message.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Node.py" beforeDir="false" afterPath="$PROJECT_DIR$/Node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NodeTCP.py" beforeDir="false" afterPath="$PROJECT_DIR$/NodeTCP.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NodeUDP.py" beforeDir="false" afterPath="$PROJECT_DIR$/NodeUDP.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TablaTCP.py" beforeDir="false" afterPath="$PROJECT_DIR$/TablaTCP.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,34 +18,34 @@
     <session id="-733662183">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.open.time.7" value="2" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="14" />
+          <entry key="py" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="14" />
+          <entry key="Python" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="141" />
-          <entry key="py" value="9053" />
-          <entry key="txt" value="372" />
+          <entry key="py" value="9054" />
+          <entry key="txt" value="622" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="513" />
-          <entry key="Python" value="9053" />
+          <entry key="PLAIN_TEXT" value="763" />
+          <entry key="Python" value="9054" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -61,11 +57,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/NodeTCP.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="281" selection-start-line="281" selection-end-line="281" />
+            <state relative-caret-position="-345">
+              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
                 <marker date="1538351730272" expanded="true" signature="11530:11535" ph="..." />
@@ -75,10 +71,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/crearNodo.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="275">
+              <caret line="25" column="34" lean-forward="true" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LogWriter.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
-              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
               <folding>
                 <marker date="1538351137737" expanded="true" signature="35:37" ph="..." />
                 <marker date="1538351137737" expanded="true" signature="435:445" ph="..." />
@@ -91,8 +99,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Node.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="54" lean-forward="true" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
+            <state relative-caret-position="315">
+              <caret line="22" column="54" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
                 <marker date="1538350720973" expanded="true" signature="716:726" ph="..." />
@@ -101,11 +109,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/NodeUDP.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2117">
-              <caret line="162" column="31" lean-forward="true" selection-start-line="162" selection-start-column="31" selection-end-line="162" selection-end-column="31" />
+            <state relative-caret-position="150">
+              <caret line="59" column="80" lean-forward="true" selection-start-line="59" selection-start-column="80" selection-end-line="59" selection-end-column="80" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -116,7 +124,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ReachabilityTables.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
+            <state relative-caret-position="570">
               <caret line="39" column="41" lean-forward="true" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="41" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
@@ -154,6 +162,7 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="alaincruzcasanova &lt;alain.cruzc@gmail.com&gt;" />
         <option value="Alaincruzc90 &lt;alain.cruzc@gmail.com&gt;" />
         <option value="&lt;alain.cruzc@gmail.com&gt;" />
         <option value="Alaincruzc90" />
@@ -185,7 +194,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="67" />
     <option name="y" value="23" />
     <option name="width" value="1400" />
@@ -199,6 +208,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -215,7 +225,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -287,7 +296,14 @@
       <option name="project" value="LOCAL" />
       <updated>1538349167527</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Log and some minor improvements.&#10;- Added log features to our nodes.&#10;- Refactored some spanish variable names.&#10;- Minor improvement in code, when we already have an open TCP connection and we would like to re-send a message.">
+      <created>1538351930582</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1538351930582</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView">
@@ -300,21 +316,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="23" width="1400" height="1000" extended-state="0" />
+    <frame x="0" y="23" width="1280" height="777" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26067746" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28998384" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32929516" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32929516" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39977974" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39977974" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32929516" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32929516" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32929516" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.53138685" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
@@ -334,18 +350,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Improvements.&#10;- Added termination notification, when a node is send to die.&#10;- Added input validation.&#10;- Added connection validation to our messages.&#10;- Now a new thread is created for the receiving TCP connection.&#10;- Improve lock usage for our dictionary." />
     <MESSAGE value="Improvements.&#10;- Added termination notification, when a node is send to die.&#10;- Added input validation.&#10;- Added connection validation to our messages.&#10;- Now a new thread is created for the receiving TCP connection.&#10;- Improve lock usage in our dictionary." />
-    <option name="LAST_COMMIT_MESSAGE" value="Improvements.&#10;- Added termination notification, when a node is send to die.&#10;- Added input validation.&#10;- Added connection validation to our messages.&#10;- Now a new thread is created for the receiving TCP connection.&#10;- Improve lock usage in our dictionary." />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/NodeTCP.py</url>
-          <line>207</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Log and some minor improvements.&#10;- Added log features to our nodes.&#10;- Refactored some spanish variable names.&#10;- Minor improvement in code, when we already have an open TCP connection and we would like to re-send a message." />
+    <option name="LAST_COMMIT_MESSAGE" value="Log and some minor improvements.&#10;- Added log features to our nodes.&#10;- Refactored some spanish variable names.&#10;- Minor improvement in code, when we already have an open TCP connection and we would like to re-send a message." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Clase12-09/Node.py" />
@@ -365,19 +371,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crearNodo.py">
+    <entry file="file://$PROJECT_DIR$/LogWriter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="180">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <marker date="1538351137737" expanded="true" signature="35:37" ph="..." />
+            <marker date="1538351137737" expanded="true" signature="435:445" ph="..." />
+            <marker date="1538351137737" expanded="true" signature="435:519" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Node.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="22" column="54" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+            <marker date="1538350720973" expanded="true" signature="716:726" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ReachabilityTables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
+        <state relative-caret-position="570">
           <caret line="39" column="41" lean-forward="true" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="41" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
@@ -392,46 +411,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Node.py">
+    <entry file="file://$PROJECT_DIR$/crearNodo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="54" lean-forward="true" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
+        <state relative-caret-position="275">
+          <caret line="25" column="34" lean-forward="true" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
           <folding>
-            <element signature="e#0#16#0" expanded="true" />
-            <marker date="1538350720973" expanded="true" signature="716:726" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LogWriter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <marker date="1538351137737" expanded="true" signature="35:37" ph="..." />
-            <marker date="1538351137737" expanded="true" signature="435:445" ph="..." />
-            <marker date="1538351137737" expanded="true" signature="435:519" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/NodeUDP.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2117">
-          <caret line="162" column="31" lean-forward="true" selection-start-line="162" selection-start-column="31" selection-end-line="162" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/NodeTCP.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="281" selection-start-line="281" selection-end-line="281" />
+        <state relative-caret-position="-345">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
             <marker date="1538351730272" expanded="true" signature="11530:11535" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NodeUDP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="59" column="80" lean-forward="true" selection-start-line="59" selection-start-column="80" selection-end-line="59" selection-end-column="80" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
