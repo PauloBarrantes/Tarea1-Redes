@@ -47,15 +47,13 @@ class PseudoTCP(Node):
         self.server_socket = socket(AF_INET, SOCK_DGRAM)
         self.server_socket.bind((self.ip, self.port))
 
-        
-        self.threadServer = threading.Thread(target = self.listen)
+
+        self.threadServer = threading.Thread(target = self.serverDispatcher)
         self.threadServer.daemon = True
         self.threadServer.start()
 
     def serverDispatcher(self):
-        self.server_socket = socket(AF_INET, SOCK_DGRAM)
-        self.server_socket.bind((self.ip, self.port))
-        self.listen(1)
+
         while True:
             message, client_addr = self.server_socket.recvfrom(1024)
             print("Message Recieved")
@@ -63,13 +61,17 @@ class PseudoTCP(Node):
             self.server_socket.sendto(err, client_addr)
 
 
-    def listen(self, nConnections):
-        nConnections = nConnections
+    def listen(self,sourceIp, sourcePort):
+        ''' Wait forever and return an item if one is immediately available,'''
+        queue = serverQueues[(sourceIp,sourcePort)].get()
+        queue.get(False)
+
+        ''' Acá va el código al segundo paso del handshake'''
 
 
 
-    def serverThread(self):
-        pass
+    def serverThread(self, sourceIp, sourcePort ):
+        self.listen()
     def accept(self):
         pass
 
@@ -114,6 +116,8 @@ class PseudoTCP(Node):
 
 
     def connect(self, destPort):
+
+        '''We start the 3 way handshake'''
         sourcePort = self.port
         destinationPort = destPort
         sequenceNumberClient= randrange(400)
