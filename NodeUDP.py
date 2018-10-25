@@ -173,4 +173,3 @@ class NodeUDP(Node):
         else:
             print("Por favor, escoja alguna de las opciones.")
             self.listen()
-

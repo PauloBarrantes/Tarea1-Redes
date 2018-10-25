@@ -31,3 +31,4 @@ Message: TCP node is sending a message. | Type: Sending.
 Message: TCP node is sending a message. | Type: Sending. 
 Message: TCP node received a termination confirmation. | Type: Receiving. 
 Message: TCP node received a termination confirmation. | Type: Receiving. 
+Message: PseudoTCP node is sending a message. | Type: Sending. 

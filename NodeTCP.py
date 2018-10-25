@@ -30,7 +30,7 @@ class NodeTCP(Node):
         self.threadServer = threading.Thread(target = self.server_tcp)
         self.threadServer.daemon = True
         self.threadServer.start()
-        
+
         # Start listening for new connections.
         self.listen()
 
@@ -50,18 +50,18 @@ class NodeTCP(Node):
 
     # Start a new TCP connection thread with another node.
     def server_tcp_thread(self, connection_socket, address):
-        
+
         # Set our flag that will determine when to stop listening.
         flag = True
-        
+
         # While the flag is true, keep on receiving messages.
         while flag:
-            
+
             try:
-                
+
                 # Wait for a message to be received.
                 message = connection_socket.recv(1024)
-                
+
                 # Case where we receive a new message.
                 if int.from_bytes(message, byteorder="big") != 0 and \
                         len(message) > 1:
@@ -301,4 +301,3 @@ class NodeTCP(Node):
         else:
             print("Por favor, escoja alguna de las opciones.")
             self.listen()
-
