@@ -206,7 +206,6 @@ class NodeTCP(Node):
                 if not valid_network_ip:
                     print("Dirección ip no representa una dirección de red.")
 
-
             byte_array.extend(bytearray(bytes(map(int, ip_message.split(".")))))
             byte_array.extend((int(mask_message)).to_bytes(1, byteorder="big"))
             byte_array.extend(int(cost_message).to_bytes(3, byteorder="big"))
