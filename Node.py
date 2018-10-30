@@ -64,6 +64,7 @@ class Node:
         # Validate the cost.
         try:
             num = int(cost)
+
         except ValueError:
             print("El puerto tiene quer ser una entrada númerica.")
             return False

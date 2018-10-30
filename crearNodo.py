@@ -1,7 +1,11 @@
 import sys
 from NodeTCP import *
+from NodePseudoTCP import *
 from NodeUDP import *
+
+
 class bcolors:
+
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
@@ -11,9 +15,8 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-
-
 cantidadArgumentos = len(sys.argv)
+
 if cantidadArgumentos != 4:
     print(bcolors.FAIL+"Error: "+bcolors.ENDC+"Número incorrecto de argumentos")
 else:
@@ -26,6 +29,8 @@ else:
             NodeTCP(ip, port)
         elif typeNode == "-intAS":
             NodeUDP(ip, port)
+        elif typeNode == "-pseudoTCP":
+            NodePseudoTCP(ip, port)
         else:
             print(bcolors.FAIL+"Error: "+bcolors.ENDC+"Digitó mal el tipo de nodo")
     else:

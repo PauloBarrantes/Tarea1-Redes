@@ -5,7 +5,7 @@ class LogWriter:
 
     def __init__(self):
         # Change this address for one found in your computer.
-        self.dir_address = "/Users/paulobarrantes/proyectos/Tarea1-Redes/"
+        self.dir_address = "/Users/alaincruzcasanova/PycharmProjects/Tarea1-Redes/"
         # File name.
         self.file_name = "node_log.txt"
         # Log use to add safeguard our critical section.

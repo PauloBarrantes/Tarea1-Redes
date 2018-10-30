@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f90116d3-6333-43c8-903f-c79561447044" name="Default" comment="Remove break from reachability table.">
+      <change afterPath="$PROJECT_DIR$/NodePseudoTCP.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pseduotcp/MessageDecoder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pseduotcp/MessagePseudoTCP.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pseduotcp/PseudoTCPConnectionTable.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pseduotcp/PseudoTCPThread.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NodeTCP.py" beforeDir="false" afterPath="$PROJECT_DIR$/NodeTCP.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LogWriter.py" beforeDir="false" afterPath="$PROJECT_DIR$/LogWriter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Node.py" beforeDir="false" afterPath="$PROJECT_DIR$/Node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PseudoTCP.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SocketPseudoTCP.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/crearNodo.py" beforeDir="false" afterPath="$PROJECT_DIR$/crearNodo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/node_log.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,40 +22,44 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Tarea1_Redes$crearNodo.coverage" NAME="crearNodo Coverage Results" MODIFIED="1538429723883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Tarea1_Redes$crearNodo.coverage" NAME="crearNodo Coverage Results" MODIFIED="1540870475107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Tarea1_Redes$UDP.coverage" NAME="UDP Coverage Results" MODIFIED="1540847615887" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-733662183">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
-          <entry key="project.open.time.1" value="1" />
+          <entry key="project.closed" value="9" />
+          <entry key="project.open.time.1" value="2" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.open.time.7" value="2" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.open.time.7" value="3" />
+          <entry key="project.open.time.8" value="4" />
+          <entry key="project.opened" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="15" />
+          <entry key="py" value="56" />
+          <entry key="txt" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="15" />
+          <entry key="PLAIN_TEXT" value="18" />
+          <entry key="Python" value="56" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="dummy" value="141" />
-          <entry key="py" value="9368" />
-          <entry key="txt" value="762" />
+          <entry key="dummy" value="146" />
+          <entry key="py" value="26587" />
+          <entry key="txt" value="767" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="903" />
-          <entry key="Python" value="9368" />
+          <entry key="PLAIN_TEXT" value="913" />
+          <entry key="Python" value="26587" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -57,87 +71,72 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/NodeTCP.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="186" column="73" selection-start-line="186" selection-start-column="73" selection-end-line="186" selection-end-column="73" />
+            <state relative-caret-position="-722">
+              <caret line="209" column="28" selection-start-line="209" selection-start-column="28" selection-end-line="209" selection-end-column="28" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
-                <marker date="1538430063765" expanded="true" signature="11938:11943" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/crearNodo.py">
+        <entry file="file://$PROJECT_DIR$/NodePseudoTCP.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
-              <caret line="25" column="29" lean-forward="true" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
+            <state relative-caret-position="376">
+              <caret line="114" column="90" selection-start-line="114" selection-start-column="90" selection-end-line="114" selection-end-column="90" />
               <folding>
-                <element signature="e#0#10#0" expanded="true" />
+                <element signature="e#1#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LogWriter.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pseduotcp/PseudoTCPThread.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="176">
+              <caret line="187" column="41" selection-start-line="187" selection-start-column="41" selection-end-line="187" selection-end-column="41" />
               <folding>
-                <marker date="1538351137737" expanded="true" signature="35:37" ph="..." />
-                <marker date="1538351137737" expanded="true" signature="435:445" ph="..." />
-                <marker date="1538351137737" expanded="true" signature="435:519" ph="..." />
+                <element signature="e#0#28#0" expanded="true" />
+                <marker date="1540870316170" expanded="true" signature="538:539" ph="..." />
+                <marker date="1540870316170" expanded="true" signature="538:569" ph="..." />
+                <marker date="1540870316170" expanded="true" signature="1936:1946" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Node.py">
+        <entry file="file://$PROJECT_DIR$/pseduotcp/PseudoTCPConnectionTable.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="76" column="22" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
+            <state relative-caret-position="229">
+              <caret line="50" column="17" lean-forward="true" selection-start-line="50" selection-start-column="17" selection-end-line="50" selection-end-column="17" />
               <folding>
-                <element signature="e#0#16#0" expanded="true" />
-                <marker date="1538429323551" expanded="true" signature="716:726" ph="..." />
+                <marker date="1540857427823" expanded="true" signature="156:157" ph="..." />
+                <marker date="1540857427823" expanded="true" signature="156:240" ph="..." />
+                <marker date="1540857427823" expanded="true" signature="1523:1528" ph="..." />
+                <marker date="1540857427823" expanded="true" signature="1523:1532" ph="..." />
+                <marker date="1540857427823" expanded="true" signature="1748:1758" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/NodeUDP.py">
+        <entry file="file://$PROJECT_DIR$/pseduotcp/MessagePseudoTCP.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1055">
-              <caret line="55" column="29" lean-forward="true" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
+            <state relative-caret-position="165">
+              <caret line="207" selection-start-line="207" selection-end-line="207" />
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
+                <marker date="1540869559343" expanded="true" signature="1525:1531" ph="..." />
+                <marker date="1540869559343" expanded="true" signature="1637:1786" ph="..." />
+                <marker date="1540869559343" expanded="true" signature="2662:2664" ph="..." />
+                <marker date="1540869559343" expanded="true" signature="4971:4981" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ReachabilityTables.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="690">
-              <caret line="48" column="33" lean-forward="true" selection-start-line="48" selection-start-column="33" selection-end-line="48" selection-end-column="33" />
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TablaTCP.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -157,6 +156,7 @@
       <find>acquire</find>
       <find>eliminarNodo</find>
       <find>log</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -180,12 +180,21 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/TablaTCP.py" />
-        <option value="$PROJECT_DIR$/LogWriter.py" />
         <option value="$PROJECT_DIR$/NodeUDP.py" />
-        <option value="$PROJECT_DIR$/crearNodo.py" />
         <option value="$PROJECT_DIR$/ReachabilityTables.py" />
-        <option value="$PROJECT_DIR$/Node.py" />
         <option value="$PROJECT_DIR$/NodeTCP.py" />
+        <option value="$PROJECT_DIR$/TablePseudoTCP.py" />
+        <option value="$PROJECT_DIR$/MessagePseudoTCP.py" />
+        <option value="$PROJECT_DIR$/SocketPseudoTCP.py" />
+        <option value="$PROJECT_DIR$/Node.py" />
+        <option value="$PROJECT_DIR$/crearNodo.py" />
+        <option value="$PROJECT_DIR$/LogWriter.py" />
+        <option value="$PROJECT_DIR$/pseduotcp/MessageDecoder.py" />
+        <option value="$PROJECT_DIR$/pseduotcp/PseudoTCPConnection.py" />
+        <option value="$PROJECT_DIR$/pseduotcp/PseudoTCPConnectionTable.py" />
+        <option value="$PROJECT_DIR$/NodePseudoTCP.py" />
+        <option value="$PROJECT_DIR$/pseduotcp/MessagePseudoTCP.py" />
+        <option value="$PROJECT_DIR$/pseduotcp/PseudoTCPThread.py" />
       </list>
     </option>
   </component>
@@ -196,8 +205,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="67" />
-    <option name="y" value="23" />
+    <option name="x" value="158" />
+    <option name="y" value="67" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
@@ -209,7 +218,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -220,21 +228,25 @@
             <path>
               <item name="Tarea1-Redes" type="b2602c69:ProjectViewProjectNode" />
               <item name="Tarea1-Redes" type="462c0819:PsiDirectoryNode" />
-              <item name="TextTable" type="462c0819:PsiDirectoryNode" />
+              <item name="pseduotcp" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/alaincruzcasanova/PycharmProjects/Tarea1-Redes/pseduotcp/PseudoTCPConnectionTable.py" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/pseduotcp" />
       <recent name="C:\Users\b60930\Desktop\Tarea1-Redes\Clase12-09" />
     </key>
   </component>
@@ -250,7 +262,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.crearNodo">
+    <configuration name="UDP" type="PythonConfigurationType" factoryName="Python">
+      <module name="Tarea1-Redes" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/.conda/envs/untitled/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/crearNodo.py" />
+      <option name="PARAMETERS" value="-intAS 127.0.0.1 8080" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="crearNodo" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Tarea1-Redes" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -265,7 +299,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/crearNodo.py" />
-      <option name="PARAMETERS" value="-pseudoBGP 127.0.0.1 8082" />
+      <option name="PARAMETERS" value="-pseudoTCP 127.0.0.1 8080" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -273,6 +307,10 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.UDP" />
+      <item itemvalue="Python.crearNodo" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.crearNodo" />
@@ -339,7 +377,21 @@
       <option name="project" value="LOCAL" />
       <updated>1538429760833</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Remove break from reachability table.">
+      <created>1538430078303</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1538430078303</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Remove break from reachability table.">
+      <created>1540476821699</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1540476821699</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -352,23 +404,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="23" width="1400" height="1000" extended-state="0" />
+    <frame x="158" y="67" width="1400" height="1000" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26435935" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28645065" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32929516" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32929516" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39977974" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49852726" weight="0.32929516" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49484536" weight="0.32929516" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49263623" visible="true" weight="0.39977974" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32929516" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32929516" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.40088105" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="11" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49852726" weight="0.32929516" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.5073638" side_tool="true" visible="true" weight="0.39977974" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5022091" side_tool="true" weight="0.39977974" />
+      <window_info anchor="bottom" id="Python Console" order="11" weight="0.32929516" />
       <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -376,6 +428,29 @@
       <window_info anchor="right" id="SciView" order="3" />
       <window_info anchor="right" id="Database" order="4" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28645065" />
+      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49852726" weight="0.32929516" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32929516" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.39977974" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32929516" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49852726" weight="0.32929516" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4992636" weight="0.40088105" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5014728" side_tool="true" weight="0.32929516" />
+      <window_info anchor="bottom" id="Python Console" order="11" weight="0.32929516" />
+      <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -392,6 +467,22 @@
     <MESSAGE value="Remove break from reachability table." />
     <option name="LAST_COMMIT_MESSAGE" value="Remove break from reachability table." />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/NodeUDP.py</url>
+          <line>141</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pseduotcp/PseudoTCPThread.py</url>
+          <line>196</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Clase12-09/Node.py" />
     <entry file="file://$PROJECT_DIR$/Clase12-09/Server.py" />
@@ -403,80 +494,198 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.conda/envs/untitled/lib/python3.6/threading.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="863" selection-start-line="863" selection-end-line="863" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/TablePseudoTCP.py" />
+    <entry file="file://$PROJECT_DIR$/testServer.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/LogWriter.py">
+    <entry file="file://$PROJECT_DIR$/testClient.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <marker date="1538351137737" expanded="true" signature="35:37" ph="..." />
-            <marker date="1538351137737" expanded="true" signature="435:445" ph="..." />
-            <marker date="1538351137737" expanded="true" signature="435:519" ph="..." />
-          </folding>
+          <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crearNodo.py">
+    <entry file="file://$PROJECT_DIR$/SocketPseudoTCP.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="25" column="29" lean-forward="true" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TablaTCP.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/NodeUDP.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1055">
-          <caret line="55" column="29" lean-forward="true" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
+        <state relative-caret-position="60">
+          <caret line="4" column="28" lean-forward="true" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/PseudoTCP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="30" column="24" lean-forward="true" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_log.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-84" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pseduotcp/MessageDecoder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+          <folding>
+            <marker date="1540777892113" expanded="true" signature="122:123" ph="..." />
+            <marker date="1540777892113" expanded="true" signature="122:227" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TablaTCP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Node.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+            <marker date="1540481571817" expanded="true" signature="716:726" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.conda/envs/untitled/lib/python3.6/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="308" selection-start-line="308" selection-end-line="308" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crearNodo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="449">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ReachabilityTables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="48" column="33" lean-forward="true" selection-start-line="48" selection-start-column="33" selection-end-line="48" selection-end-column="33" />
+        <state relative-caret-position="435">
+          <caret line="29" column="27" lean-forward="true" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Node.py">
+    <entry file="file://$USER_HOME$/.conda/envs/untitled/lib/python3.6/threading.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="76" column="22" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
+        <state relative-caret-position="15">
+          <caret line="915" selection-start-line="915" selection-end-line="915" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_bundle/pydev_console_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="159" selection-start-line="159" selection-end-line="159" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NodeUDP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1482">
+          <caret line="40" column="62" selection-start-line="40" selection-start-column="54" selection-end-line="40" selection-end-column="62" />
           <folding>
-            <element signature="e#0#16#0" expanded="true" />
-            <marker date="1538429323551" expanded="true" signature="716:726" ph="..." />
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LogWriter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="32" lean-forward="true" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
+          <folding>
+            <marker date="1540751190510" expanded="true" signature="35:37" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pseduotcp/PseudoTCPConnectionTable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="50" column="17" lean-forward="true" selection-start-line="50" selection-start-column="17" selection-end-line="50" selection-end-column="17" />
+          <folding>
+            <marker date="1540857427823" expanded="true" signature="156:157" ph="..." />
+            <marker date="1540857427823" expanded="true" signature="156:240" ph="..." />
+            <marker date="1540857427823" expanded="true" signature="1523:1528" ph="..." />
+            <marker date="1540857427823" expanded="true" signature="1523:1532" ph="..." />
+            <marker date="1540857427823" expanded="true" signature="1748:1758" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/NodeTCP.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="186" column="73" selection-start-line="186" selection-start-column="73" selection-end-line="186" selection-end-column="73" />
+        <state relative-caret-position="-722">
+          <caret line="209" column="28" selection-start-line="209" selection-start-column="28" selection-end-line="209" selection-end-column="28" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
-            <marker date="1538430063765" expanded="true" signature="11938:11943" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NodePseudoTCP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="114" column="90" selection-start-line="114" selection-start-column="90" selection-end-line="114" selection-end-column="90" />
+          <folding>
+            <element signature="e#1#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pseduotcp/MessagePseudoTCP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="207" selection-start-line="207" selection-end-line="207" />
+          <folding>
+            <marker date="1540869559343" expanded="true" signature="1525:1531" ph="..." />
+            <marker date="1540869559343" expanded="true" signature="1637:1786" ph="..." />
+            <marker date="1540869559343" expanded="true" signature="2662:2664" ph="..." />
+            <marker date="1540869559343" expanded="true" signature="4971:4981" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/file.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/1270018081.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/1270018080.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pseduotcp/PseudoTCPThread.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="187" column="41" selection-start-line="187" selection-start-column="41" selection-end-line="187" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+            <marker date="1540870316170" expanded="true" signature="538:539" ph="..." />
+            <marker date="1540870316170" expanded="true" signature="538:569" ph="..." />
+            <marker date="1540870316170" expanded="true" signature="1936:1946" ph="..." />
           </folding>
         </state>
       </provider>
