@@ -62,7 +62,7 @@ class NodePseudoTCP(Node):
 
                 # Create the new thread that will manage the connection.
                 pseudo_tcp_thread = PseudoTCPThread(self.pseudo_tcp_connection_table, decoded_message.source_ip,
-                                                    "32", decoded_message.source_port, self.ip, self.port, "")
+                                                    "32", decoded_message.source_port, self.ip, self.port, "file.txt")
 
                 # Start the connection.
                 pseudo_tcp_thread.start()
@@ -101,7 +101,6 @@ class NodePseudoTCP(Node):
             print("La conexión con el nodo con dirección ", ip_destination,
                   " y puerto ", port_destination, " ya existe y se esta transfiriendo archivos.")
         else:
-            # TODO get the .txt file you want to send and validate it.
 
             # Set up our new start connection message.
             message = MessagePseudoTCP.MessagePseudoTCP()

@@ -44,6 +44,7 @@ class PseudoTCPThread(Thread):
         self.file_counter = 0
         # Number of bytes read per message.
         self.file_bytes_read = 20
+        self.duplex = False
 
     # Method that will be executed asynchronously.
     def run(self):
@@ -104,6 +105,10 @@ class PseudoTCPThread(Thread):
                 # Now we will check if someone wants to do a new connection with us.
                 # This means all flags will be false and the package size will be 0.
                 if message.check_new_arriving_connection_message():
+
+                    if self.duplex is True:
+                        self.file.close()
+
                     self.accept(message)
 
                     # After a successful accept, we need to move to the next
@@ -118,7 +123,8 @@ class PseudoTCPThread(Thread):
                 if (message.syn_flag is True and self.thread_sn_flag is not message.rn_flag
                         and message.first_package_flag is True and message.last_package_flag is True):
 
-                    print('El handshake se realizo con éxito entre los nodos.')
+                    if self.duplex is False: print('El handshake se realizo con éxito entre los nodos.')
+                    self.duplex = True
 
                     # Change our SN to the new SN value.
                     self.thread_sn_flag = message.rn_flag
@@ -207,8 +213,28 @@ class PseudoTCPThread(Thread):
                     message_data.set_destination(self.destination_ip, self.destination_port, self.destination_mask)
                     message_data.set_source(self.source_ip, self.source_port)
                     message_data.set_message("", 0)
+
+                    if self.duplex is False:
+
+                        # Set duplex to true.
+                        self.duplex = True
+
+                        # Set the new message.
+                        # The ACK will have the SN flag and the SYN flag toggled.
+                        connection_message = MessagePseudoTCP.MessagePseudoTCP()
+                        connection_message.set_flags(False, False, False,
+                                                     False, False, False)
+                        connection_message.set_destination(message.destination_ip, message.destination_port,
+                                                           message.destination_mask)
+                        connection_message.set_source(self.source_ip, self.source_port)
+
+                        # Send the message.
+                        self.client_socket.send(connection_message.encode_message())
+                        continue
+
                     self.client_socket.send(message_data.encode_message())
                     time.sleep(1)
+
                     self.pseudo_tcp_connection_table.close_connection(self.destination_ip, self.destination_port)
                     self.client_socket.close()
                     finish_flag = True
