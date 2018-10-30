@@ -168,6 +168,7 @@ class PseudoTCPThread(Thread):
                     message_data.set_destination(self.destination_ip, self.destination_port, self.destination_mask)
                     message_data.set_source(self.source_ip, self.source_port)
                     message_data.set_message("", 0)
+                    last_message = message_data
                     self.client_socket.send(message_data.encode_message())
                     continue
 
@@ -187,6 +188,7 @@ class PseudoTCPThread(Thread):
                     message_data.set_destination(self.destination_ip, self.destination_port, self.destination_mask)
                     message_data.set_source(self.source_ip, self.source_port)
                     message_data.set_message("", 0)
+                    last_message = message_data
                     self.client_socket.send(message_data.encode_message())
                     continue
 
@@ -206,7 +208,7 @@ class PseudoTCPThread(Thread):
                     message_data.set_source(self.source_ip, self.source_port)
                     message_data.set_message("", 0)
                     self.client_socket.send(message_data.encode_message())
-                    time.sleep(2)
+                    time.sleep(1)
                     self.pseudo_tcp_connection_table.close_connection(self.destination_ip, self.destination_port)
                     self.client_socket.close()
                     finish_flag = True
@@ -249,6 +251,7 @@ class PseudoTCPThread(Thread):
                     continue
 
                 # If none of the messages are satisfactory, then we resend our last message.
+                print("Retransmitiendo el ultimo paquete.")
                 self.client_socket.send(last_message.encode_message())
 
                 # Tell our thread, this one task is done and I am ready to the the next one.
