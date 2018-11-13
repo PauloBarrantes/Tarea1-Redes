@@ -145,7 +145,6 @@ class CentralNode(Node):
 
         print (table.draw() + "\n")
     def menu(self):
-        print(BColors.WARNING + "Bienvenido al nodo central!: " + self.ip, ":", str(self.port) + BColors.ENDC)
         print(BColors.OKGREEN + "Instrucciones: " + BColors.ENDC)
         print(BColors.BOLD + "-1-" + BColors.ENDC, "Para acabar con la vida de este nodo central :(")
         user_input = input("Qué desea hacer?\n")
@@ -154,5 +153,3 @@ class CentralNode(Node):
         else:
             self.menu()
 node = CentralNode("127.0.0.1",9000)
-
-node.printNeighbors(node.neighbors)

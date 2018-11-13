@@ -1,4 +1,5 @@
 from texttable import *
+
 import subprocess
 
 import csv
@@ -43,10 +44,15 @@ def printNodesToAwake():
 
     print (table.draw() + "\n")
 def awake():
-    for i in range (0,3 ):
-        process = subprocess.Popen('open -a Terminal "`pwd`"', shell = True)
-        ls = process.communicate("ls")
-        print(ls)
+    for i in range (0,1 ):
+
+        process = subprocess.Popen(args=['open -a Terminal "`pwd`"', 'ls'], shell = True,
+                                    stdin = subprocess.PIPE, bufsize=100, stdout=subprocess.PIPE)
+        cmd = "ls"
+        process.stdin.write("ls .\n".encode())
+
+
+
     #subprocess.Popen("python3 prueba.py",creationflags = subprocess.CREATE_NEW_CONSOLE ,shell=True)
 
 readNodesToAwake()
