@@ -62,41 +62,36 @@ class CentralNode(Node):
                 #self.log_writer.write_log("Central Node received a request.", 1)
                 neighborsList = []
 
-                ip_bytes = message[0:3]
+                ip_bytes = message[0:4]
                 mask = message[4]
-                port = message[5:8]
+                portBytes = message[5:8]
 
 
                 ip = list(ip_bytes)
-                ip_str = ""
+                ipRequest = ""
                 for byte in range(0,len(ip)):
                     if(byte < len(ip)-1):
-                        ip_str += str(ip[byte])+"."
+                        ipRequest += str(ip[byte])+"."
                     else:
-                        ip_str += str(ip[byte])
-                mask_str = str(mask)
-                cost = int.from_bytes(cost_bytes,byteorder="big")
-
-
-                ipRequest = "127.0.0.1"
-                maskRequest = 16
-                portRequest = 8080
+                        ipRequest += str(ip[byte])
+                maskRequest = str(mask)
+                portRequest = int.from_bytes(portBytes,byteorder="big")
 
                 NeighborsMessage = []
 
                 for i in range (0,len(self.neighbors)):
                     neighbor = []
-                    if neighbors[i][0] == ipRequest and int(neighbors[i][1]) == maskRequest and int(neighbors[i][2]):
+                    if self.neighbors[i][0] == ipRequest and int(self.neighbors[i][1]) == maskRequest and int(self.neighbors[i][2]) == portRequest:
                         print("Vecino A - B")
-                        neighbor.append(neighbors[i][0])
-                        neighbor.append(neighbors[i][1])
-                        neighbor.append(neighbors[i][2])
+                        neighbor.append(self.neighbors[i][0])
+                        neighbor.append(self.neighbors[i][1])
+                        neighbor.append(self.neighbors[i][2])
                         NeighborsMessage.append(neighbor)
-                    elif neighbors[i][3] == ipRequest and int(neighbors[i][4]) == maskRequest and int(neighbors[i][5]):
+                    elif neighbors[i][3] == ipRequest and int(neighbors[i][4]) == maskRequest and int(self.neighbors[i][5]) == portRequest:
                         print("Vecino B - A")
-                        neighbor.append(neighbors[i][3])
-                        neighbor.append(neighbors[i][4])
-                        neighbor.append(neighbors[i][5])
+                        neighbor.append(self.neighbors[i][3])
+                        neighbor.append(self.neighbors[i][4])
+                        neighbor.append(self.neighbors[i][5])
                         NeighborsMessage.append(neighbor)
 
 
