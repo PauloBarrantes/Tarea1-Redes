@@ -20,6 +20,7 @@ class NodeUDP(Node):
     def __init__(self, ip, port):
         super().__init__("intAS", ip, int(port))
         self.reachability_table = ReachabilityTables()
+        self.neighbors_table = NeighborsTable()
 
         # Start server thread.
         self.threadServer = threading.Thread(target = self.server_udp)
@@ -67,6 +68,27 @@ class NodeUDP(Node):
             print("Message Recieved")
             err = bytes([2])
             self.server_socket.sendto(err, client_addr)
+
+    # Request neighbors
+    def request_neighbors(self):
+        central_ip = "127.0.0.1"
+        central_mask = 16
+        central_port = 9000
+
+        byte_message = []
+        byte_message.extend(bytearray(bytes(map(int, central_ip.split(".")))))
+        byte_message.extend(central_mask.to_bytes(1, byteorder="big"))
+        byte_message.extend(central_port.to_bytes(3, byteorder="big"))
+
+        try:
+            self.client_socket = socket(AF_INET, SOCK_DGRAM)
+            self.client_socket.connect((str(ip_destination), port_destination))
+            self.client_socket.send(byte_array)
+            vecinos = self.client_socket.recvfrom(1024)
+            print ("From Server:" , vecinos)
+            self.client_socket.close()
+        except BrokenPipeError:
+            print("Se perdió la conexión con el nodo central")
 
     # Send messages to another node.
     def send_message(self):
