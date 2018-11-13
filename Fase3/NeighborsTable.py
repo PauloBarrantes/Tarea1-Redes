@@ -60,7 +60,7 @@ class NeighborsTable:
         table.set_cols_valign(["m","m","m","m"])
         table.add_row(["IP", "Máscara", "Puerto", "Costo"])
         for key in self.neighbors:
-            table.add_row([key[0], key[1], key[2], self.neighbors.get(key)[0])
+            table.add_row([key[0], key[1], key[2], self.neighbors.get(key)[0]])
 
         print (table.draw() + "\n")
 '''

@@ -1,5 +1,6 @@
 from Node import *
 from socket import *
+from NeighborsTable import *
 from ReachabilityTables import *
 
 
@@ -30,7 +31,7 @@ class NodeUDP(Node):
         self.threadServer.start()
 
         # Run our menu.
-        self.listen()
+        # self.listen()
 
     def server_udp(self):
 
@@ -75,15 +76,15 @@ class NodeUDP(Node):
         central_mask = 16
         central_port = 9000
 
-        byte_message = []
-        byte_message.extend(bytearray(bytes(map(int, central_ip.split(".")))))
+
+        byte_message = bytearray(bytes(map(int, self.ip.split("."))))
         byte_message.extend(central_mask.to_bytes(1, byteorder="big"))
-        byte_message.extend(central_port.to_bytes(3, byteorder="big"))
+        byte_message.extend(self.port.to_bytes(2, byteorder="big"))
 
         try:
             self.client_socket = socket(AF_INET, SOCK_DGRAM)
-            self.client_socket.connect((str(ip_destination), port_destination))
-            self.client_socket.send(byte_array)
+            self.client_socket.connect((str(central_ip), central_port))
+            self.client_socket.send(byte_message)
             vecinos = self.client_socket.recvfrom(1024)
             print ("From Server:" , vecinos)
             self.client_socket.close()
@@ -195,3 +196,6 @@ class NodeUDP(Node):
         else:
             print("Por favor, escoja alguna de las opciones.")
             self.listen()
+
+nodoUDP = NodeUDP("127.0.0.1",8080)
+nodoUDP.request_neighbors()
