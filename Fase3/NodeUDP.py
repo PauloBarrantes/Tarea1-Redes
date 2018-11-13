@@ -76,22 +76,22 @@ class NodeUDP(Node):
         default_mask = 16
         central_port = 9000
 
-
-        byte_message = bytearray(bytes(map(int, self.ip.split("."))))
+        byte_message = bytearray(bytes(map(int, (self.ip).split("."))))
         byte_message.extend(default_mask.to_bytes(1, byteorder="big"))
-        byte_message.extend(self.port.to_bytes(2, byteorder="big"))
+        byte_message.extend((self.port).to_bytes(2, byteorder="big"))
 
         try:
             self.client_socket = socket(AF_INET, SOCK_DGRAM)
             self.client_socket.connect((str(central_ip), central_port))
             self.client_socket.send(byte_message)
             neighbors_message = self.client_socket.recv(1024)
-
+            print(neighbors_message)
             elements_quantity = int.from_bytes(neighbors_message[:2], byteorder="big")
-            for n in range(0,elements_quantity):
-                ip_bytes = neighbors_message[2+(n*8):6+(n*8)]
-                mask_bytes = neighbors_message[6+(n*8)]
-                cost_bytes = neighbors_message[7+(n*8):10+(n*8)]
+            for n in range(0, elements_quantity):
+                ip_bytes = neighbors_message[2+(n*10):6+(n*10)]
+                mask = neighbors_message[6+(n*10)]
+                port_bytes = neighbors_message[7+(n*10):9+(n*10)]
+                cost_bytes = neighbors_message[9+(n*10):12+(n*10)]
                 ip = list(ip_bytes)
                 ip_str = ""
                 for byte in range(0,len(ip)):
@@ -99,11 +99,10 @@ class NodeUDP(Node):
                         ip_str += str(ip[byte])+"."
                     else:
                         ip_str += str(ip[byte])
-                mask = int.from_bytes(mask, byteorder="big")
+                port = int.from_bytes(port_bytes, byteorder="big")
                 cost = int.from_bytes(cost_bytes, byteorder="big")
-                self.reachability_table.save_address(ip_str, client_addr[0],
-                                                     mask_str, cost, int(client_addr[1]))
-            print ("From Server:" , vecinos)
+                self.neighbors_table.save_address(ip_str, mask, port, cost)
+            self.neighbors_table.print_table()
             self.client_socket.close()
         except BrokenPipeError:
             print("Se perdió la conexión con el nodo central")
