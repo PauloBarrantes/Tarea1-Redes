@@ -85,7 +85,7 @@ class NodeUDP(Node):
             self.client_socket = socket(AF_INET, SOCK_DGRAM)
             self.client_socket.connect((str(central_ip), central_port))
             self.client_socket.send(byte_message)
-            vecinos = self.client_socket.recvfrom(1024)
+            vecinos = self.client_socket.recv(1024)
             print ("From Server:" , vecinos)
             self.client_socket.close()
         except BrokenPipeError:
