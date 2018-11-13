@@ -7,6 +7,12 @@ import time
 TIMEOUT  = 30
 TIMEOUT_ACK = 3
 
+'''CONSTANTS'''
+
+MESSAGE_TYPE_ALIVE = 1
+MESSAGE_TYPE_CONTACT = 2
+
+
 class BColors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -34,6 +40,10 @@ class NodeUDP(Node):
         self.threadServer.daemon = True
         self.threadServer.start()
 
+        self.neighbors_table.save_address("127.0.0.1",16, 8081,70)
+        self.neighbors_table.save_address("127.0.0.1",16, 8082,30)
+        self.neighbors_table.save_address("127.0.0.1",16, 8083,10)
+
         # Run our menu.
         self.menu()
 
@@ -45,19 +55,21 @@ class NodeUDP(Node):
 
         while True:
             message, client_addr = self.server_socket.recvfrom(1024)
-            if int.from_bytes(message, byteorder="big") != 0:
 
-                self.log_writer.write_log("UDP node received a message.", 1)
+            messageType = int(message[0])
 
-
+            if messageType == 1:
+                print("Message Recieved")
+                mensaje = bytearray("ACK PAPU".encode())
+                self.server_socket.sendto(mensaje, client_addr)
+            elif messageType == 2:
+                print("Mensaje tipo 2")
 
             else:
+                print("gg")
 
-                # Remove from our reachability table.
-                self.reachability_table.remove_address(client_addr[0], int(client_addr[1]))
-            print("Message Recieved")
-            err = bytes([2])
-            self.server_socket.sendto(err, client_addr)
+
+
 
     # Request neighbors
     def request_neighbors(self):
@@ -98,21 +110,40 @@ class NodeUDP(Node):
             print("Se perdió la conexión con el nodo central")
 
     # Send messages to another node.
-    def enviarMensajesANodos(self):
+    def aliveMessages(self):
 
         for key in list(self.neighbors_table.neighbors):
-            print(key)
-            threadServer = threading.Thread(target = self.mensajeNodo, args=(ip, mask, port, mensaje))
 
+            ip = key[0]
+            mask = key[1]
+            port = key[2]
 
-    def mensajeNodo(self, ipDest, maskDest, portDest, mensaje):
+            print("Ip:" + ip + "mask: "+ str(mask) + "port: " +str(port))
+
+            message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
+
+            threadAliveMessage = threading.Thread(target = self.threadAliveMessage, args=(ip, mask, port, message))
+            threadAliveMessage.daemon = True
+            threadAliveMessage.start()
+
+            time.sleep(1)
+
+    def threadAliveMessage(self, ipDest, maskDest, portDest, message):
         try:
-            self.client_socket = socket(AF_INET, SOCK_DGRAM)
-            self.client_socket.connect((str(ip_destination), port_destination))
-            self.client_socket.send(byte_array)
-            modified_sentence = self.client_socket.recv(1024)
-            print ("From Server:" , modified_sentence)
-            self.client_socket.close()
+            print("hagamo el intento")
+            client_socket = socket(AF_INET, SOCK_DGRAM)
+            client_socket.connect((str(ipDest), portDest))
+            client_socket.sendall(message)
+            client_socket.settimeout(1)
+            message = ""
+            try:
+                message = client_socket.recv(1024)
+                print("El nodo"+ ipDest + " - " + str(portDest) +" está vivo!")
+            except timeout as e:
+                print("Timeout Exception: ",e)
+            except ConnectionRefusedError as e :
+                print("ConnectionRefusedError: ", e)
+
         except BrokenPipeError:
             print("Se perdió la conexión con el servidor")
 
@@ -132,6 +163,7 @@ class NodeUDP(Node):
         user_input = input("Qué desea hacer?\n")
         if user_input == "1":
             print("Cambiando el costo de un enlace")
+            self.aliveMessages()
             self.menu()
         elif user_input == "2":
             print ("Eliminando nodo - need a fix")
@@ -145,5 +177,5 @@ class NodeUDP(Node):
             print("Por favor, escoja alguna de las opciones.")
             self.menu()
 
-nodoUDP = NodeUDP("127.0.0.1",8080)
-nodoUDP.request_neighbors()
+port = input("port: ")
+nodoUDP = NodeUDP("127.0.0.1",int(port))
