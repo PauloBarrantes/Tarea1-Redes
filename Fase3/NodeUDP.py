@@ -74,7 +74,24 @@ class NodeUDP(Node):
             self.client_socket = socket(AF_INET, SOCK_DGRAM)
             self.client_socket.connect((str(central_ip), central_port))
             self.client_socket.send(byte_message)
-            vecinos = self.client_socket.recv(1024)
+            neighbors_message = self.client_socket.recv(1024)
+
+            elements_quantity = int.from_bytes(neighbors_message[:2], byteorder="big")
+            for n in range(0,elements_quantity):
+                ip_bytes = neighbors_message[2+(n*8):6+(n*8)]
+                mask_bytes = neighbors_message[6+(n*8)]
+                cost_bytes = neighbors_message[7+(n*8):10+(n*8)]
+                ip = list(ip_bytes)
+                ip_str = ""
+                for byte in range(0,len(ip)):
+                    if(byte < len(ip)-1):
+                        ip_str += str(ip[byte])+"."
+                    else:
+                        ip_str += str(ip[byte])
+                mask = int.from_bytes(mask, byteorder="big")
+                cost = int.from_bytes(cost_bytes, byteorder="big")
+                self.reachability_table.save_address(ip_str, client_addr[0],
+                                                     mask_str, cost, int(client_addr[1]))
             print ("From Server:" , vecinos)
             self.client_socket.close()
         except BrokenPipeError:

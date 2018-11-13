@@ -69,7 +69,7 @@ class Node:
             print("El puerto tiene quer ser una entrada númerica.")
             return False
 
-        if num > 16777216 or num < 0:
+        if num > 100 or num < 20:
             print("El puerto tiene quer ser un número entre 16,777,216 y 0.")
             return False
 
