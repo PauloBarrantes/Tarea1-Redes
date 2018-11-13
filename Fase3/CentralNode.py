@@ -59,7 +59,7 @@ class CentralNode(Node):
             message, client_addr = self.server_socket.recvfrom(1024)
             if int.from_bytes(message, byteorder="big") != 0:
 
-                #self.log_writer.write_log("Central Node received a request.", 1)
+                #elf.log_writer.write_log("Central Node received a request.", 1)
                 neighborsList = []
 
                 ip_bytes = message[0:4]
@@ -95,11 +95,13 @@ class CentralNode(Node):
                         NeighborsMessage.append(neighbor)
 
 
+
+
+                self.server_socket.sendto(bytearray(NeighborsMessage), client_addr)
+
             else:
                 print("Se han comunicado conmigo, pero no respetaron el protocolo :v")
-
-            self.server_socket.sendto(bytearray(NeighborsMessage), client_addr)
-
+                self.server_socket.sendto(bytearray("nel"), client_addr)
 
 
     def extract_neighbors(self):
