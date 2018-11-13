@@ -76,28 +76,26 @@ class CentralNode(Node):
                         ipRequest += str(ip[byte])
                 maskRequest = str(mask)
                 portRequest = int.from_bytes(portBytes,byteorder="big")
-
-                NeighborsMessage = []
-
+                neighbors_message = bytearray()
+                neighbor_counter = 0
                 for i in range (0,len(self.neighbors)):
-                    neighbor = []
                     if self.neighbors[i][0] == ipRequest and int(self.neighbors[i][1]) == maskRequest and int(self.neighbors[i][2]) == portRequest:
                         print("Vecino A - B")
-                        neighbor.append(self.neighbors[i][0])
-                        neighbor.append(self.neighbors[i][1])
-                        neighbor.append(self.neighbors[i][2])
-                        NeighborsMessage.append(neighbor)
+                        neighbor_counter += 1
+                        neighbors_message.extend(bytearray(bytes(map(int, self.neighbors[i][3].split(".")))))
+                        neighbors_message.extend(int(self.neighbors[i][4]).to_bytes(1, byteorder="big"))
+                        neighbors_message.extend(int(self.neighbors[i][5]).to_bytes(2, byteorder="big"))
                     elif self.neighbors[i][3] == ipRequest and int(self.neighbors[i][4]) == maskRequest and int(self.neighbors[i][5]) == portRequest:
                         print("Vecino B - A")
-                        neighbor.append(self.neighbors[i][3])
-                        neighbor.append(self.neighbors[i][4])
-                        neighbor.append(self.neighbors[i][5])
-                        NeighborsMessage.append(neighbor)
+                        neighbor_counter += 1
+                        neighbors_message.extend(bytearray(bytes(map(int, self.neighbors[i][0].split(".")))))
+                        neighbors_message.extend(int(self.neighbors[i][1]).to_bytes(1, byteorder="big"))
+                        neighbors_message.extend(int(self.neighbors[i][2]).to_bytes(2, byteorder="big"))
 
+                    neighbors_message.extend(int(self.neighbors[i][6]).to_bytes(3, byteorder="big"))
 
-
-
-                self.server_socket.sendto(bytearray(NeighborsMessage), client_addr)
+                neighbors_message[0:0] = neighbor_counter.to_bytes(2, byteorder="big")
+                self.server_socket.sendto(neighbors_message, client_addr)
 
             else:
                 print("Se han comunicado conmigo, pero no respetaron el protocolo :v")
@@ -112,13 +110,42 @@ class CentralNode(Node):
             # and fill a structure with each neighbor pair
             for row in neighborsCSV:
                 neighbor = []
-                neighbor.append(row[0])
-                neighbor.append(row[1])
-                neighbor.append(row[2])
-                neighbor.append(row[3])
-                neighbor.append(row[4])
-                neighbor.append(row[5])
-                neighbor.append(row[6])
+                # IP validation
+                if self.validate_ip(row[0]):
+                    neighbor.append(row[0])
+                    # Mask validation
+                    if self.validate_mask(row[1]):
+                        neighbor.append(row[1])
+                        # Port validation
+                        if self.validate_port(row[2]):
+                            neighbor.append(row[2])
+                            # IP validation
+                            if self.validate_ip(row[3]):
+                                neighbor.append(row[3])
+                                # Mask validation
+                                if self.validate_mask(row[4]):
+                                    neighbor.append(row[4])
+                                    # Port validation
+                                    if self.validate_port(row[5]):
+                                        neighbor.append(row[5])
+                                        # Cost validation
+                                        if self.validate_cost(row[6]):
+                                            neighbor.append(row[6])
+                                        else:
+                                            pass
+                                    else:
+                                        pass
+                                else:
+                                    pass
+                            else:
+                                pass
+                        else:
+                            pass
+                    else:
+                        pass
+                else:
+                    pass
+
                 self.neighbors.append(neighbor)
 
 
