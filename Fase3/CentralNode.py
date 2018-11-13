@@ -59,7 +59,7 @@ class CentralNode(Node):
             message, client_addr = self.server_socket.recvfrom(1024)
             if int.from_bytes(message, byteorder="big") != 0:
 
-                #self.log_writer.write_log("Central Node received a request.", 1)
+                #elf.log_writer.write_log("Central Node received a request.", 1)
                 neighborsList = []
 
                 ip_bytes = message[0:4]
@@ -87,7 +87,7 @@ class CentralNode(Node):
                         neighbor.append(self.neighbors[i][1])
                         neighbor.append(self.neighbors[i][2])
                         NeighborsMessage.append(neighbor)
-                    elif neighbors[i][3] == ipRequest and int(neighbors[i][4]) == maskRequest and int(self.neighbors[i][5]) == portRequest:
+                    elif self.neighbors[i][3] == ipRequest and int(self.neighbors[i][4]) == maskRequest and int(self.neighbors[i][5]) == portRequest:
                         print("Vecino B - A")
                         neighbor.append(self.neighbors[i][3])
                         neighbor.append(self.neighbors[i][4])
@@ -95,10 +95,15 @@ class CentralNode(Node):
                         NeighborsMessage.append(neighbor)
 
 
+
+                
+                self.server_socket.sendto(bytearray(NeighborsMessage), client_addr)
+
             else:
                 print("Se han comunicado conmigo, pero no respetaron el protocolo :v")
+                self.server_socket.sendto(bytearray("nel"), client_addr)
 
-            self.server_socket.sendto(NeighborsMessage, client_addr)
+
 
 
 
