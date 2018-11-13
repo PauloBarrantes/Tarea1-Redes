@@ -73,12 +73,12 @@ class NodeUDP(Node):
     # Request neighbors
     def request_neighbors(self):
         central_ip = "127.0.0.1"
-        central_mask = 16
+        default_mask = 16
         central_port = 9000
 
 
         byte_message = bytearray(bytes(map(int, self.ip.split("."))))
-        byte_message.extend(central_mask.to_bytes(1, byteorder="big"))
+        byte_message.extend(default_mask.to_bytes(1, byteorder="big"))
         byte_message.extend(self.port.to_bytes(2, byteorder="big"))
 
         try:

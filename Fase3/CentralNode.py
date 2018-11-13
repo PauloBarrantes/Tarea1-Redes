@@ -59,12 +59,12 @@ class CentralNode(Node):
             message, client_addr = self.server_socket.recvfrom(1024)
             if int.from_bytes(message, byteorder="big") != 0:
 
-                self.log_writer.write_log("Central Node received a request.", 1)
+                #self.log_writer.write_log("Central Node received a request.", 1)
                 neighborsList = []
 
-                ip_bytes = message[0:4]
-                mask = message[5]
-                port = message[6:8]
+                ip_bytes = message[0:3]
+                mask = message[4]
+                port = message[5:8]
 
 
                 ip = list(ip_bytes)
