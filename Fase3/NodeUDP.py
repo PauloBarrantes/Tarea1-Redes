@@ -58,6 +58,9 @@ class NodeUDP(Node):
 
             if messageType == 1:
                 print("Message Recieved")
+                # Recibir ip,mask,port
+                
+                # Guardar en tabla de vecinos que está vivo.
                 mensaje = bytearray("ACK PAPU".encode())
                 self.server_socket.sendto(mensaje, client_addr)
             elif messageType == 2:
@@ -100,7 +103,7 @@ class NodeUDP(Node):
                         ip_str += str(ip[byte])
                 port = int.from_bytes(port_bytes, byteorder="big")
                 cost = int.from_bytes(cost_bytes, byteorder="big")
-                self.neighbors_table.save_address(ip_str, mask, port, cost)
+                self.neighbors_table.save_address(ip_str, mask, port, cost, 0)
             self.neighbors_table.print_table()
             self.client_socket.close()
         except BrokenPipeError:
@@ -118,6 +121,10 @@ class NodeUDP(Node):
             print("Ip:" + ip + "mask: "+ str(mask) + "port: " +str(port))
 
             message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
+
+            message.extend(bytearray(bytes(map(int, (self.ip).split(".")))))
+            message.extend(default_mask.to_bytes(1, byteorder="big"))
+            message.extend((self.port).to_bytes(2, byteorder="big"))
 
             threadAliveMessage = threading.Thread(target = self.threadAliveMessage, args=(ip, mask, port, message))
             threadAliveMessage.daemon = True
