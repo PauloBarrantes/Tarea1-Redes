@@ -26,3 +26,9 @@ def decodeRT(message):
 
         decodedMessage = [ip_str,mask,cost]
         #self.reachability_table.save_address(ip_str, client_addr[0],mask_str, cost, int(client_addr[1]))
+
+def encodeNeighbors(neighborsTable):
+    pass
+
+def decodeNeighbors(message):
+    pass

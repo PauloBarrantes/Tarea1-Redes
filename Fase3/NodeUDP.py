@@ -40,9 +40,7 @@ class NodeUDP(Node):
         self.threadServer.daemon = True
         self.threadServer.start()
 
-        self.neighbors_table.save_address("127.0.0.1",16, 8081,70)
-        self.neighbors_table.save_address("127.0.0.1",16, 8082,30)
-        self.neighbors_table.save_address("127.0.0.1",16, 8083,10)
+        self.request_neighbors()
 
         # Run our menu.
         self.menu()
@@ -60,6 +58,9 @@ class NodeUDP(Node):
 
             if messageType == 1:
                 print("Message Recieved")
+                # Recibir ip,mask,port
+
+                # Guardar en tabla de vecinos que está vivo.
                 mensaje = bytearray("ACK PAPU".encode())
                 self.server_socket.sendto(mensaje, client_addr)
                 self.reachability_table.save_address(ip_str, client_addr[0],mask_str, cost, int(client_addr[1]))
@@ -104,7 +105,7 @@ class NodeUDP(Node):
                         ip_str += str(ip[byte])
                 port = int.from_bytes(port_bytes, byteorder="big")
                 cost = int.from_bytes(cost_bytes, byteorder="big")
-                self.neighbors_table.save_address(ip_str, mask, port, cost)
+                self.neighbors_table.save_address(ip_str, mask, port, cost, 0)
             self.neighbors_table.print_table()
             self.client_socket.close()
         except BrokenPipeError:
@@ -124,7 +125,11 @@ class NodeUDP(Node):
 
             message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
 
-            threadAliveMessage = threading.Thread(target = self.threadAliveMessage, args=(ip, mask, port, costo,message))
+            message.extend(bytearray(bytes(map(int, (self.ip).split(".")))))
+            message.extend(default_mask.to_bytes(1, byteorder="big"))
+            message.extend((self.port).to_bytes(2, byteorder="big"))
+
+            threadAliveMessage = threading.Thread(target = self.threadAliveMessage, args=(ip, mask, port, message))
             threadAliveMessage.daemon = True
             threadAliveMessage.start()
 
@@ -182,5 +187,5 @@ class NodeUDP(Node):
             print("Por favor, escoja alguna de las opciones.")
             self.menu()
 
-port = input("port: ")
+port = 8080 #input("port: ")
 nodoUDP = NodeUDP("127.0.0.1",int(port))

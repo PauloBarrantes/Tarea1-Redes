@@ -9,7 +9,7 @@ class NeighborsTable:
 
     # Save the ip from the source of the message and the mask as the key. For the entry,
     # we will save the message ip address, the cost and the port it is working on.
-    def save_address(self, ip, mask, port, cost):
+    def save_address(self, ip, mask, port, cost, awake):
 
         # First, we need to make sure that we have the key in table.
         if self.neighbors.get((ip, mask, port)):
@@ -25,7 +25,7 @@ class NeighborsTable:
 
                 # Now update the table and release the lock when finished.
                 if self.neighbors.get((ip, mask, port))[0] > cost:
-                    self.neighbors.update({(ip, mask, port): [cost, lock]})
+                    self.neighbors.update({(ip, mask, port): [cost, awake, lock]})
                     lock.release()
 
             except threading.ThreadError:
@@ -38,7 +38,7 @@ class NeighborsTable:
 
             # Create a new lock for this entry and a lock check, in case we are deleting it.
             entry_lock = threading.Lock()
-            self.neighbors.update({(ip, mask, port): [cost, entry_lock]})
+            self.neighbors.update({(ip, mask, port): [cost, awake, entry_lock]})
 
     # Remove an entry from the reachability table.
     def remove_address(self, ip, mask, port):

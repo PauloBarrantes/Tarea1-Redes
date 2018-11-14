@@ -84,6 +84,7 @@ class CentralNode(Node):
 
                     if self.neighbors[i][0] == ipRequest and int(self.neighbors[i][1]) == maskRequest and int(self.neighbors[i][2]) == portRequest:
                         print("Vecino A - B")
+<<<<<<< HEAD
                         neighbor.append(self.neighbors[i][0])
                         neighbor.append(self.neighbors[i][1])
                         neighbor.append(self.neighbors[i][2])
@@ -97,6 +98,21 @@ class CentralNode(Node):
 
 
 
+=======
+                        neighbor_counter += 1
+                        neighbors_message.extend(bytearray(bytes(map(int, self.neighbors[i][3].split(".")))))
+                        neighbors_message.extend(int(self.neighbors[i][4]).to_bytes(1, byteorder="big"))
+                        neighbors_message.extend(int(self.neighbors[i][5]).to_bytes(2, byteorder="big"))
+                    '''
+                    elif self.neighbors[i][3] == ipRequest and int(self.neighbors[i][4]) == maskRequest and int(self.neighbors[i][5]) == portRequest:
+                        print("Vecino B - A")
+                        neighbor_counter += 1
+                        neighbors_message.extend(bytearray(bytes(map(int, self.neighbors[i][0].split(".")))))
+                        neighbors_message.extend(int(self.neighbors[i][1]).to_bytes(1, byteorder="big"))
+                        neighbors_message.extend(int(self.neighbors[i][2]).to_bytes(2, byteorder="big"))
+                    '''
+                    neighbors_message.extend(int(self.neighbors[i][6]).to_bytes(3, byteorder="big"))
+>>>>>>> master
 
                 self.server_socket.sendto(bytearray(NeighborsMessage), client_addr)
 
