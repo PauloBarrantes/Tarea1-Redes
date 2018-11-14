@@ -10,7 +10,7 @@ TIMEOUT_ACK = 3
 '''CONSTANTS'''
 
 MESSAGE_TYPE_ALIVE = 1
-MESSAGE_TYPE_CONTACT = 2
+MESSAGE_TYPE_UPDATE = 2
 
 
 class BColors:
@@ -125,6 +125,9 @@ class NodeUDP(Node):
         except BrokenPipeError:
             print("Se perdió la conexión con el nodo central")
 
+
+
+
     # Send messages to another node.
     def aliveMessages(self):
 
@@ -149,6 +152,8 @@ class NodeUDP(Node):
 
             time.sleep(1)
 
+    # Thread manda mensajes a cada vecino y espera el ACK
+
     def threadAliveMessage(self, ipDest, maskDest, portDest, costo,message):
         try:
             print("hagamo el intento")
@@ -160,8 +165,8 @@ class NodeUDP(Node):
             try:
                 message = client_socket.recv(1024)
                 print("El nodo"+ ipDest + " - " + str(portDest) +" está vivo!")
-                self.reachability_table.save_address(ipDest, maskDest,portDest, cost, int(client_addr[1]))
-
+                self.reachability_table.save_address(ipDest, maskDest,portDest, cost, ipDest, maskDest, portDest)
+                self.neighbors_table.aliveNeighbor(ipDest, maskDest, portDest)
             except timeout as e:
                 print("Timeout Exception: ",e)
             except ConnectionRefusedError as e :

@@ -51,7 +51,8 @@ class NeighborsTable:
                 entry_lock.acquire()
                 self.neighbors.pop(key)
                 entry_lock.release()
-
+    def aliveNeighbor(self, ip, mask, port):
+        pass
     # Print the reachability table.
     def print_table(self):
         print("TABLA DE VECINOS")
