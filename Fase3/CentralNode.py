@@ -38,7 +38,6 @@ class CentralNode(Node):
         '''
         self.neighbors = []
         self.extract_neighbors()
-        self.printNeighbors(self.neighbors)
         # Start server thread.
         self.threadServer = threading.Thread(target = self.server_central)
 
@@ -76,32 +75,37 @@ class CentralNode(Node):
                     else:
                         ipRequest += str(ip[byte])
                 portRequest = int.from_bytes(portBytes,byteorder="big")
-                neighbors_message = bytearray()
-                neighbor_counter = 0
-                print("Vamos a revisar vecinos", len(self.neighbors))
-                print(ipRequest, maskRequest, portRequest)
+
+                NeighborsMessage = []
+
+
                 for i in range (0,len(self.neighbors)):
+                    neighbor = []
+
                     if self.neighbors[i][0] == ipRequest and int(self.neighbors[i][1]) == maskRequest and int(self.neighbors[i][2]) == portRequest:
                         print("Vecino A - B")
-                        neighbor_counter += 1
-                        neighbors_message.extend(bytearray(bytes(map(int, self.neighbors[i][3].split(".")))))
-                        neighbors_message.extend(int(self.neighbors[i][4]).to_bytes(1, byteorder="big"))
-                        neighbors_message.extend(int(self.neighbors[i][5]).to_bytes(2, byteorder="big"))
+                        neighbor.append(self.neighbors[i][0])
+                        neighbor.append(self.neighbors[i][1])
+                        neighbor.append(self.neighbors[i][2])
+                        NeighborsMessage.append(neighbor)
                     elif self.neighbors[i][3] == ipRequest and int(self.neighbors[i][4]) == maskRequest and int(self.neighbors[i][5]) == portRequest:
                         print("Vecino B - A")
-                        neighbor_counter += 1
-                        neighbors_message.extend(bytearray(bytes(map(int, self.neighbors[i][0].split(".")))))
-                        neighbors_message.extend(int(self.neighbors[i][1]).to_bytes(1, byteorder="big"))
-                        neighbors_message.extend(int(self.neighbors[i][2]).to_bytes(2, byteorder="big"))
+                        neighbor.append(self.neighbors[i][3])
+                        neighbor.append(self.neighbors[i][4])
+                        neighbor.append(self.neighbors[i][5])
+                        NeighborsMessage.append(neighbor)
 
-                    neighbors_message.extend(int(self.neighbors[i][6]).to_bytes(3, byteorder="big"))
 
-                neighbors_message[0:0] = neighbor_counter.to_bytes(2, byteorder="big")
-                self.server_socket.sendto(neighbors_message, client_addr)
+
+
+                self.server_socket.sendto(bytearray(NeighborsMessage), client_addr)
 
             else:
                 print("Se han comunicado conmigo, pero no respetaron el protocolo :v")
                 self.server_socket.sendto(bytearray("nel"), client_addr)
+
+
+
 
 
     def extract_neighbors(self):
@@ -112,44 +116,15 @@ class CentralNode(Node):
             # and fill a structure with each neighbor pair
             for row in neighborsCSV:
                 neighbor = []
-                # IP validation
-                if self.validate_ip(row[0]):
-                    neighbor.append(row[0])
-                    # Mask validation
-                    if self.validate_mask(row[1]):
-                        neighbor.append(row[1])
-                        # Port validation
-                        if self.validate_port(row[2]):
-                            neighbor.append(row[2])
-                            # IP validation
-                            if self.validate_ip(row[3]):
-                                neighbor.append(row[3])
-                                # Mask validation
-                                if self.validate_mask(row[4]):
-                                    neighbor.append(row[4])
-                                    # Port validation
-                                    if self.validate_port(row[5]):
-                                        neighbor.append(row[5])
-                                        # Cost validation
-                                        if self.validate_cost(row[6]):
-                                            neighbor.append(row[6])
-                                        else:
-                                            print("Costo no válido")
-                                    else:
-                                        print("Puerto B no válido")
-                                else:
-                                    print("Máscara B no válida")
-                            else:
-                                print("Dirección IP B no válida")
-                        else:
-                            print("Puerto A no válido")
-                    else:
-                        print("Máscara A no válida")
-                else:
-                    print("Dirección IP A no válida")
-
+                neighbor.append(row[0])
+                neighbor.append(row[1])
+                neighbor.append(row[2])
+                neighbor.append(row[3])
+                neighbor.append(row[4])
+                neighbor.append(row[5])
+                neighbor.append(row[6])
                 self.neighbors.append(neighbor)
-                print("Se guardaron los vecinos")
+
 
     def printNeighbors(self, neighborsList):
         print("Lista de Vecinos")
@@ -178,7 +153,7 @@ class CentralNode(Node):
 
         print (table.draw() + "\n")
     def menu(self):
-        print(BColors.OKGREEN + "Instrucciones: " + BColors.ENDC)
+        print(BColors.WARNING + "Instrucciones: " + BColors.ENDC)
         print(BColors.BOLD + "-1-" + BColors.ENDC, "Para acabar con la vida de este nodo central :(")
         user_input = input("Qué desea hacer?\n")
         if user_input == "1":

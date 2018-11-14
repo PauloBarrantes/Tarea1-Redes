@@ -62,9 +62,11 @@ class NodeUDP(Node):
                 print("Message Recieved")
                 mensaje = bytearray("ACK PAPU".encode())
                 self.server_socket.sendto(mensaje, client_addr)
+                self.reachability_table.save_address(ip_str, client_addr[0],mask_str, cost, int(client_addr[1]))
+
+
             elif messageType == 2:
                 print("Mensaje tipo 2")
-
             else:
                 print("gg")
 
@@ -116,18 +118,19 @@ class NodeUDP(Node):
             ip = key[0]
             mask = key[1]
             port = key[2]
-
+            cost = self.neighbors_table.neighbors.get(key)[0]
+            print(costo)
             print("Ip:" + ip + "mask: "+ str(mask) + "port: " +str(port))
 
             message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
 
-            threadAliveMessage = threading.Thread(target = self.threadAliveMessage, args=(ip, mask, port, message))
+            threadAliveMessage = threading.Thread(target = self.threadAliveMessage, args=(ip, mask, port, costo,message))
             threadAliveMessage.daemon = True
             threadAliveMessage.start()
 
             time.sleep(1)
 
-    def threadAliveMessage(self, ipDest, maskDest, portDest, message):
+    def threadAliveMessage(self, ipDest, maskDest, portDest, costo,message):
         try:
             print("hagamo el intento")
             client_socket = socket(AF_INET, SOCK_DGRAM)
@@ -138,6 +141,8 @@ class NodeUDP(Node):
             try:
                 message = client_socket.recv(1024)
                 print("El nodo"+ ipDest + " - " + str(portDest) +" está vivo!")
+                self.reachability_table.save_address(ipDest, maskDest,portDest, cost, int(client_addr[1]))
+
             except timeout as e:
                 print("Timeout Exception: ",e)
             except ConnectionRefusedError as e :
@@ -166,7 +171,8 @@ class NodeUDP(Node):
             self.menu()
         elif user_input == "2":
             print ("Eliminando nodo - need a fix")
-            self.terminate_node()
+            self.request_neighbors()
+            self.menu()
         elif user_input == "3":
             self.reachability_table.print_table()
             self.menu()
