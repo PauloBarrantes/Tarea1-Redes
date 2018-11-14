@@ -4,8 +4,8 @@ from NeighborsTable import *
 from ReachabilityTables import *
 from encoder_decoder import *
 import time
-TIMEOUT  = 30
-TIMEOUT_ACK = 3
+TIMEOUT_UPDATES  = 30
+TIMEOUT_ACK = 2
 
 '''CONSTANTS'''
 
@@ -41,6 +41,10 @@ class NodeUDP(Node):
         self.threadServer.start()
 
         self.request_neighbors()
+        self.threadUpdates = threading.Thread(target = self.sendUpdates)
+        # Continue the server, even after our main thread dies.
+        self.threadUpdates.daemon = True
+        self.threadUpdates.start()
 
         # Run our menu.
         self.menu()
@@ -85,6 +89,10 @@ class NodeUDP(Node):
             else:
                 print("gg")
 
+
+    def sendUpdates(self):
+        while True:
+            time.sleep(TIMEOUT_UPDATES)
 
 
 
@@ -160,13 +168,14 @@ class NodeUDP(Node):
             client_socket = socket(AF_INET, SOCK_DGRAM)
             client_socket.connect((str(ipDest), portDest))
             client_socket.sendall(message)
-            client_socket.settimeout(1)
+            client_socket.settimeout(TIMEOUT_ACK)
             message = ""
             try:
                 message = client_socket.recv(1024)
                 print("El nodo"+ ipDest + " - " + str(portDest) +" está vivo!")
                 self.reachability_table.save_address(ipDest, maskDest,portDest, cost, ipDest, maskDest, portDest)
-                self.neighbors_table.aliveNeighbor(ipDest, maskDest, portDest)
+                self.neighbors_table.save_address(self, ipDest, maskDest, portDest, cost, 1)
+
             except timeout as e:
                 print("Timeout Exception: ",e)
             except ConnectionRefusedError as e :
