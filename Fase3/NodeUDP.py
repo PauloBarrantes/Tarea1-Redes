@@ -59,8 +59,22 @@ class NodeUDP(Node):
             if messageType == 1:
                 print("Message Recieved")
                 # Recibir ip,mask,port
-                
+                ip_bytes = message[1:5]
+                mask = message[5]
+                port_bytes = message[6:8]
+
+                ip = list(ip_bytes)
+                ip_str = ""
+                for byte in range(0,len(ip)):
+                    if(byte < len(ip)-1):
+                        ip_str += str(ip[byte])+"."
+                    else:
+                        ip_str += str(ip[byte])
+                port = int.from_bytes(port_bytes, byteorder="big")
+
                 # Guardar en tabla de vecinos que está vivo.
+                self.neighbors_table.save_address(ip_str, mask, port, cost, 1)
+
                 mensaje = bytearray("ACK PAPU".encode())
                 self.server_socket.sendto(mensaje, client_addr)
             elif messageType == 2:
