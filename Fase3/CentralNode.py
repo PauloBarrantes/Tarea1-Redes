@@ -101,7 +101,6 @@ class CentralNode(Node):
 
             else:
                 print("Se han comunicado conmigo, pero no respetaron el protocolo :v")
-                self.server_socket.sendto(bytearray("nel"), client_addr)
 
 
 
