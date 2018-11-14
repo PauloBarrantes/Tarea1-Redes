@@ -66,11 +66,11 @@ class Node:
             num = int(cost)
 
         except ValueError:
-            print("El puerto tiene quer ser una entrada númerica.")
+            print("El costo tiene quer ser una entrada númerica.")
             return False
 
         if num > 100 or num < 20:
-            print("El puerto tiene quer ser un número entre 16,777,216 y 0.")
+            print("El costo tiene quer ser un número entre 16,777,216 y 0.")
             return False
 
         return True

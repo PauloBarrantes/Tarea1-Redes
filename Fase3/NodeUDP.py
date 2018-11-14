@@ -40,9 +40,7 @@ class NodeUDP(Node):
         self.threadServer.daemon = True
         self.threadServer.start()
 
-        self.neighbors_table.save_address("127.0.0.1",16, 8081,70)
-        self.neighbors_table.save_address("127.0.0.1",16, 8082,30)
-        self.neighbors_table.save_address("127.0.0.1",16, 8083,10)
+        self.request_neighbors()
 
         # Run our menu.
         self.menu()
@@ -176,5 +174,5 @@ class NodeUDP(Node):
             print("Por favor, escoja alguna de las opciones.")
             self.menu()
 
-port = input("port: ")
+port = 8080 #input("port: ")
 nodoUDP = NodeUDP("127.0.0.1",int(port))
