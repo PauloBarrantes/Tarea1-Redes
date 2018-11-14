@@ -94,6 +94,30 @@ class NodeUDP(Node):
         while True:
             time.sleep(TIMEOUT_UPDATES)
 
+            for key in list(self.neighbors_table.neighbors):
+                if self.neighbors_table.neighbors.get(key).awake == 1:
+                    ip = key[0]
+                    mask = key[1]
+                    port = key[2]
+                    cost = self.neighbors_table.neighbors.get(key)[0]
+                    print(costo)
+                    print("Ip:" + ip + "mask: "+ str(mask) + "port: " +str(port))
+
+                    message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
+
+                    message.extend(bytearray(bytes(map(int, (self.ip).split(".")))))
+                    message.extend(default_mask.to_bytes(1, byteorder="big"))
+                    message.extend((self.port).to_bytes(2, byteorder="big"))
+
+                    threadAliveMessage = threading.Thread(target = self.threadAliveMessage, args=(ip, mask, port, message))
+                    threadAliveMessage.daemon = True
+                    threadAliveMessage.start()
+
+            time.sleep(1)
+
+
+    def threadSendUpdates(self, arg):
+        pass
 
 
     # Request neighbors
@@ -140,7 +164,6 @@ class NodeUDP(Node):
     def aliveMessages(self):
 
         for key in list(self.neighbors_table.neighbors):
-
             ip = key[0]
             mask = key[1]
             port = key[2]
@@ -148,17 +171,17 @@ class NodeUDP(Node):
             print(costo)
             print("Ip:" + ip + "mask: "+ str(mask) + "port: " +str(port))
 
-            message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
-
-            message.extend(bytearray(bytes(map(int, (self.ip).split(".")))))
-            message.extend(default_mask.to_bytes(1, byteorder="big"))
-            message.extend((self.port).to_bytes(2, byteorder="big"))
+            message = bytearray(MESSAGE_TYPE_UPDATE.to_bytes(1, byteorder="big"))
+            #
+            # message.extend(bytearray(bytes(map(int, (self.ip).split(".")))))
+            # message.extend(default_mask.to_bytes(1, byteorder="big"))
+            # message.extend((self.port).to_bytes(2, byteorder="big"))
 
             threadAliveMessage = threading.Thread(target = self.threadAliveMessage, args=(ip, mask, port, message))
             threadAliveMessage.daemon = True
             threadAliveMessage.start()
 
-            time.sleep(1)
+        time.sleep(1)
 
     # Thread manda mensajes a cada vecino y espera el ACK
 
