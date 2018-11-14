@@ -38,7 +38,6 @@ class CentralNode(Node):
         '''
         self.neighbors = []
         self.extract_neighbors()
-        self.printNeighbors(self.neighbors)
         # Start server thread.
         self.threadServer = threading.Thread(target = self.server_central)
 
@@ -102,7 +101,7 @@ class CentralNode(Node):
 
             else:
                 print("Se han comunicado conmigo, pero no respetaron el protocolo :v")
-                self.server_socket.sendto(bytearray("nel"), client_addr)
+
 
 
     def extract_neighbors(self):
@@ -113,44 +112,15 @@ class CentralNode(Node):
             # and fill a structure with each neighbor pair
             for row in neighborsCSV:
                 neighbor = []
-                # IP validation
-                if self.validate_ip(row[0]):
-                    neighbor.append(row[0])
-                    # Mask validation
-                    if self.validate_mask(row[1]):
-                        neighbor.append(row[1])
-                        # Port validation
-                        if self.validate_port(row[2]):
-                            neighbor.append(row[2])
-                            # IP validation
-                            if self.validate_ip(row[3]):
-                                neighbor.append(row[3])
-                                # Mask validation
-                                if self.validate_mask(row[4]):
-                                    neighbor.append(row[4])
-                                    # Port validation
-                                    if self.validate_port(row[5]):
-                                        neighbor.append(row[5])
-                                        # Cost validation
-                                        if self.validate_cost(row[6]):
-                                            neighbor.append(row[6])
-                                        else:
-                                            print("Costo no válido")
-                                    else:
-                                        print("Puerto B no válido")
-                                else:
-                                    print("Máscara B no válida")
-                            else:
-                                print("Dirección IP B no válida")
-                        else:
-                            print("Puerto A no válido")
-                    else:
-                        print("Máscara A no válida")
-                else:
-                    print("Dirección IP A no válida")
-
+                neighbor.append(row[0])
+                neighbor.append(row[1])
+                neighbor.append(row[2])
+                neighbor.append(row[3])
+                neighbor.append(row[4])
+                neighbor.append(row[5])
+                neighbor.append(row[6])
                 self.neighbors.append(neighbor)
-                print("Se guardaron los vecinos")
+
 
     def printNeighbors(self, neighborsList):
         print("Lista de Vecinos")
