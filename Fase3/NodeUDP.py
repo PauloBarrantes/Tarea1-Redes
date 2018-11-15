@@ -81,18 +81,34 @@ class NodeUDP(Node):
 
                 mensaje = bytearray("Enviamos un ack".encode())
                 self.server_socket.sendto(mensaje, client_addr)
-                self.reachability_table.save_address(ip_str, client_addr[0],mask_str, cost, int(client_addr[1]))
+                self.reachability_table.save_address(ip_str, mask, port, cost, client_addr[0], mask, int(client_addr[1]))
 
 
             elif messageType == 2:
+
                 updateRT(messageRT)
                 mensaje = bytearray("Enviamos un ack".encode())
                 self.server_socket.sendto(mensaje, client_addr)
-                self.reachability_table.save_address(ip_str, client_addr[0],mask_str, cost, int(client_addr[1]))
             else:
                 print("gg")
+                
     def updateRT(self, messageRT):
-        pass
+        elements_quantity = int.from_bytes(messageRT[:3], byteorder="big")
+        for n in range(0, elements_quantity):
+            ip_bytes = messageRT[3+(n*10):7+(n*10)]
+            mask = messageRT[7+(n*10)]
+            port_bytes = messageRT[8+(n*10):10+(n*10)]
+            cost_bytes = messageRT[10+(n*10):13+(n*10)]
+            ip = list(ip_bytes)
+            ip_str = ""
+            for byte in range(0,len(ip)):
+                if(byte < len(ip)-1):
+                    ip_str += str(ip[byte])+"."
+                else:
+                    ip_str += str(ip[byte])
+            port = int.from_bytes(port_bytes, byteorder="big")
+            cost = int.from_bytes(cost_bytes, byteorder="big")
+        self.reachability_table.save_address(ip_str, mask, port, cost, client_addr[0], mask, int(client_addr[1]))
     def sendUpdates(self):
         while True:
             time.sleep(TIMEOUT_UPDATES)
