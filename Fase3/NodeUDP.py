@@ -74,15 +74,6 @@ class NodeUDP(Node):
                 print("MESSAGE_TYPE_ALIVE")
                 # Recibir ip,mask,port
 
-                ip = list(ip_bytes)
-                ip_str = ""
-                for byte in range(0,len(ip)):
-                    if(byte < len(ip)-1):
-                        ip_str += str(ip[byte])+"."
-                    else:
-                        ip_str += str(ip[byte])
-                port = int.from_bytes(port_bytes, byteorder="big")
-
                 # Guardar en tabla de vecinos que está vivo.
                 self.neighbors_table.save_address(client_addr[0], 16, int(client_addr[0]), cost, 1)
 
