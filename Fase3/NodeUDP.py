@@ -97,22 +97,20 @@ class NodeUDP(Node):
             elif messageType == MESSAGE_TYPE_UPDATE:
                 print("MESSAGE_TYPE_UPDATE")
 
-                updateRT(message,client_addr)
+            elif messageType == 2:
 
-            elif messageType == MESSAGE_TYPE_FLOOD:
-                pass
-            elif messageType == MESSAGE_TYPE_COST_CHANGE:
-                pass
-            elif messageType == MESSAGE_TYPE_COST_CHANGE:
-                pass
+                updateRT(messageRT)
+
             else:
                 print("gg")
-    def updateRT(self, messageRT,client_addr):
-        elements_quantity = int.from_bytes(message[1:3], byteorder="big")
-        for n in range(0,elements_quantity):
-            ip_bytes = message[3+(n*8):7+(n*8)]
-            mask = message[7+(n*8)]
-            cost_bytes = message[8+(n*8):11+(n*8)]
+
+    def updateRT(self, messageRT):
+        elements_quantity = int.from_bytes(messageRT[:3], byteorder="big")
+        for n in range(0, elements_quantity):
+            ip_bytes = messageRT[3+(n*10):7+(n*10)]
+            mask = messageRT[7+(n*10)]
+            port_bytes = messageRT[8+(n*10):10+(n*10)]
+            cost_bytes = messageRT[10+(n*10):13+(n*10)]
             ip = list(ip_bytes)
             ip_str = ""
             for byte in range(0,len(ip)):
@@ -120,11 +118,9 @@ class NodeUDP(Node):
                     ip_str += str(ip[byte])+"."
                 else:
                     ip_str += str(ip[byte])
-            mask_str = str(mask)
-            cost = int.from_bytes(cost_bytes,byteorder="big")
-            self.reachability_table.save_address(ip_str, client_addr[0],mask_str, cost,client_addr[0],16 ,int(client_addr[1]))
-
-
+            port = int.from_bytes(port_bytes, byteorder="big")
+            cost = int.from_bytes(cost_bytes, byteorder="big")
+            self.reachability_table.save_address(ip_str, mask, port, cost, client_addr[0], mask, int(client_addr[1]))
     def sendUpdates(self):
         while True:
             time.sleep(TIMEOUT_UPDATES)
@@ -230,7 +226,7 @@ class NodeUDP(Node):
 
     # Thread manda mensajes a cada vecino y espera el ACK
 
-    def threadAliveMessage(self, ipDest, maskDest, portDest,message):
+    def threadAliveMessage(self, ipDest, maskDest, portDest, message):
         try:
             print("hagamo el intento")
             client_socket = socket(AF_INET, SOCK_DGRAM)
