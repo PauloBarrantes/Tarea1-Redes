@@ -103,14 +103,21 @@ class NodeUDP(Node):
                     mask = key[1]
                     port = key[2]
                     cost = self.neighbors_table.neighbors.get(key)[0]
-                    print(costo)
+
                     print("Ip:" + ip + "mask: "+ str(mask) + "port: " +str(port))
+                    print(costo)
 
-                    message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
+                    message = bytearray(MESSAGE_TYPE_UPDATE.to_bytes(1, byteorder="big"))
+                    reach_counter = 0
+                    for key2 in list(self.reachability_table.reach_table):
+                        if key2 != key:
+                            reach_counter += 1
+                            message.extend(bytearray(bytes(map(int, (key2[0]).split(".")))))
+                            message.extend(key2[1].to_bytes(1, byteorder="big"))
+                            message.extend((key2[2]).to_bytes(2, byteorder="big"))
+                            message.extend(self.reachability_table.reach_table.get(key2)[0]).to_bytes(3, byteorder="big"))
 
-                    message.extend(bytearray(bytes(map(int, (self.ip).split(".")))))
-                    message.extend(default_mask.to_bytes(1, byteorder="big"))
-                    message.extend((self.port).to_bytes(2, byteorder="big"))
+                    message[0:0] = reach_counter.to_bytes(2, byteorder="big")
 
                     threadSendUpdates = threading.Thread(target = self.threadSendUpdates, args=(ip, mask, port, message))
                     threadSendUpdates.daemon = True
