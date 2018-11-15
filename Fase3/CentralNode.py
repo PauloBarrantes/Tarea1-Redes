@@ -58,7 +58,7 @@ class CentralNode(Node):
         while True:
             message, client_addr = self.server_socket.recvfrom(1024)
             if int.from_bytes(message, byteorder="big") != 0:
-
+                print("PRUEBA: ", client_addr[0],"-",client_addr[1])
                 #elf.log_writer.write_log("Central Node received a request.", 1)
                 neighborsList = []
 
@@ -83,6 +83,7 @@ class CentralNode(Node):
                     if self.neighbors[i][0] == ipRequest and int(self.neighbors[i][1]) == maskRequest and int(self.neighbors[i][2]) == portRequest:
                         print("Vecino A - B")
                         neighbor_counter += 1
+                        print("IP:" ,self.neighbors[i][3],"PUERTO: ", self.neighbors[i][4])
                         neighbors_message.extend(bytearray(bytes(map(int, self.neighbors[i][3].split(".")))))
                         neighbors_message.extend(int(self.neighbors[i][4]).to_bytes(1, byteorder="big"))
                         neighbors_message.extend(int(self.neighbors[i][5]).to_bytes(2, byteorder="big"))

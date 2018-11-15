@@ -21,7 +21,7 @@ class NeighborsTable:
             try:
 
                 # Acquire the lock.
-                lock = self.neighbors.get((ip, mask, port))[1]
+                lock = self.neighbors.get((ip, mask, port))[2]
                 lock.acquire()
 
                 # Now update the table and release the lock when finished.
@@ -48,7 +48,7 @@ class NeighborsTable:
             if self.neighbors.get(key)[0] == ip and self.neighbors.get(key)[1] == mask and self.neighbors.get(key)[2] == port:
                 # Acquire the lock, remove the entry and then release the lock.
                 # In order to avoid any errors, we need to keep our lock in memory.
-                entry_lock = self.neighbors.get(key)[1]
+                entry_lock = self.neighbors.get(key)[2]
                 entry_lock.acquire()
                 self.neighbors.pop(key)
                 entry_lock.release()

@@ -200,6 +200,7 @@ class NodeUDP(Node):
                 cost = int.from_bytes(cost_bytes, byteorder="big")
                 self.neighbors_table.save_address(ip_str, mask, port, cost, 0)
             self.client_socket.close()
+            self.neighbors_table.print_table()
         except BrokenPipeError:
             print("Se perdió la conexión con el nodo central")
 
