@@ -79,17 +79,20 @@ class NodeUDP(Node):
                 # Guardar en tabla de vecinos que está vivo.
                 self.neighbors_table.save_address(ip_str, mask, port, cost, 1)
 
-                mensaje = bytearray("ACK PAPU".encode())
+                mensaje = bytearray("Enviamos un ack".encode())
                 self.server_socket.sendto(mensaje, client_addr)
                 self.reachability_table.save_address(ip_str, client_addr[0],mask_str, cost, int(client_addr[1]))
 
 
             elif messageType == 2:
-                print("Mensaje tipo 2")
+                updateRT(messageRT)
+                mensaje = bytearray("Enviamos un ack".encode())
+                self.server_socket.sendto(mensaje, client_addr)
+                self.reachability_table.save_address(ip_str, client_addr[0],mask_str, cost, int(client_addr[1]))
             else:
                 print("gg")
-
-
+    def updateRT(self, messageRT):
+        pass
     def sendUpdates(self):
         while True:
             time.sleep(TIMEOUT_UPDATES)
@@ -109,15 +112,39 @@ class NodeUDP(Node):
                     message.extend(default_mask.to_bytes(1, byteorder="big"))
                     message.extend((self.port).to_bytes(2, byteorder="big"))
 
-                    threadAliveMessage = threading.Thread(target = self.threadAliveMessage, args=(ip, mask, port, message))
-                    threadAliveMessage.daemon = True
-                    threadAliveMessage.start()
+                    threadSendUpdates = threading.Thread(target = self.threadSendUpdates, args=(ip, mask, port, message))
+                    threadSendUpdates.daemon = True
+                    threadSendUpdates.start()
 
             time.sleep(1)
 
 
-    def threadSendUpdates(self, arg):
-        pass
+    def threadSendUpdates(self, ip, mask, port, reachability_table):
+        try:
+
+            client_socket = socket(AF_INET, SOCK_DGRAM)
+            client_socket.connect((str(ipDest), portDest))
+            client_socket.sendall(reachability_table)
+            client_socket.settimeout(TIMEOUT_ACK)
+            message = ""
+            try:
+                message = client_socket.recv(1024)
+                print("El nodo"+ ipDest + " - " + str(portDest) +" sigue vivo!")
+
+
+            except timeout as e:
+                print("Timeout Exception: ",e)
+                self.neighbors_table.save_address(self, ipDest, maskDest, portDest, cost, 0)
+
+            except ConnectionRefusedError as e :
+                print("ConnectionRefusedError: ", e)
+                self.neighbors_table.save_address(self, ipDest, maskDest, portDest, cost, 0)
+
+
+        except BrokenPipeError:
+            print("Se perdió la conexión con el servidor")
+            self.neighbors_table.save_address(self, ipDest, maskDest, portDest, cost, 0)
+
 
 
     # Request neighbors
@@ -171,7 +198,7 @@ class NodeUDP(Node):
             print(costo)
             print("Ip:" + ip + "mask: "+ str(mask) + "port: " +str(port))
 
-            message = bytearray(MESSAGE_TYPE_UPDATE.to_bytes(1, byteorder="big"))
+            message = bytearray(MESSAGE_TYPE_ALIVEXS.to_bytes(1, byteorder="big"))
             #
             # message.extend(bytearray(bytes(map(int, (self.ip).split(".")))))
             # message.extend(default_mask.to_bytes(1, byteorder="big"))
