@@ -73,9 +73,6 @@ class NodeUDP(Node):
             if messageType == MESSAGE_TYPE_ALIVE:
                 print("MESSAGE_TYPE_ALIVE")
                 # Recibir ip,mask,port
-                ip_bytes = message[1:5]
-                mask = message[5]
-                port_bytes = message[6:8]
 
                 ip = list(ip_bytes)
                 ip_str = ""
@@ -87,7 +84,7 @@ class NodeUDP(Node):
                 port = int.from_bytes(port_bytes, byteorder="big")
 
                 # Guardar en tabla de vecinos que está vivo.
-                self.neighbors_table.save_address(ip_str, mask, port, cost, True)
+                self.neighbors_table.save_address(client_addr[0], 16, int(client_addr[0]), cost, True)
 
                 message = bytearray(MESSAGE_TYPE_I_AM_ALIVE.to_bytes(3, byteorder="big"))
 
