@@ -184,8 +184,10 @@ class NodeUDP(Node):
             self.client_socket.send(byte_message)
             neighbors_message = self.client_socket.recv(1024)
             elements_quantity = int.from_bytes(neighbors_message[:2], byteorder="big")
+            print(elements_quantity)
             for n in range(0, elements_quantity):
                 ip_bytes = neighbors_message[2+(n*10):6+(n*10)]
+
                 mask = neighbors_message[6+(n*10)]
                 port_bytes = neighbors_message[7+(n*10):9+(n*10)]
                 cost_bytes = neighbors_message[9+(n*10):12+(n*10)]
@@ -196,6 +198,7 @@ class NodeUDP(Node):
                         ip_str += str(ip[byte])+"."
                     else:
                         ip_str += str(ip[byte])
+                print(ip_str)
                 port = int.from_bytes(port_bytes, byteorder="big")
                 cost = int.from_bytes(cost_bytes, byteorder="big")
                 self.neighbors_table.save_address(ip_str, mask, port, cost, 0)

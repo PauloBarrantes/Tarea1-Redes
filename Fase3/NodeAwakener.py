@@ -46,10 +46,11 @@ def printNodesToAwake():
 def awake():
     for i in range (0,1 ):
 
-        process = subprocess.Popen(args=['open -a Terminal "`pwd`"', 'ls'], shell = True,
+        process = subprocess.Popen(args=['open -a Terminal "`pwd`" | ls'], shell = True,
                                     stdin = subprocess.PIPE, bufsize=100, stdout=subprocess.PIPE)
-        cmd = "ls"
-        process.stdin.write("ls .\n".encode())
+        process.stdin.write(b'\n ls') #expects a bytes type object
+        process.communicate()[0]
+        process.stdin.close()
 
 
 
