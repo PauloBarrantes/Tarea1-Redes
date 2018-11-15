@@ -8,6 +8,11 @@ class NeighborsTable:
         self.neighbors = {}
     def is_awake(self, ip, mask, port):
         return self.neighbors.get((ip, mask, port))[1]
+
+    # Marcar despierto
+    def mark_awake(slef, ip, mask, port):
+        self.neighbors.get((ip, mask, port))[1] = True
+
     # Save the ip from the source of the message and the mask as the key. For the entry,
     # we will save the message ip address, the cost and the port it is working on.
     def save_address(self, ip, mask, port, cost, awake):
@@ -40,6 +45,7 @@ class NeighborsTable:
             # Create a new lock for this entry and a lock check, in case we are deleting it.
             entry_lock = threading.Lock()
             self.neighbors.update({(ip, mask, port): [cost, awake, entry_lock]})
+
 
     # Remove an entry from the reachability table.
     def remove_address(self, ip, mask, port):

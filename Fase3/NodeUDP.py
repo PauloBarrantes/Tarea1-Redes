@@ -87,7 +87,7 @@ class NodeUDP(Node):
                 port = int.from_bytes(port_bytes, byteorder="big")
 
                 # Guardar en tabla de vecinos que está vivo.
-                self.neighbors_table.save_address(ip_str, mask, port, cost, 1)
+                self.neighbors_table.save_address(ip_str, mask, port, cost, True)
 
                 message = bytearray(MESSAGE_TYPE_I_AM_ALIVE.to_bytes(3, byteorder="big"))
 
@@ -164,7 +164,7 @@ class NodeUDP(Node):
 
         except BrokenPipeError:
             print("Se perdió la conexión con el servidor")
-            self.neighbors_table.save_address(self, ipDest, maskDest, portDest, cost, 0)
+            self.neighbors_table.save_address(self, ipDest, maskDest, portDest, cost, False)
 
 
 
