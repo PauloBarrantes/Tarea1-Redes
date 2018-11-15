@@ -4,8 +4,8 @@ from NeighborsTable import *
 from ReachabilityTables import *
 from encoder_decoder import *
 import time
-TIMEOUT  = 30
-TIMEOUT_ACK = 3
+TIMEOUT_UPDATES  = 30
+TIMEOUT_ACK = 2
 
 '''CONSTANTS'''
 
@@ -41,6 +41,10 @@ class NodeUDP(Node):
         self.threadServer.start()
 
         self.request_neighbors()
+        self.threadUpdates = threading.Thread(target = self.sendUpdates)
+        # Continue the server, even after our main thread dies.
+        self.threadUpdates.daemon = True
+        self.threadUpdates.start()
 
         # Run our menu.
         self.menu()
@@ -75,16 +79,78 @@ class NodeUDP(Node):
                 # Guardar en tabla de vecinos que está vivo.
                 self.neighbors_table.save_address(ip_str, mask, port, cost, 1)
 
-                mensaje = bytearray("ACK PAPU".encode())
+                mensaje = bytearray("Enviamos un ack".encode())
                 self.server_socket.sendto(mensaje, client_addr)
                 self.reachability_table.save_address(ip_str, client_addr[0],mask_str, cost, int(client_addr[1]))
 
 
             elif messageType == 2:
-                print("Mensaje tipo 2")
+                updateRT(messageRT)
+                mensaje = bytearray("Enviamos un ack".encode())
+                self.server_socket.sendto(mensaje, client_addr)
+                self.reachability_table.save_address(ip_str, client_addr[0],mask_str, cost, int(client_addr[1]))
             else:
                 print("gg")
+    def updateRT(self, messageRT):
+        pass
+    def sendUpdates(self):
+        while True:
+            time.sleep(TIMEOUT_UPDATES)
 
+            for key in list(self.neighbors_table.neighbors):
+                if self.neighbors_table.neighbors.get(key).awake == 1:
+                    ip = key[0]
+                    mask = key[1]
+                    port = key[2]
+                    cost = self.neighbors_table.neighbors.get(key)[0]
+
+                    print("Ip:" + ip + "mask: "+ str(mask) + "port: " +str(port))
+                    print(costo)
+
+                    message = bytearray(MESSAGE_TYPE_UPDATE.to_bytes(1, byteorder="big"))
+                    reach_counter = 0
+                    for key2 in list(self.reachability_table.reach_table):
+                        if key2 != key:
+                            reach_counter += 1
+                            message.extend(bytearray(bytes(map(int, (key2[0]).split(".")))))
+                            message.extend(key2[1].to_bytes(1, byteorder="big"))
+                            message.extend((key2[2]).to_bytes(2, byteorder="big"))
+                            message.extend(self.reachability_table.reach_table.get(key2)[0]).to_bytes(3, byteorder="big"))
+
+                    message[0:0] = reach_counter.to_bytes(2, byteorder="big")
+
+                    threadSendUpdates = threading.Thread(target = self.threadSendUpdates, args=(ip, mask, port, message))
+                    threadSendUpdates.daemon = True
+                    threadSendUpdates.start()
+
+            time.sleep(1)
+
+
+    def threadSendUpdates(self, ip, mask, port, reachability_table):
+        try:
+
+            client_socket = socket(AF_INET, SOCK_DGRAM)
+            client_socket.connect((str(ipDest), portDest))
+            client_socket.sendall(reachability_table)
+            client_socket.settimeout(TIMEOUT_ACK)
+            message = ""
+            try:
+                message = client_socket.recv(1024)
+                print("El nodo"+ ipDest + " - " + str(portDest) +" sigue vivo!")
+
+
+            except timeout as e:
+                print("Timeout Exception: ",e)
+                self.neighbors_table.save_address(self, ipDest, maskDest, portDest, cost, 0)
+
+            except ConnectionRefusedError as e :
+                print("ConnectionRefusedError: ", e)
+                self.neighbors_table.save_address(self, ipDest, maskDest, portDest, cost, 0)
+
+
+        except BrokenPipeError:
+            print("Se perdió la conexión con el servidor")
+            self.neighbors_table.save_address(self, ipDest, maskDest, portDest, cost, 0)
 
 
 
@@ -132,7 +198,6 @@ class NodeUDP(Node):
     def aliveMessages(self):
 
         for key in list(self.neighbors_table.neighbors):
-
             ip = key[0]
             mask = key[1]
             port = key[2]
@@ -140,17 +205,17 @@ class NodeUDP(Node):
             print(costo)
             print("Ip:" + ip + "mask: "+ str(mask) + "port: " +str(port))
 
-            message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
-
-            message.extend(bytearray(bytes(map(int, (self.ip).split(".")))))
-            message.extend(default_mask.to_bytes(1, byteorder="big"))
-            message.extend((self.port).to_bytes(2, byteorder="big"))
+            message = bytearray(MESSAGE_TYPE_ALIVEXS.to_bytes(1, byteorder="big"))
+            #
+            # message.extend(bytearray(bytes(map(int, (self.ip).split(".")))))
+            # message.extend(default_mask.to_bytes(1, byteorder="big"))
+            # message.extend((self.port).to_bytes(2, byteorder="big"))
 
             threadAliveMessage = threading.Thread(target = self.threadAliveMessage, args=(ip, mask, port, message))
             threadAliveMessage.daemon = True
             threadAliveMessage.start()
 
-            time.sleep(1)
+        time.sleep(1)
 
     # Thread manda mensajes a cada vecino y espera el ACK
 
@@ -160,13 +225,14 @@ class NodeUDP(Node):
             client_socket = socket(AF_INET, SOCK_DGRAM)
             client_socket.connect((str(ipDest), portDest))
             client_socket.sendall(message)
-            client_socket.settimeout(1)
+            client_socket.settimeout(TIMEOUT_ACK)
             message = ""
             try:
                 message = client_socket.recv(1024)
                 print("El nodo"+ ipDest + " - " + str(portDest) +" está vivo!")
                 self.reachability_table.save_address(ipDest, maskDest,portDest, cost, ipDest, maskDest, portDest)
-                self.neighbors_table.aliveNeighbor(ipDest, maskDest, portDest)
+                self.neighbors_table.save_address(self, ipDest, maskDest, portDest, cost, 1)
+
             except timeout as e:
                 print("Timeout Exception: ",e)
             except ConnectionRefusedError as e :
