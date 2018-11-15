@@ -6,7 +6,8 @@ class NeighborsTable:
 
     def __init__(self):
         self.neighbors = {}
-
+    def is_awake(self, ip, mask, port):
+        return self.neighbors.get((ip, mask, port))[1]
     # Save the ip from the source of the message and the mask as the key. For the entry,
     # we will save the message ip address, the cost and the port it is working on.
     def save_address(self, ip, mask, port, cost, awake):
@@ -51,8 +52,7 @@ class NeighborsTable:
                 entry_lock.acquire()
                 self.neighbors.pop(key)
                 entry_lock.release()
-    def aliveNeighbor(self, ip, mask, port):
-        pass
+
     # Print the reachability table.
     def print_table(self):
         print("TABLA DE VECINOS")
