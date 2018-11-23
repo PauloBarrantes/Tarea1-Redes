@@ -64,7 +64,7 @@ class PseudoTCPThread(Thread):
 
                 # Wait for a message during 10 seconds.
                 # If after 10 seconds, nothing is received, then we finish our thread.
-                message = self.thread_queue.get(True, 200)
+                message = self.thread_queue.get(True, 10)
 
                 # First, let's check that we are not being told to stop.
                 # If we are being told to stop, the message received will be -1.

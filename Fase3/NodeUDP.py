@@ -4,10 +4,16 @@ from NeighborsTable import *
 from ReachabilityTables import *
 from encoder_decoder import *
 import time
+
+
+'''TIMEOUTS'''
+
 TIMEOUT_UPDATES  = 30
 TIMEOUT_ACK = 2
+TIMEOUT_ALIVEMESSAGES = 120
 
 '''CONSTANTS'''
+
 MESSAGE_TYPE_UPDATE = 1
 MESSAGE_TYPE_ALIVE = 2
 MESSAGE_TYPE_I_AM_ALIVE = 3
@@ -15,6 +21,15 @@ MESSAGE_TYPE_FLOOD = 4
 MESSAGE_TYPE_DATA = 5
 MESSAGE_TYPE_COST_CHANGE = 6
 MESSAGE_TYPE_CHANGE_DEATH = 7
+
+'''CENTRAL NODE'''
+
+CENTRAL_IP = "127.0.0.1"
+CENTRAL_MASK = 16
+CENTRAL_PORT = 9000
+
+
+'''TERMINAL COLORS'''
 
 class BColors:
     HEADER = '\033[95m'
@@ -36,22 +51,28 @@ class NodeUDP(Node):
         self.reachability_table = ReachabilityTables()
         self.neighbors_table = NeighborsTable()
 
-        # Start server thread.
-        self.threadServer = threading.Thread(target = self.server_udp)
+        self.node_socket = socket(AF_INET, SOCK_DGRAM)
+        self.node_socket.bind((self.ip, self.puerto))
+
 
         # Continue the server, even after our main thread dies.
-        self.threadServer.daemon = True
-        self.threadServer.start()
 
+
+        #We request neighborts to central node
         self.request_neighbors()
 
-        time.sleep(5)
 
-        print("PASAMOS EL REQUEST ")
+        # Start server thread.
+        self.threadListener = threading.Thread(target = self.listener)
+        self.threadListener.daemon = True
+        self.threadListener.start()
 
-        self.aliveMessages()
+        self.threadAliveMessage = threading.Thread(target = self.aliveMessages)
+        self.threadAliveMessage.daemon = True
+        self.threadAliveMessage.start()
 
-        self.threadUpdates = threading.Thread(target = self.sendUpdates)
+
+        self.threadUpdates = threading.Thread(target = self.sendRT)
         # Continue the server, even after our main thread dies.
         self.threadUpdates.daemon = True
         self.threadUpdates.start()
@@ -59,18 +80,17 @@ class NodeUDP(Node):
         # Run our menu.
         self.menu()
 
-    def server_udp(self):
+    def listener(self):
 
-        self.server_socket = socket(AF_INET, SOCK_DGRAM)
-        self.server_socket.bind((self.ip, self.port))
-        print ("El servidor esta listo: ", self.ip, self.port)
+        print ("We are listening in ", self.ip, self.port)
 
         while True:
-            message, client_addr = self.server_socket.recvfrom(1024)
+            message, client_addr = self.node_socket.recvfrom(1024)
 
             messageType = int(message[0])
-
-            if messageType == MESSAGE_TYPE_ALIVE:
+            if messageType ==  MESSAGE_TYPE_UPDATE:
+                pass
+            elif messageType == MESSAGE_TYPE_ALIVE:
                 print("MESSAGE_TYPE_ALIVE")
                 # Recibir ip,mask,port
 
@@ -79,15 +99,12 @@ class NodeUDP(Node):
 
                 message = bytearray(MESSAGE_TYPE_I_AM_ALIVE.to_bytes(3, byteorder="big"))
 
-                self.server_socket.sendto(message, client_addr)
+                self.node_socket.sendto(message, client_addr)
 
 
-            elif messageType == MESSAGE_TYPE_UPDATE:
-                print("MESSAGE_TYPE_UPDATE")
+            elif messageType == MESSAGE_TYPE_I_AM_ALIVE:
+                print("ACK")
 
-            elif messageType == 2:
-
-                updateRT(messageRT)
 
             else:
                 print("gg")
@@ -109,7 +126,7 @@ class NodeUDP(Node):
             port = int.from_bytes(port_bytes, byteorder="big")
             cost = int.from_bytes(cost_bytes, byteorder="big")
             self.reachability_table.save_address(ip_str, mask, port, cost, client_addr[0], mask, int(client_addr[1]))
-    def sendUpdates(self):
+    def sendRT(self):
         while True:
             time.sleep(TIMEOUT_UPDATES)
 
@@ -135,14 +152,14 @@ class NodeUDP(Node):
 
                     message[0:0] = reach_counter.to_bytes(2, byteorder="big")
 
-                    threadSendUpdates = threading.Thread(target = self.threadSendUpdates, args=(ip, mask, port, message))
-                    threadSendUpdates.daemon = True
-                    threadSendUpdates.start()
+                    threadSendRT = threading.Thread(target = self.threadSendRT, args=(ip, mask, port, message))
+                    threadSendRT.daemon = True
+                    threadSendRT.start()
 
 
 
 
-    def threadSendUpdates(self, ip, mask, port, reachability_table):
+    def threadSendRT(self, ip, mask, port, reachability_table):
         try:
 
             client_socket = socket(AF_INET, SOCK_DGRAM)
@@ -158,19 +175,16 @@ class NodeUDP(Node):
 
     # Request neighbors
     def request_neighbors(self):
-        central_ip = "127.0.0.1"
-        default_mask = 16
-        central_port = 9000
 
         byte_message = bytearray(bytes(map(int, (self.ip).split("."))))
-        byte_message.extend(default_mask.to_bytes(1, byteorder="big"))
+        byte_message.extend(16.to_bytes(1, byteorder="big"))
         byte_message.extend((self.port).to_bytes(2, byteorder="big"))
 
         try:
             self.client_socket = socket(AF_INET, SOCK_DGRAM)
-            self.client_socket.connect((str(central_ip), central_port))
+            self.client_socket.connect((str(CENTRAL_IP), CENTRAL_PORT))
             self.client_socket.send(byte_message)
-            neighbors_message = self.client_socket.recv(1024)
+            neighbors_message = self..recv(1024)
             elements_quantity = int.from_bytes(neighbors_message[:2], byteorder="big")
             print(elements_quantity)
             for n in range(0, elements_quantity):
@@ -200,31 +214,28 @@ class NodeUDP(Node):
 
     # Send messages to another node.
     def aliveMessages(self):
-
-        for key in list(self.neighbors_table.neighbors):
-            ip = key[0]
-            mask = key[1]
-            port = key[2]
-
-
-            message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
+        while true:
+            for key in list(self.neighbors_table.neighbors):
+                ipNeighbor = key[0]
+                maskipNeighbor = key[1]
+                portipNeighbor = key[2]
 
 
-            threadAliveMessage = threading.Thread(target = self.threadAliveMessage, args=(ip, mask, port, message))
-            threadAliveMessage.daemon = True
-            threadAliveMessage.start()
+                message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
 
-        time.sleep(1)
+
+                threadAliveMessage = threading.Thread(target = self.threadAliveMessage, args=(ipNeighbor, maskipNeighbor, portipNeighbor, message))
+                threadAliveMessage.daemon = True
+                threadAliveMessage.start()
+            time.sleep(TIMEOUT_ALIVEMESSAGES)
 
     # Thread manda mensajes a cada vecino y espera el ACK
 
     def threadAliveMessage(self, ipDest, maskDest, portDest, message):
         try:
-            print("hagamo el intento")
-            client_socket = socket(AF_INET, SOCK_DGRAM)
-            client_socket.connect((str(ipDest), portDest))
-            client_socket.send(message)
-            client_socket.settimeout(TIMEOUT_ACK)
+
+
+            node_socket.sendto(message)
             message = ""
             try:
                 message = client_socket.recv(1024)
@@ -239,7 +250,31 @@ class NodeUDP(Node):
             self.client_socket.close()
         except BrokenPipeError:
             print("Se perdió la conexión con el servidor")
+    def sendMessage(self):
+        self.log_writer.write_log("UDP node is sending a message.", 2)
 
+        # Variables that we will use to keep the user's input.
+        port = ""
+        ip_destination = ""
+        mensaje = ""
+        # Variable to check each input of the user.
+        valid_input = False
+        while not valid_input:
+            ip_destination = input("Digite la ip de destino a la que desea enviar: ")
+            valid_input = self.validate_ip(ip_destination)
+
+        valid_input = False
+        while not valid_input:
+            port = input("Digite el puerto de destino a la que desea enviar: ")
+            valid_input = self.validate_port(port)
+
+        mensaje = input("Escriba el mensaje que desea enviar")
+
+
+        port_destination = int(port)
+        mask_destination = int(mask)
+        elements_quantity = num.to_bytes(2, byteorder="big")
+        byte_array = bytearray(elements_quantity)
     def terminate_node(self):
         print("Eliminado el nodo.")
 
