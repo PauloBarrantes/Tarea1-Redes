@@ -2,11 +2,17 @@ from Node import *
 from socket import *
 from texttable import *
 import csv
+import threading
 '''
     Central Node
-        IP: 127.0.0.1
-        Port: 9000
 '''
+IP_CENTRAL = '127.0.0.1'
+PORT_CENTRAL = 9000
+
+'''CONSTANTS'''
+
+MESSAGE_TYPE_REQUEST_NEIGHBORS = 10
+
 
 
 class BColors:
@@ -26,7 +32,7 @@ class CentralNode(Node):
         super().__init__("intAS", ip, int(port))
 
         '''
-            Neighbors Table
+            Topology
 
             0 -> IP A
             1 -> Mask A
@@ -37,6 +43,8 @@ class CentralNode(Node):
             6 -> Cost between A and B
         '''
         self.neighbors = []
+        self.lockNeighbors = threading.Lock()
+
         self.extract_neighbors()
         # Start server thread.
         self.threadServer = threading.Thread(target = self.server_central)
@@ -57,27 +65,26 @@ class CentralNode(Node):
 
         while True:
             message, client_addr = self.server_socket.recvfrom(1024)
-            if int.from_bytes(message, byteorder="big") != 0:
-                print("PRUEBA: ", client_addr[0],"-",client_addr[1])
+
+
+            messageType = int(message[0])
+
+            if messageType == MESSAGE_TYPE_REQUEST_NEIGHBORS:
+                print("Solicitud del nodo: ", client_addr[0],"-",client_addr[1])
                 #elf.log_writer.write_log("Central Node received a request.", 1)
                 neighborsList = []
 
-                ip_bytes = message[0:4]
-                maskRequest = message[4]
-                portBytes = message[5:8]
+                ipRequest =  str(client_addr[0])
+                portRequest = int(client_addr[1])
+                maskRequest = int(message[1])
 
 
-                ip = list(ip_bytes)
-                ipRequest = ""
-                for byte in range(0,len(ip)):
-                    if(byte < len(ip)-1):
-                        ipRequest += str(ip[byte])+"."
-                    else:
-                        ipRequest += str(ip[byte])
-                portRequest = int.from_bytes(portBytes,byteorder="big")
                 neighbors_message = bytearray()
                 neighbor_counter = 0
-                print("Vamos a revisar vecinos", len(self.neighbors))
+
+                # Lock NeighborsTable
+                self.lockNeighbors.acquire()
+
                 for i in range (0,len(self.neighbors)):
                     if self.neighbors[i][0] == ipRequest and int(self.neighbors[i][1]) == maskRequest and int(self.neighbors[i][2]) == portRequest:
                         print("Vecino A - B")
@@ -96,13 +103,9 @@ class CentralNode(Node):
                         neighbors_message.extend(int(self.neighbors[i][1]).to_bytes(1, byteorder="big"))
                         neighbors_message.extend(int(self.neighbors[i][2]).to_bytes(2, byteorder="big"))
                     '''
-
+                self.lockNeighbors.release()
                 neighbors_message[0:0] = neighbor_counter.to_bytes(2, byteorder="big")
                 self.server_socket.sendto(neighbors_message, client_addr)
-
-            else:
-                print("Se han comunicado conmigo, pero no respetaron el protocolo :v")
-
 
 
     def extract_neighbors(self):
@@ -124,7 +127,7 @@ class CentralNode(Node):
 
 
     def printNeighbors(self, neighborsList):
-        print("Lista de Vecinos")
+        print("Topología")
         table = Texttable()
         table.set_cols_align(["c", "c","c","c", "c","c","c"])
         table.set_cols_valign(["m", "m","m","m", "m","m","m"])
@@ -151,10 +154,11 @@ class CentralNode(Node):
         print (table.draw() + "\n")
     def menu(self):
         print(BColors.OKGREEN + "Instrucciones: " + BColors.ENDC)
-        print(BColors.BOLD + "-1-" + BColors.ENDC, "Para acabar con la vida de este nodo central :(")
+        print(BColors.BOLD + "-1-" + BColors.ENDC, "Apagar nodo central")
         user_input = input("Qué desea hacer?\n")
         if user_input == "1":
-            print("Adios - lease con voz de Walter")
+            print("Apagando el nodo central")
         else:
             self.menu()
-node = CentralNode("127.0.0.1",9000)
+
+node = CentralNode(IP_CENTRAL,PORT_CENTRAL)

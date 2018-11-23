@@ -8,6 +8,7 @@ class Node:
         self.protocol = protocol
         self.ip = ipNode
         self.port = int(port)
+        self.mask = 16
         self.log_writer = LogWriter()
 
     def __del__(self):
