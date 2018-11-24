@@ -7,7 +7,7 @@ class NeighborsTable:
     def __init__(self):
         self.neighbors = {}
     def is_awake(self, ip, port):
-        return self.neighbors.get((ip, mask, port))[1]
+        return self.neighbors.get((ip, port))[1]
 
     # Marcar despierto
     def mark_awake(slef, ip, port):
@@ -26,7 +26,7 @@ class NeighborsTable:
             try:
 
                 # Acquire the lock.
-                lock = self.neighbors.get((ip, port))[2]
+                lock = self.neighbors.get((ip, port))[3]
                 lock.acquire()
 
                 # Now update the table and release the lock when finished.
@@ -51,7 +51,7 @@ class NeighborsTable:
     def remove_address(self, ip, port):
 
         for key in list(self.neighbors):
-            if self.neighbors.get(key)[0] == ip and  and self.neighbors.get(key)[1] == port:
+            if self.neighbors.get(key)[0] == ip and  self.neighbors.get(key)[1] == port:
                 # Acquire the lock, remove the entry and then release the lock.
                 # In order to avoid any errors, we need to keep our lock in memory.
                 entry_lock = self.neighbors.get(key)[3]
@@ -67,7 +67,13 @@ class NeighborsTable:
         table.set_cols_valign(["m","m","m","m","m"])
         table.add_row(["IP", "Máscara", "Puerto", "Costo", "Estado"])
         for key in self.neighbors:
-            table.add_row([key[0], self.neighbors.get(key)[2], key[1], self.neighbors.get(key)[0], self.neighbors.get(key)[1]])
+            estado = self.neighbors.get(key)[1]
+            strEstado = ''
+            if estado == 0:
+                strEstado = "Muerto"
+            else:
+                strEstado = "Vivo"
+            table.add_row([key[0], self.neighbors.get(key)[2], key[1], self.neighbors.get(key)[0], strEstado])
 
         print (table.draw() + "\n")
 '''
