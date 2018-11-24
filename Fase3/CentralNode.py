@@ -86,16 +86,13 @@ class CentralNode(Node):
                         neighbors_message.extend(int(self.neighbors[i][4]).to_bytes(1, byteorder="big"))
                         neighbors_message.extend(int(self.neighbors[i][5]).to_bytes(2, byteorder="big"))
                         neighbors_message.extend(int(self.neighbors[i][6]).to_bytes(3, byteorder="big"))
-
-
-                    '''
                     elif self.neighbors[i][3] == ipRequest and int(self.neighbors[i][4]) == maskRequest and int(self.neighbors[i][5]) == portRequest:
                         print("Vecino B - A")
                         neighbor_counter += 1
                         neighbors_message.extend(bytearray(bytes(map(int, self.neighbors[i][0].split(".")))))
                         neighbors_message.extend(int(self.neighbors[i][1]).to_bytes(1, byteorder="big"))
                         neighbors_message.extend(int(self.neighbors[i][2]).to_bytes(2, byteorder="big"))
-                    '''
+                        neighbors_message.extend(int(self.neighbors[i][6]).to_bytes(3, byteorder="big"))
 
                 neighbors_message[0:0] = neighbor_counter.to_bytes(2, byteorder="big")
                 self.server_socket.sendto(neighbors_message, client_addr)

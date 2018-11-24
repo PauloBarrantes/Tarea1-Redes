@@ -1,4 +1,5 @@
 from texttable import *
+from Foundation import *
 
 import subprocess
 
@@ -44,14 +45,22 @@ def printNodesToAwake():
 
     print (table.draw() + "\n")
 def awake():
-    for i in range (0,1 ):
+    appleScript = ""
 
-        process = subprocess.Popen(args=['open -a Terminal "`pwd`" | ls'], shell = True,
-                                    stdin = subprocess.PIPE, bufsize=100, stdout=subprocess.PIPE)
-        process.stdin.write(b'\n ls') #expects a bytes type object
-        process.communicate()[0]
-        process.stdin.close()
+    for i in range (0,len(nodes)):
+        puerto = nodes[i][1]
+        appleScript = '''
+tell application \"Terminal\"
+	set currentTab to do script (\"open -a Terminal\")
+	delay 1
+	do script (\"cd /Users/Fla/Documents/GitHub/Tarea1-Redes\") in currentTab
+	do script (\"python3 crearNodo.py -pseudoTCP 127.0.0.1 '''+ puerto +'''\") in currentTab
+	do script (\"4\") in currentTab
+end tell
+'''
 
+        s = NSAppleScript.alloc().initWithSource_(appleScript)
+        s.executeAndReturnError_(None)
 
 
     #subprocess.Popen("python3 prueba.py",creationflags = subprocess.CREATE_NEW_CONSOLE ,shell=True)
