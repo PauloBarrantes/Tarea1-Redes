@@ -57,7 +57,7 @@ class NodeUDP(Node):
         self.node_socket = socket(AF_INET, SOCK_DGRAM)
         self.node_socket.bind((self.ip, self.port))
 
-
+        self.bitmapLock = threading.Lock()
         # Continue the server, even after our main thread dies.
 
 
@@ -133,17 +133,27 @@ class NodeUDP(Node):
         while True:
             message, client_addr = self.node_socket.recvfrom(1024)
 
-            messageType = int(message[0])
+            messageType = int (message[0])
+
+
+            ip_source = client_addr[0]
+
+            port_source = int (client_addr[1])
 
 
             if messageType ==  MESSAGE_TYPE_UPDATE:
-                pass
+                print("Recibimos un mensaje de actualización de : " ,ip_source, port_source)
+
+                self.updateRT(message)
             elif messageType == MESSAGE_TYPE_ALIVE:
                 print("MESSAGE_TYPE_ALIVE")
                 # Recibir ip,mask,port
 
                 # Guardar en tabla de vecinos que está vivo.
-                self.neighbors_table.save_address(client_addr[0], 16, int(client_addr[0]), cost, True)
+                print("Ip: ",ip_source,port_source)
+                self.neighbors_table.mark_awake(ip_source,port_source)
+                cost = self.neighbors_table.get_cost(ip_source,port_source)
+                self.reachability_table.save_address(ip_source,16,port_source,cost,ip_source,16,port_source)
 
                 message = bytearray(MESSAGE_TYPE_I_AM_ALIVE.to_bytes(1, byteorder="big"))
 
@@ -151,7 +161,10 @@ class NodeUDP(Node):
 
 
             elif messageType == MESSAGE_TYPE_I_AM_ALIVE:
-                print("ACK")
+                print("ACK de algún agradable vecino, lo pongo la bandera en true")
+                self.bitmapLock.acquire()
+                alive = self.bitmap.setTrue(ip_source, port_source)
+                self.bitmapLock.release()
             elif messageType == MESSAGE_TYPE_FLOOD:
                 pass
             elif messageType == MESSAGE_TYPE_DATA:
@@ -164,7 +177,7 @@ class NodeUDP(Node):
                 print("gg")
 
     def updateRT(self, messageRT):
-        elements_quantity = int.from_bytes(messageRT[:3], byteorder="big")
+        elements_quantity = int.from_bytes(messageRT[1:3], byteorder="big")
         for n in range(0, elements_quantity):
             ip_bytes = messageRT[3+(n*10):7+(n*10)]
             mask = messageRT[7+(n*10)]
@@ -179,22 +192,17 @@ class NodeUDP(Node):
                     ip_str += str(ip[byte])
             port = int.from_bytes(port_bytes, byteorder="big")
             cost = int.from_bytes(cost_bytes, byteorder="big")
+            print(ipstr,"-",mask,"-",port,"-",cost)
             self.reachability_table.save_address(ip_str, mask, port, cost, client_addr[0], mask, int(client_addr[1]))
     def sendRT(self):
         while True:
-            print("Iniciamos la actualización, pero en 30 seg")
             time.sleep(TIMEOUT_UPDATES)
-            print("Iniciamos la actualización, listo")
-
+            print("Enviando Actualización")
             for key in list(self.neighbors_table.neighbors):
                 if self.neighbors_table.is_awake(key[0],key[1]) == 1:
                     ip = key[0]
-                    mask = self.neighbors_table.neighbors.get(key)[2]
-                    port = key[2]
+                    port = key[1]
                     cost = self.neighbors_table.neighbors.get(key)[0]
-
-                    print("Ip:" + ip + "mask: "+ str(mask) + "port: " +str(port))
-                    print(costo)
 
                     message = bytearray(MESSAGE_TYPE_UPDATE.to_bytes(1, byteorder="big"))
                     reach_counter = 0
@@ -206,26 +214,18 @@ class NodeUDP(Node):
                             message.extend((key2[2]).to_bytes(2, byteorder="big"))
                             message.extend(self.reachability_table.reach_table.get(key2)[0]).to_bytes(3, byteorder="big")
 
-                    message[0:0] = reach_counter.to_bytes(2, byteorder="big")
+                    message[1:3] = reach_counter.to_bytes(2, byteorder="big")
 
-                    threadSendRT = threading.Thread(target = self.threadSendRT, args=(ip, mask, port, message))
+                    threadSendRT = threading.Thread(target = self.threadSendRT, args=(ip, port, message))
                     threadSendRT.daemon = True
                     threadSendRT.start()
 
-
-
-
-    def threadSendRT(self, ip, mask, port, reachability_table):
+    def threadSendRT(self, ip, port, reachability_table):
         try:
-
-            client_socket = socket(AF_INET, SOCK_DGRAM)
-            client_socket.connect((str(ipDest), portDest))
-            client_socket.sendall(reachability_table)
-            client_socket.close()
-
+             self.node_socket.sendto(reachability_table,(ip,port))
         except BrokenPipeError:
             print("Se perdió la conexión con el servidor")
-            self.neighbors_table.save_address(self, ipDest, maskDest, portDest, cost, False)
+            self.neighbors_table.mark_dead(ipDest, portDest)
 
 
 
@@ -237,37 +237,60 @@ class NodeUDP(Node):
         message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
 
         while True:
-            print("Entramos a mandar vivos")
             for key in list(self.neighbors_table.neighbors):
                 ipNeighbor = key[0]
                 portNeighbor = key[1]
+                cost = self.neighbors_table.get_cost(ipNeighbor,portNeighbor)
 
-                maskNeighbor = self.neighbors_table.neighbors.get(key)[2]
-
-
-                print("iniciamos el thread")
-                threadAliveMessageToNeighbor = threading.Thread(target = self.threadAliveMessage, args=(ipNeighbor, maskNeighbor, portNeighbor, message))
+                # Thread send alive messages to specific neighbor
+                threadAliveMessageToNeighbor = threading.Thread(target = self.threadAliveMessage, args=(ipNeighbor, portNeighbor, cost,message))
                 threadAliveMessageToNeighbor.daemon = True
                 threadAliveMessageToNeighbor.start()
-                print("iniciamos el thread end")
             time.sleep(TIMEOUT_ALIVE_MESSAGES)
 
     # Thread manda mensajes a cada vecino y espera el ACK
 
-    def threadAliveMessage(self, ipDest, maskDest, portDest, message):
-        intentos = 0
-        alive = self.bitmap.getBit(ipDest, maskDest)
-        print(alive)
-        while intentos < 3 and not alive:
+    def threadAliveMessage(self, ipDest, portDest, cost,message):
+        attempts = 0
+        self.bitmapLock.acquire()
+        alive = self.bitmap.getBit(ipDest, portDest)
+        self.bitmapLock.release()
+        while attempts < 3 and not alive:
             try:
-                print("Enviando a Nodo ", ipDest , "-" , portDest, "intento: " , intentos)
+                print("Enviando a Nodo ", ipDest , "-" , portDest, "intento: " , attempts)
                 self.node_socket.sendto(message,(str(ipDest),int(portDest)))
 
             except BrokenPipeError:
                 print("Se perdió la conexión con el servidor")
             time.sleep(5)
-            alive = self.bitmap.getBit(ipDest, maskDest)
-            intentos += 1
+            self.bitmapLock.acquire()
+            alive = self.bitmap.getBit(ipDest, portDest)
+            self.bitmapLock.release()
+
+            attempts += 1
+        print("Cantidad de attempts", attempts)
+
+
+        ## We need to compare states between neighbortable and bitmap
+        awakeNeighbor = self.neighbors_table.is_awake(ipDest,portDest)
+        ## My neighbor has died and I do not notice
+        print(ipDest , "-" , portDest,"Node awakener: ", awakeNeighbor ,"Bandera: " , alive)
+        if awakeNeighbor and not alive:
+            ## We need to make a flush
+            self.neighbors_table.mark_dead(ipDest,portDest)
+
+            print("Acá hicimos una inundación")
+
+
+        elif not awakeNeighbor and alive:
+            self.neighbors_table.mark_awake(ipDest,portDest)
+            self.reachability_table.save_address(ipDest,16,portDest,cost,ipDest,16,portDest)
+
+        else:
+            print("Estaba muerto y sigue muerto o  estaba vivo y sigue vivo")
+
+
+
     def sendMessage(self):
         self.log_writer.write_log("UDP node is sending a message.", 2)
 
@@ -321,28 +344,27 @@ class NodeUDP(Node):
             self.neighbors_table.print_table()
             self.menu()
         elif user_input == "5":
-            print("Terminando ejecucción.")
+            print("Terminando ejecución.")
         else:
             print("Por favor, escoja alguna de las opciones.")
             self.menu()
 class bitmap():
     """docstring for ."""
     def __init__(self):
-
         self.bitmap = {}
 
     def setNeighbors(self,neighbors):
         for key in list(neighbors):
-            self.bitmap.update({(key[0],key[1]):[False]})
+            self.bitmap[(key[0],key[1])] = False
 
     def getBit(self, ip, port):
-        return self.bitmap.get((ip,port))[0]
+        return self.bitmap[(ip,port)]
 
     def setFalse(self):
         for key in list(self.bitmap):
-            self.bitmap.update({(key[0],key[1]):[False]})
+            self.bitmap[(key[0],key[1])] = False
     def setTrue(self, ip, port):
-        self.bitmap.update({(ip,port):[True]})
+        self.bitmap[(ip,port)] = True
 
 port = input("port: ")
 nodoUDP = NodeUDP("127.0.0.1",int(port))

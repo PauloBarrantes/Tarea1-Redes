@@ -9,10 +9,16 @@ class NeighborsTable:
     def is_awake(self, ip, port):
         return self.neighbors.get((ip, port))[1]
 
-    # Marcar despierto
-    def mark_awake(slef, ip, port):
-        self.neighbors.get((ip, port))[1] = True
+    # neighbor is alive
+    def mark_awake(self, ip, port):
+        self.neighbors[(ip, port)][1] = True
 
+    # neighbor is dead
+    def mark_dead(self, ip, port):
+        self.neighbors[(ip, port)][1] = False
+
+    def get_cost(self, ip, port):
+        return self.neighbors[(ip, port)][0]
     # Save the ip from the source of the message and the mask as the key. For the entry,
     # we will save the message ip address, the cost and the port it is working on.
     def save_address(self, ip, mask, port, cost, awake):
