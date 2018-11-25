@@ -13,7 +13,7 @@ class ReachabilityTables:
     def save_address(self, destination_ip, destination_mask, destination_port, cost, pivot_ip, pivot_mask, pivot_port):
 
         # First, we need to make sure that we have the key in table.
-        if self.reach_table.get((destination_ip, destination_mask, destination_port)):
+        if self.reach_table.get((destination_ip, destination_port)):
 
             # If we did find the key, then we need to try to acquire the lock, before
             # updating the table, and make sure it is not in the process of being remove.
@@ -21,13 +21,13 @@ class ReachabilityTables:
             try:
 
                 # Acquire the lock.
-                lock = self.reach_table.get((destination_ip, destination_mask, destination_port))[4]
+                lock = self.reach_table.get((destination_ip, destination_port))[4]
                 lock.acquire()
 
                 # Now update the table and release the lock when finished.
-                if self.reach_table.get(destination_ip, destination_mask, destination_port)[0] > cost:
+                if self.reach_table.get(destination_ip, destination_port)[0] > cost:
                     self.reach_table.update({(destination_ip, destination_mask, destination_port):
-                                                [cost, pivot_ip, pivot_mask, pivot_port, lock]})
+                                                [cost, pivot_ip, pivot_mask, pivot_port, lock,destination_mask]})
                     lock.release()
 
             except threading.ThreadError:
@@ -46,7 +46,7 @@ class ReachabilityTables:
     def remove_address(self, ip, mask, port):
 
         for key in list(self.reach_table):
-            if self.reach_table.get(key)[0] == ip and self.reach_table.get(key)[1] == mask and self.reach_table.get(key)[2] == port:
+            if self.reach_table.get(key)[0] == ip and  self.reach_table.get(key)[1] == port:
                 # Acquire the lock, remove the entry and then release the lock.
                 # In order to avoid any errors, we need to keep our lock in memory.
                 entry_lock = self.reach_table.get(key)[4]
@@ -62,7 +62,7 @@ class ReachabilityTables:
         table.set_cols_valign(["m","m","m","m","m","m","m"])
         table.add_row(["IP","Máscara","Puerto","Costo","IP Pivote","Máscara Pivote","Puerto Pivote"])
         for key in self.reach_table:
-            table.add_row([key[0], key[1], key[2], self.reach_table.get(key)[0],
+            table.add_row([key[0],  self.reach_table.get(key)[5], key[1], self.reach_table.get(key)[0],
                            self.reach_table.get(key)[1], self.reach_table.get(key)[2],
                             self.reach_table.get(key)[3]])
 
