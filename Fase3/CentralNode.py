@@ -75,26 +75,8 @@ class CentralNode(Node):
                     else:
                         ipRequest += str(ip[byte])
                 portRequest = int.from_bytes(portBytes,byteorder="big")
-                neighbors_message = bytearray()
-                neighbor_counter = 0
-                print("Vamos a revisar vecinos", len(self.neighbors))
-                for i in range (0,len(self.neighbors)):
-                    if self.neighbors[i][0] == ipRequest and int(self.neighbors[i][1]) == maskRequest and int(self.neighbors[i][2]) == portRequest:
-                        print("Vecino A - B")
-                        neighbor_counter += 1
-                        neighbors_message.extend(bytearray(bytes(map(int, self.neighbors[i][3].split(".")))))
-                        neighbors_message.extend(int(self.neighbors[i][4]).to_bytes(1, byteorder="big"))
-                        neighbors_message.extend(int(self.neighbors[i][5]).to_bytes(2, byteorder="big"))
-                        neighbors_message.extend(int(self.neighbors[i][6]).to_bytes(3, byteorder="big"))
-                    elif self.neighbors[i][3] == ipRequest and int(self.neighbors[i][4]) == maskRequest and int(self.neighbors[i][5]) == portRequest:
-                        print("Vecino B - A")
-                        neighbor_counter += 1
-                        neighbors_message.extend(bytearray(bytes(map(int, self.neighbors[i][0].split(".")))))
-                        neighbors_message.extend(int(self.neighbors[i][1]).to_bytes(1, byteorder="big"))
-                        neighbors_message.extend(int(self.neighbors[i][2]).to_bytes(2, byteorder="big"))
-                        neighbors_message.extend(int(self.neighbors[i][6]).to_bytes(3, byteorder="big"))
 
-                neighbors_message[0:0] = neighbor_counter.to_bytes(2, byteorder="big")
+                neighbors_message = encodeNeighbors(ipRequest, maskRequest, portRequest, self.neighbors)
                 self.server_socket.sendto(neighbors_message, client_addr)
 
             else:

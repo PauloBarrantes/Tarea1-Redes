@@ -13,6 +13,7 @@ TIMEOUT_ACK = 2
 TIMEOUT_ALIVEMESSAGES = 120
 
 '''CONSTANTS'''
+DEFAULT_MASK = 16
 
 MESSAGE_TYPE_UPDATE = 1
 MESSAGE_TYPE_ALIVE = 2
@@ -89,13 +90,18 @@ class NodeUDP(Node):
 
             messageType = int(message[0])
             if messageType ==  MESSAGE_TYPE_UPDATE:
-                pass
+
+                decoded_RT = decodeRT(message)
+
+                for i in len(0,decoded_RT):
+                    self.reachability_table.save_address(decodeRT[i][0], decodeRT[i][1], decodeRT[i][2], decodeRT[i][3], client_addr[0], DEFAULT_MASK, int(client_addr[1]))
+
             elif messageType == MESSAGE_TYPE_ALIVE:
                 print("MESSAGE_TYPE_ALIVE")
                 # Recibir ip,mask,port
 
                 # Guardar en tabla de vecinos que está vivo.
-                self.neighbors_table.save_address(client_addr[0], 16, int(client_addr[0]), cost, True)
+                self.neighbors_table.save_address(client_addr[0], DEFAULT_MASK, int(client_addr[0]), cost, True)
 
                 message = bytearray(MESSAGE_TYPE_I_AM_ALIVE.to_bytes(3, byteorder="big"))
 
@@ -109,23 +115,6 @@ class NodeUDP(Node):
             else:
                 print("gg")
 
-    def updateRT(self, messageRT):
-        elements_quantity = int.from_bytes(messageRT[:3], byteorder="big")
-        for n in range(0, elements_quantity):
-            ip_bytes = messageRT[3+(n*10):7+(n*10)]
-            mask = messageRT[7+(n*10)]
-            port_bytes = messageRT[8+(n*10):10+(n*10)]
-            cost_bytes = messageRT[10+(n*10):13+(n*10)]
-            ip = list(ip_bytes)
-            ip_str = ""
-            for byte in range(0,len(ip)):
-                if(byte < len(ip)-1):
-                    ip_str += str(ip[byte])+"."
-                else:
-                    ip_str += str(ip[byte])
-            port = int.from_bytes(port_bytes, byteorder="big")
-            cost = int.from_bytes(cost_bytes, byteorder="big")
-            self.reachability_table.save_address(ip_str, mask, port, cost, client_addr[0], mask, int(client_addr[1]))
     def sendRT(self):
         while True:
             time.sleep(TIMEOUT_UPDATES)
@@ -141,16 +130,8 @@ class NodeUDP(Node):
                     print(costo)
 
                     message = bytearray(MESSAGE_TYPE_UPDATE.to_bytes(1, byteorder="big"))
-                    reach_counter = 0
-                    for key2 in list(self.reachability_table.reach_table):
-                        if key2 != key:
-                            reach_counter += 1
-                            message.extend(bytearray(bytes(map(int, (key2[0]).split(".")))))
-                            message.extend(key2[1].to_bytes(1, byteorder="big"))
-                            message.extend((key2[2]).to_bytes(2, byteorder="big"))
-                            message.extend(self.reachability_table.reach_table.get(key2)[0]).to_bytes(3, byteorder="big")
 
-                    message[0:0] = reach_counter.to_bytes(2, byteorder="big")
+                    encoded_RT = encodeRT(key, message, reachability_table)
 
                     threadSendRT = threading.Thread(target = self.threadSendRT, args=(ip, mask, port, message))
                     threadSendRT.daemon = True
@@ -177,33 +158,19 @@ class NodeUDP(Node):
     def request_neighbors(self):
 
         byte_message = bytearray(bytes(map(int, (self.ip).split("."))))
-        byte_message.extend(16.to_bytes(1, byteorder="big"))
+        byte_message.extend(DEFAULT_MASK.to_bytes(1, byteorder="big"))
         byte_message.extend((self.port).to_bytes(2, byteorder="big"))
 
         try:
             self.client_socket = socket(AF_INET, SOCK_DGRAM)
             self.client_socket.connect((str(CENTRAL_IP), CENTRAL_PORT))
             self.client_socket.send(byte_message)
-            neighbors_message = self..recv(1024)
-            elements_quantity = int.from_bytes(neighbors_message[:2], byteorder="big")
-            print(elements_quantity)
-            for n in range(0, elements_quantity):
-                ip_bytes = neighbors_message[2+(n*10):6+(n*10)]
+            neighbors_message = self.client_socket.recv(1024)
 
-                mask = neighbors_message[6+(n*10)]
-                port_bytes = neighbors_message[7+(n*10):9+(n*10)]
-                cost_bytes = neighbors_message[9+(n*10):12+(n*10)]
-                ip = list(ip_bytes)
-                ip_str = ""
-                for byte in range(0,len(ip)):
-                    if(byte < len(ip)-1):
-                        ip_str += str(ip[byte])+"."
-                    else:
-                        ip_str += str(ip[byte])
-                print(ip_str)
-                port = int.from_bytes(port_bytes, byteorder="big")
-                cost = int.from_bytes(cost_bytes, byteorder="big")
-                self.neighbors_table.save_address(ip_str, mask, port, cost, 0)
+            decoded_table = decodeNeighbors(neighbors_message)
+            for i in len(0,decoded_table):
+                self.neighbors_table.save_address(decoded_table[i][0], decoded_table[i][1], decoded_table[i][2], decoded_table[i][3], 0)
+
             self.client_socket.close()
             self.neighbors_table.print_table()
         except BrokenPipeError:
@@ -241,6 +208,7 @@ class NodeUDP(Node):
                 message = client_socket.recv(1024)
                 print("El nodo"+ ipDest + " - " + str(portDest) +" está vivo!")
                 self.reachability_table.save_address(ipDest, maskDest,portDest, cost, ipDest, maskDest, portDest)
+
                 self.neighbors_table.save_address(self, ipDest, maskDest, portDest, cost, 1)
 
             except timeout as e:
@@ -250,6 +218,7 @@ class NodeUDP(Node):
             self.client_socket.close()
         except BrokenPipeError:
             print("Se perdió la conexión con el servidor")
+
     def sendMessage(self):
         self.log_writer.write_log("UDP node is sending a message.", 2)
 
@@ -275,6 +244,7 @@ class NodeUDP(Node):
         mask_destination = int(mask)
         elements_quantity = num.to_bytes(2, byteorder="big")
         byte_array = bytearray(elements_quantity)
+
     def terminate_node(self):
         print("Eliminado el nodo.")
 
