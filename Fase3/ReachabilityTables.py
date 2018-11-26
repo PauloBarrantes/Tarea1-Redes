@@ -40,7 +40,7 @@ class ReachabilityTables:
 
             # Create a new lock for this entry and a lock check, in case we are deleting it.
             entry_lock = threading.Lock()
-            self.reach_table.update({(destination_ip, destination_mask, destination_port): [cost, pivot_ip, pivot_mask, pivot_port, entry_lock]})
+            self.reach_table.update({(destination_ip, destination_mask, destination_port): [cost, pivot_ip, pivot_mask, pivot_port, entry_lock,destination_mask]})
 
     # Remove an entry from the reachability table.
     def remove_address(self, ip, mask, port):
@@ -54,6 +54,9 @@ class ReachabilityTables:
                 self.reach_table.pop(key)
                 entry_lock.release()
 
+
+    def getPivots(self, ip, port):
+        return (self.reach_table[(ip,port)][1],self.reach_table[(ip,port)][3])
     # Print the reachability table.
     def print_table(self):
         print("TABLA DE ALCANZABILIDAD")

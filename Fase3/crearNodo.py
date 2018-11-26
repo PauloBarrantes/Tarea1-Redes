@@ -1,6 +1,6 @@
 import sys
-from NodeTCP import *
-from NodePseudoTCP import *
+# from NodeTCP import *
+# from NodePseudoTCP import *
 from NodeUDP import *
 
 
@@ -26,11 +26,13 @@ else:
     if int(splitIP[0]) >= 0 and int(splitIP[0]) <= 255 and int(splitIP[1]) >= 0 and int(splitIP[1]) <= 255 and int(splitIP[2]) >= 0 and int(splitIP[2]) <= 255 and int(splitIP[3]) >= 0 and int(splitIP[3]) <= 255:
         port = int(sys.argv[3])
         if typeNode == "-pseudoBGP":
-            NodeTCP(ip, port)
+            # NodeTCP(ip, port)
+            print("Fuera de servicio")
         elif typeNode == "-intAS":
             NodeUDP(ip, port)
         elif typeNode == "-pseudoTCP":
-            NodePseudoTCP(ip, port)
+            print("Fuera de servicio")
+            # NodePseudoTCP(ip, port)
         else:
             print(bcolors.FAIL+"Error: "+bcolors.ENDC+"Digitó mal el tipo de nodo")
     else:

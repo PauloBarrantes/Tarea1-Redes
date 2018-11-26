@@ -4,7 +4,7 @@ from Foundation import *
 import subprocess
 
 import csv
-class bcolors:
+class BColors:
 
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -45,17 +45,36 @@ def printNodesToAwake():
 
     print (table.draw() + "\n")
 def awake():
-    appleScript = ""
+    appleScript = "s"
+    flag_users = False
+    path = ""
+
+    ## We decide which path we want to use, depending on the user.
+    while flag_users == False:
+        print(BColors.WARNING + "Lista de Usuarios - Path " +BColors.ENDC)
+        print("1 - Barrantes")
+        print("2 - Flasterstein")
+        print("3 - Cruz")
+        usuario = input("Número de usuario: ")
+        if usuario == "1":
+            path = "/Users/paulobarrantes/Proyectos/Tarea1-Redes/Fase3"
+            flag_users = True
+        elif usuario == "2":
+            path = "/Users/Fla/Documents/GitHub/Tarea1-Redes"
+            flag_users = True
+
 
     for i in range (0,len(nodes)):
+        ip = nodes[i][0]
         puerto = nodes[i][1]
+
         appleScript = '''
 tell application \"Terminal\"
 	set currentTab to do script (\"open -a Terminal\")
 	delay 1
-	do script (\"cd /Users/Fla/Documents/GitHub/Tarea1-Redes\") in currentTab
-	do script (\"python3 crearNodo.py -pseudoTCP 127.0.0.1 '''+ puerto +'''\") in currentTab
-	do script (\"4\") in currentTab
+	do script (\" cd '''+path+'''\") in currentTab
+	do script (\"python3 crearNodo.py -intAS '''+ ip + ''' '''+puerto+'''\") in currentTab
+
 end tell
 '''
 
