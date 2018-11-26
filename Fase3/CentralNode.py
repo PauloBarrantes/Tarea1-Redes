@@ -1,5 +1,6 @@
 from Node import *
 from socket import *
+from encoder_decoder import *
 from texttable import *
 import csv
 import threading
@@ -72,23 +73,13 @@ class CentralNode(Node):
             if messageType == MESSAGE_TYPE_REQUEST_NEIGHBORS:
                 print("Solicitud del nodo: ", client_addr[0],"-",client_addr[1])
                 #elf.log_writer.write_log("Central Node received a request.", 1)
-                neighborsList = []
 
                 ipRequest =  str(client_addr[0])
                 portRequest = int(client_addr[1])
                 maskRequest = int(message[1])
 
-
-                ip = list(ip_bytes)
-                ipRequest = ""
-                for byte in range(0,len(ip)):
-                    if(byte < len(ip)-1):
-                        ipRequest += str(ip[byte])+"."
-                    else:
-                        ipRequest += str(ip[byte])
-                portRequest = int.from_bytes(portBytes,byteorder="big")
-
                 neighbors_message = encodeNeighbors(ipRequest, maskRequest, portRequest, self.neighbors)
+
                 self.server_socket.sendto(neighbors_message, client_addr)
 
 

@@ -111,7 +111,7 @@ class NodeUDP(Node):
         request_message = bytearray(MESSAGE_TYPE_REQUEST_NEIGHBORS.to_bytes(1, byteorder="big"))
         request_message.extend(self.mask.to_bytes(1, byteorder="big"))
 
-
+        print(request_message)
 
         #We send the message to central node
         self.socket_node.sendto(request_message,(str(CENTRAL_IP), CENTRAL_PORT))

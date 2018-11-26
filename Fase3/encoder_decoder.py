@@ -13,7 +13,7 @@ def encodeRT(key, message, reachabilityTable):
             message.extend(bytearray(bytes(map(int, (key2[0]).split(".")))))
             message.extend(key2[1].to_bytes(1, byteorder="big"))
             message.extend((key2[2]).to_bytes(2, byteorder="big"))
-            message.extend(self.reachabilityTable.reach_table.get(key2)[0]).to_bytes(3, byteorder="big")
+            message.extend(reachabilityTable.reach_table.get(key2)[0]).to_bytes(3, byteorder="big")
 
     message.insert(1, reach_counter.to_bytes(2, byteorder="big"))
 
@@ -24,6 +24,8 @@ def decodeRT(messageRT):
 
     elements_quantity = int.from_bytes(messageRT[:3], byteorder="big")
     for n in range(0, elements_quantity):
+        decoded_tuple = []
+
         ip_bytes = messageRT[3+(n*10):7+(n*10)]
         mask = messageRT[7+(n*10)]
         port_bytes = messageRT[8+(n*10):10+(n*10)]
@@ -38,10 +40,12 @@ def decodeRT(messageRT):
         port = int.from_bytes(port_bytes, byteorder="big")
         cost = int.from_bytes(cost_bytes, byteorder="big")
 
-        decoded_RT[i][0] = ip_str
-        decoded_RT[i][1] = mask
-        decoded_RT[i][2] = port
-        decoded_RT[i][3] = cost
+        decoded_tuple.append(ip_str)
+        decoded_tuple.append(mask)
+        decoded_tuple.append(port)
+        decoded_tuple.append(cost)
+        
+        decoded_RT.append(decoded_tuple)
 
     return decoded_RT
 
@@ -60,7 +64,7 @@ def encodeNeighbors(ipRequest, maskRequest, portRequest, neighbors):
         elif neighbors[i][3] == ipRequest and int(neighbors[i][4]) == maskRequest and int(neighbors[i][5]) == portRequest:
             print("Vecino B - A")
             neighbor_counter += 1
-            neighbors_message.extend(bytearray(bytes(map(int, self.neighbors[i][0].split(".")))))
+            neighbors_message.extend(bytearray(bytes(map(int, neighbors[i][0].split(".")))))
             neighbors_message.extend(int(neighbors[i][1]).to_bytes(1, byteorder="big"))
             neighbors_message.extend(int(neighbors[i][2]).to_bytes(2, byteorder="big"))
             neighbors_message.extend(int(neighbors[i][6]).to_bytes(3, byteorder="big"))
@@ -74,6 +78,7 @@ def decodeNeighbors(neighbors_message):
     elements_quantity = int.from_bytes(neighbors_message[:2], byteorder="big")
     print(elements_quantity)
     for n in range(0, elements_quantity):
+        decoded_tuple = []
         ip_bytes = neighbors_message[2+(n*10):6+(n*10)]
 
         mask = neighbors_message[6+(n*10)]
@@ -90,10 +95,11 @@ def decodeNeighbors(neighbors_message):
         port = int.from_bytes(port_bytes, byteorder="big")
         cost = int.from_bytes(cost_bytes, byteorder="big")
 
-        decoded_table[i][0] = ip_str
-        decoded_table[i][1] = mask
-        decoded_table[i][2] = port
-        decoded_table[i][3] = cost
+        decoded_tuple.append(ip_str)
+        decoded_tuple.append(mask)
+        decoded_tuple.append(port)
+        decoded_tuple.append(cost)
+        decoded_table.append(decoded_tuple)
     return decoded_table
 
 def check_message(message, ip, port):
