@@ -9,7 +9,7 @@ class Node:
         self.ip = ipNode
         self.port = int(port)
         self.mask = 16
-        self.log_writer = LogWriter()
+        self.log_writer = LogWriter(self.ip, self.port)
 
     def __del__(self):
         print("Node was successfully deleted")

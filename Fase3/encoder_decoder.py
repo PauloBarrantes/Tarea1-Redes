@@ -13,16 +13,19 @@ def encodeRT(key, message, reachabilityTable):
             message.extend(bytearray(bytes(map(int, (key2[0]).split(".")))))
             message.extend(key2[1].to_bytes(1, byteorder="big"))
             message.extend((key2[2]).to_bytes(2, byteorder="big"))
-            message.extend(self.reachabilityTable.reach_table.get(key2)[0]).to_bytes(3, byteorder="big")
+            message.extend(reachabilityTable.reach_table.get(key2)[0].to_bytes(3, byteorder="big"))
 
-    message.insert(1, reach_counter.to_bytes(2, byteorder="big"))
 
-    return encodedRT
+    n_elements = reach_counter.to_bytes(2,byteorder="big")
+    message.insert(1, reach_counter)
+
+    return message
 
 def decodeRT(messageRT):
     decoded_RT = []
 
-    elements_quantity = int.from_bytes(messageRT[:3], byteorder="big")
+    elements_quantity = int.from_bytes(messageRT[1:3], byteorder="big")
+    print(elements_quantity)
     for n in range(0, elements_quantity):
         ip_bytes = messageRT[3+(n*10):7+(n*10)]
         mask = messageRT[7+(n*10)]
@@ -60,7 +63,7 @@ def encodeNeighbors(ipRequest, maskRequest, portRequest, neighbors):
         elif neighbors[i][3] == ipRequest and int(neighbors[i][4]) == maskRequest and int(neighbors[i][5]) == portRequest:
             print("Vecino B - A")
             neighbor_counter += 1
-            neighbors_message.extend(bytearray(bytes(map(int, self.neighbors[i][0].split(".")))))
+            neighbors_message.extend(bytearray(bytes(map(int, neighbors[i][0].split(".")))))
             neighbors_message.extend(int(neighbors[i][1]).to_bytes(1, byteorder="big"))
             neighbors_message.extend(int(neighbors[i][2]).to_bytes(2, byteorder="big"))
             neighbors_message.extend(int(neighbors[i][6]).to_bytes(3, byteorder="big"))
@@ -95,4 +98,3 @@ def decodeNeighbors(neighbors_message):
         decoded_table[i][2] = port
         decoded_table[i][3] = cost
     return decoded_table
-

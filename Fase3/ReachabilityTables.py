@@ -11,7 +11,7 @@ class ReachabilityTables:
     # Save the ip from the source of the message and the mask as the key. For the entry,
     # we will save the message ip address, the cost and the port it is working on.
     def save_address(self, destination_ip, destination_mask, destination_port, cost, pivot_ip, pivot_mask, pivot_port):
-
+        print("PUERTO:", destination_port)
         # First, we need to make sure that we have the key in table.
         if self.reach_table.get((destination_ip, destination_port)):
 
@@ -26,9 +26,10 @@ class ReachabilityTables:
 
                 # Now update the table and release the lock when finished.
                 if self.reach_table.get(destination_ip, destination_port)[0] > cost:
-                    self.reach_table.update({(destination_ip, destination_mask, destination_port):
-                                                [cost, pivot_ip, pivot_mask, pivot_port, lock,destination_mask]})
-                    lock.release()
+
+                    self.reach_table.update({(destination_ip, destination_port): [cost, pivot_ip, pivot_mask, pivot_port, lock,destination_mask]})
+
+                lock.release()
 
             except threading.ThreadError:
 
@@ -40,7 +41,7 @@ class ReachabilityTables:
 
             # Create a new lock for this entry and a lock check, in case we are deleting it.
             entry_lock = threading.Lock()
-            self.reach_table.update({(destination_ip, destination_mask, destination_port): [cost, pivot_ip, pivot_mask, pivot_port, entry_lock,destination_mask]})
+            self.reach_table.update({(destination_ip, destination_port): [cost, pivot_ip, pivot_mask, pivot_port, entry_lock,destination_mask]})
 
     # Remove an entry from the reachability table.
     def remove_address(self, ip, mask, port):
