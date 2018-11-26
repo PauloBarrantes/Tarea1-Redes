@@ -11,7 +11,6 @@ class ReachabilityTables:
     # Save the ip from the source of the message and the mask as the key. For the entry,
     # we will save the message ip address, the cost and the port it is working on.
     def save_address(self, destination_ip, destination_mask, destination_port, cost, pivot_ip, pivot_mask, pivot_port):
-        print("PUERTO:", destination_port)
         # First, we need to make sure that we have the key in table.
         if self.reach_table.get((destination_ip, destination_port)):
 

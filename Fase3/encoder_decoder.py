@@ -11,15 +11,11 @@ def encodeRT(key, message, reachabilityTable):
         if key2 != key:
             reach_counter += 1
             message.extend(bytearray(bytes(map(int, (key2[0]).split(".")))))
-            message.extend(key2[1].to_bytes(1, byteorder="big"))
-            message.extend((key2[2]).to_bytes(2, byteorder="big"))
+            message.extend(reachabilityTable.reach_table.get(key2)[5].to_bytes(1, byteorder="big"))
+            message.extend((key2[1]).to_bytes(2, byteorder="big"))
             message.extend(reachabilityTable.reach_table.get(key2)[0].to_bytes(3, byteorder="big"))
+    message[1:3] = reach_counter.to_bytes(2,byteorder="big")
 
-
-    n_elements = reach_counter.to_bytes(2,byteorder="big")
-    message.insert(1, reach_counter)
-
-    return message
 
 def decodeRT(messageRT):
     decoded_RT = []
@@ -40,11 +36,14 @@ def decodeRT(messageRT):
                 ip_str += str(ip[byte])
         port = int.from_bytes(port_bytes, byteorder="big")
         cost = int.from_bytes(cost_bytes, byteorder="big")
-
-        decoded_RT[i][0] = ip_str
-        decoded_RT[i][1] = mask
-        decoded_RT[i][2] = port
-        decoded_RT[i][3] = cost
+        print(ip_str)
+        print(mask)
+        print(port)
+        print(cost)
+        decoded_RT[n][0] = ip_str
+        decoded_RT[n][1] = mask
+        decoded_RT[n][2] = port
+        decoded_RT[n][3] = cost
 
     return decoded_RT
 

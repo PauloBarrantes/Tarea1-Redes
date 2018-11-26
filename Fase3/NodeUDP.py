@@ -165,7 +165,7 @@ class NodeUDP(Node):
 
                 decoded_RT = decodeRT(message)
 
-                for i in len(0,decoded_RT):
+                for i in range(0,len(decoded_RT)):
                     self.reachability_table.save_address(decodeRT[i][0], decodeRT[i][1], decodeRT[i][2], decodeRT[i][3], ip_source, DEFAULT_MASK, port_source)
 
             elif messageType == MESSAGE_TYPE_ALIVE:
@@ -174,8 +174,7 @@ class NodeUDP(Node):
                 # Guardar en tabla de vecinos que está vivo.
                 self.neighbors_table.mark_awake(ip_source,port_source)
                 cost = self.neighbors_table.get_cost(ip_source,port_source)
-                print("MESSAGE")
-                print(port_source)
+
                 self.reachability_table.save_address(ip_source,16,port_source,cost,ip_source,16,port_source)
                 ## We send a ACK to the source node
                 messageACK = bytearray(MESSAGE_TYPE_I_AM_ALIVE.to_bytes(1, byteorder="big"))
@@ -237,8 +236,7 @@ class NodeUDP(Node):
                     cost = self.neighbors_table.neighbors.get(key)[0]
 
                     message = bytearray(MESSAGE_TYPE_UPDATE.to_bytes(1, byteorder="big"))
-
-                    encoded_RT = encodeRT(key, message, self.reachability_table)
+                    encodeRT(key, message, self.reachability_table)
 
                     threadSendRT = threading.Thread(target = self.threadSendRT, args=(ip, port, message))
                     threadSendRT.daemon = True
@@ -338,20 +336,20 @@ class NodeUDP(Node):
             valid_input = self.validate_port(port)
         port_destination = int(port)
 
-        mensaje = input("Escriba el mensaje que desea enviar")
+        mensaje = input("Escriba el mensaje que desea enviar:")
         pivots = self.reachability_table.getPivots(ip_destination,port_destination)
         if pivots != None:
 
             ## Message Type
             data_message = bytearray(MESSAGE_TYPE_DATA.to_bytes(1, byteorder="big"))
             ## Destination IP
-            data_message.extend(bytearray(bytes(map(int, (key2[0]).split(".")))))
+            data_message.extend(bytearray(bytes(map(int, ip_destination.split(".")))))
             ## Destination Port
-            data_message.extend((key2[2]).to_bytes(2, byteorder="big"))
+            data_message.extend(port_destination.to_bytes(2, byteorder="big"))
             ## Lenght of Data (2 Bytes)
-            data_message.extend((key2[2]).to_bytes(2, byteorder="big"))
+            data_message.extend(len(mensaje).to_bytes(2, byteorder="big"))
             ## Message (N Bytes)
-            data_message.extend((key2[2]).to_bytes(2, byteorder="big"))
+            data_message.extend(mensaje.encode("utf-8"))
 
             self.socket_node.sendto(data_message, pivots)
         else:
