@@ -45,7 +45,7 @@ def printNodesToAwake():
 
     print (table.draw() + "\n")
 def awake():
-    appleScript = "s"
+    appleScript = ""
     flag_users = False
     path = ""
 

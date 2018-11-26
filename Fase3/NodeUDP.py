@@ -14,6 +14,7 @@ TIMEOUT_ACK = 2
 TIMEOUT_ALIVE_MESSAGES = 120
 
 '''CONSTANTS'''
+DEFAULT_MASK = 16
 
 MESSAGE_TYPE_UPDATE = 1
 MESSAGE_TYPE_ALIVE = 2
@@ -164,10 +165,11 @@ class NodeUDP(Node):
             ## We receive a RT from another node
             if messageType ==  MESSAGE_TYPE_UPDATE:
 
-                print("Recibimos un mensaje de actualización de : " ,ip_source, port_source)
+                decoded_RT = decodeRT(message)
 
-                self.updateRT(message)
-            ## We receive a message keep alive from one node
+                for i in len(0,decoded_RT):
+                    self.reachability_table.save_address(decodeRT[i][0], decodeRT[i][1], decodeRT[i][2], decodeRT[i][3], client_addr[0], DEFAULT_MASK, int(client_addr[1]))
+
             elif messageType == MESSAGE_TYPE_ALIVE:
                 print("MESSAGE_TYPE_ALIVE")
                 # Recibir ip,mask,port
@@ -225,24 +227,6 @@ class NodeUDP(Node):
             else:
                 print("gg")
 
-    def updateRT(self, messageRT):
-        elements_quantity = int.from_bytes(messageRT[1:3], byteorder="big")
-        for n in range(0, elements_quantity):
-            ip_bytes = messageRT[3+(n*10):7+(n*10)]
-            mask = messageRT[7+(n*10)]
-            port_bytes = messageRT[8+(n*10):10+(n*10)]
-            cost_bytes = messageRT[10+(n*10):13+(n*10)]
-            ip = list(ip_bytes)
-            ip_str = ""
-            for byte in range(0,len(ip)):
-                if(byte < len(ip)-1):
-                    ip_str += str(ip[byte])+"."
-                else:
-                    ip_str += str(ip[byte])
-            port = int.from_bytes(port_bytes, byteorder="big")
-            cost = int.from_bytes(cost_bytes, byteorder="big")
-            print(ipstr,"-",mask,"-",port,"-",cost)
-            self.reachability_table.save_address(ip_str, mask, port, cost, client_addr[0], mask, int(client_addr[1]))
     def sendRT(self):
         while True:
             time.sleep(TIMEOUT_UPDATES)
@@ -254,16 +238,8 @@ class NodeUDP(Node):
                     cost = self.neighbors_table.neighbors.get(key)[0]
 
                     message = bytearray(MESSAGE_TYPE_UPDATE.to_bytes(1, byteorder="big"))
-                    reach_counter = 0
-                    for key2 in list(self.reachability_table.reach_table):
-                        if key2 != key:
-                            reach_counter += 1
-                            message.extend(bytearray(bytes(map(int, (key2[0]).split(".")))))
-                            message.extend(key2[1].to_bytes(1, byteorder="big"))
-                            message.extend((key2[2]).to_bytes(2, byteorder="big"))
-                            message.extend(self.reachability_table.reach_table.get(key2)[0]).to_bytes(3, byteorder="big")
 
-                    message[1:3] = reach_counter.to_bytes(2, byteorder="big")
+                    encoded_RT = encodeRT(key, message, reachability_table)
 
                     threadSendRT = threading.Thread(target = self.threadSendRT, args=(ip, port, message))
                     threadSendRT.daemon = True
@@ -385,7 +361,7 @@ class NodeUDP(Node):
         # Print our menu.
         print(BColors.WARNING + "Bienvenido al cambio de costo de un enlace: " + self.ip, ":", str(self.port) + BColors.ENDC)
         print(BColors.OKGREEN + "Instrucciones: " + BColors.ENDC)
-        
+
 
     def menu(self):
 
