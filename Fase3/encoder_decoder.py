@@ -96,3 +96,17 @@ def decodeNeighbors(neighbors_message):
         decoded_table[i][3] = cost
     return decoded_table
 
+def check_message(message, ip, port):
+    ip_dest = message[1:5]
+    ip = list(ip_dest)
+    ip_str = ""
+    for byte in range(0,len(ip)):
+        if(byte < len(ip)-1):
+            ip_str += str(ip[byte])+"."
+        else:
+            ip_str += str(ip[byte])
+    port_bytes = message[5:7]
+    port_dest = int.from_bytes(port_bytes, byteorder="big")
+    elements_quantity = int.from_bytes(messageRT[7:9], byteorder="big")
+
+    return self.ip == ip_str and port_dest == self.port

@@ -120,26 +120,10 @@ class NodeUDP(Node):
             #We receive the neighbor table
             neighbors_message = self.socket_node.recv(1024)
             # and how many neighbor we have
-            elements_quantity = int.from_bytes(neighbors_message[:2], byteorder="big")
+            decoded_neighbors = decodeNeighbors(neighbors_message)
 
-            '''RECORDAR SACAR DE ACA - FLA'''
-            for n in range(0, elements_quantity):
-                ip_bytes = neighbors_message[2+(n*10):6+(n*10)]
-
-                mask = neighbors_message[6+(n*10)]
-                port_bytes = neighbors_message[7+(n*10):9+(n*10)]
-                cost_bytes = neighbors_message[9+(n*10):12+(n*10)]
-                ip = list(ip_bytes)
-                ip_str = ""
-                for byte in range(0,len(ip)):
-                    if(byte < len(ip)-1):
-                        ip_str += str(ip[byte])+"."
-                    else:
-                        ip_str += str(ip[byte])
-
-                port = int.from_bytes(port_bytes, byteorder="big")
-                cost = int.from_bytes(cost_bytes, byteorder="big")
-                self.neighbors_table.save_address(ip_str, mask, port, cost, False)
+            for n in range(0, len(decoded_neighbors)):
+                self.neighbors_table.save_address(decoded_neighbors[n][0], decoded_neighbors[n][1], decoded_neighbors[n][2], decoded_neighbors[n][3], False)
             self.neighbors_table.print_table()
         except BrokenPipeError:
             print("Se perdió la conexión con el nodo central")
@@ -199,18 +183,9 @@ class NodeUDP(Node):
                 print("Recibimos un mensaje de datos")
 
                 ## We check if is ours
-                ip_dest = message[1:5]
-                ip = list(ip_dest)
-                ip_str = ""
-                for byte in range(0,len(ip)):
-                    if(byte < len(ip)-1):
-                        ip_str += str(ip[byte])+"."
-                    else:
-                        ip_str += str(ip[byte])
-                port_bytes = message[5:7]
-                port_dest = int.from_bytes(port_bytes, byteorder="big")
-                elements_quantity = int.from_bytes(messageRT[7:9], byteorder="big")
-                if self.ip == ip_str and port_dest == self.port:
+                msg_for_me = check_message(message, self.ip, self.port)
+
+                if msg_for_me:
                     print("Hemos llegado al destino")
                 else:
                     print("No somos el destino de este mensaje, hay que pasarlo a alguien")
