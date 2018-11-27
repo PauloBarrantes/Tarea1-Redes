@@ -21,8 +21,8 @@ def decodeRT(messageRT):
     decoded_RT = []
 
     elements_quantity = int.from_bytes(messageRT[1:3], byteorder="big")
-    print(elements_quantity)
     for n in range(0, elements_quantity):
+        decoded_tuple = []
         ip_bytes = messageRT[3+(n*10):7+(n*10)]
         mask = messageRT[7+(n*10)]
         port_bytes = messageRT[8+(n*10):10+(n*10)]
@@ -36,14 +36,13 @@ def decodeRT(messageRT):
                 ip_str += str(ip[byte])
         port = int.from_bytes(port_bytes, byteorder="big")
         cost = int.from_bytes(cost_bytes, byteorder="big")
-        print(ip_str)
-        print(mask)
-        print(port)
-        print(cost)
-        decoded_RT[n][0] = ip_str
-        decoded_RT[n][1] = mask
-        decoded_RT[n][2] = port
-        decoded_RT[n][3] = cost
+
+        decoded_tuple.append(ip_str)
+        decoded_tuple.append(mask)
+        decoded_tuple.append(port)
+        decoded_tuple.append(cost)
+
+        decoded_RT.append(decoded_tuple)
 
     return decoded_RT
 
@@ -73,9 +72,12 @@ def encodeNeighbors(ipRequest, maskRequest, portRequest, neighbors):
 
 def decodeNeighbors(neighbors_message):
     decoded_table = []
+
     elements_quantity = int.from_bytes(neighbors_message[:2], byteorder="big")
-    print(elements_quantity)
+
     for n in range(0, elements_quantity):
+        decoded_tuple = []
+
         ip_bytes = neighbors_message[2+(n*10):6+(n*10)]
 
         mask = neighbors_message[6+(n*10)]
@@ -92,8 +94,24 @@ def decodeNeighbors(neighbors_message):
         port = int.from_bytes(port_bytes, byteorder="big")
         cost = int.from_bytes(cost_bytes, byteorder="big")
 
-        decoded_table[i][0] = ip_str
-        decoded_table[i][1] = mask
-        decoded_table[i][2] = port
-        decoded_table[i][3] = cost
+        decoded_tuple.append(ip_str)
+        decoded_tuple.append(mask)
+        decoded_tuple.append(port)
+        decoded_tuple.append(cost)
+        decoded_table.append(decoded_tuple)
     return decoded_table
+
+def check_message(message, ip, port):
+    ip_dest = message[1:5]
+    ip = list(ip_dest)
+    ip_str = ""
+    for byte in range(0,len(ip)):
+        if(byte < len(ip)-1):
+            ip_str += str(ip[byte])+"."
+        else:
+            ip_str += str(ip[byte])
+    port_bytes = message[5:7]
+    port_dest = int.from_bytes(port_bytes, byteorder="big")
+    elements_quantity = int.from_bytes(messageRT[7:9], byteorder="big")
+
+    return self.ip == ip_str and port_dest == self.port

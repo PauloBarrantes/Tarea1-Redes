@@ -210,7 +210,7 @@ class NodeUDP(Node):
             time.sleep(TIMEOUT_UPDATES)
             print(BColors.WARNING + "Iniciamos un UPDATE" + BColors.ENDC)
 
-            self.log_writer.write_log("Iniciamos los updates", 1)
+            #self.log_writer.write_log("Iniciamos los updates", 1)
 
             for key in list(self.neighbors_table.neighbors):
                 if self.neighbors_table.is_awake(key[0],key[1]) == 1:
@@ -226,7 +226,7 @@ class NodeUDP(Node):
                     thread_send_RT.start()
 
     def thread_send_RT(self, ip, port, reachability_table):
-        self.log_writer.write_log("Enviamos updates al Nodo (" +ip+","+str(port)+")", 1)
+        #self.log_writer.write_log("Enviamos updates al Nodo (" +ip+","+str(port)+")", 1)
 
         try:
              self.socket_node.sendto(reachability_table,(ip,port))
@@ -260,7 +260,7 @@ class NodeUDP(Node):
     # Thread manda mensajes a cada vecino y espera el ACK
 
     def thread_alive_message(self, ipDest, portDest, cost,message):
-        self.log_writer.write_log("Iniciamos el keep alive con (" +ipDest+","+str(portDest)+")", 2)
+        #self.log_writer.write_log("Iniciamos el keep alive con (" +ipDest+","+str(portDest)+")", 2)
 
         attempts = 0
         self.bitmapLock.acquire()
@@ -288,11 +288,11 @@ class NodeUDP(Node):
             self.neighbors_table.mark_dead(ipDest,portDest)
 
             print("Acá hicimos una inundación")
-            self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba despierto, pero ha muerto", 2)
+            #self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba despierto, pero ha muerto", 2)
 
 
         elif not awakeNeighbor and alive:
-            self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba dormido, pero ha despertado", 2)
+            #self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba dormido, pero ha despertado", 2)
 
             self.neighbors_table.mark_awake(ipDest,portDest)
             self.reachability_table.save_address(ipDest,16,portDest,cost,ipDest,16,portDest)
@@ -301,7 +301,7 @@ class NodeUDP(Node):
 
 
     def send_message(self):
-        self.log_writer.write_log("UDP node is sending a message.", 2)
+        #self.log_writer.write_log("UDP node is sending a message.", 2)
 
         # Variables that we will use to keep the user's input.
         port = ""
