@@ -38,7 +38,8 @@ class NeighborsTable:
                 # Now update the table and release the lock when finished.
                 if self.neighbors.get((ip, port))[0] > cost:
                     self.neighbors.update({(ip, port): [cost, awake,mask, lock]})
-                    lock.release()
+
+                lock.release()
 
             except threading.ThreadError:
 
