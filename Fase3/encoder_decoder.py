@@ -84,7 +84,7 @@ def decodeNeighbors(neighbors_message):
         ip = list(ip_bytes)
         ip_str = ""
         for byte in range(0,len(ip)):
-            if(byte < len(ip)-1):
+            if (byte < len(ip)-1):
                 ip_str += str(ip[byte])+"."
             else:
                 ip_str += str(ip[byte])

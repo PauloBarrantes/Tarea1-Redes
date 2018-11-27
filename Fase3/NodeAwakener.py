@@ -60,7 +60,7 @@ def awake():
             path = "/Users/paulobarrantes/Proyectos/Tarea1-Redes/Fase3"
             flag_users = True
         elif usuario == "2":
-            path = "/Users/Fla/Documents/GitHub/Tarea1-Redes"
+            path = "/Users/Fla/Documents/GitHub/Tarea1-Redes/Fase3"
             flag_users = True
 
 
@@ -73,6 +73,7 @@ tell application \"Terminal\"
 	set currentTab to do script (\"open -a Terminal\")
 	delay 1
 	do script (\" cd '''+path+'''\") in currentTab
+    delay 1
 	do script (\"python3 crearNodo.py -intAS '''+ ip + ''' '''+puerto+'''\") in currentTab
 
 end tell

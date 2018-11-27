@@ -1,5 +1,6 @@
 from Node import *
 from socket import *
+from encoder_decoder import *
 from texttable import *
 import csv
 import threading
@@ -70,7 +71,6 @@ class CentralNode(Node):
             if int.from_bytes(message, byteorder="big") != 0:
                 print("PRUEBA: ", client_addr[0],"-",client_addr[1])
                 #elf.log_writer.write_log("Central Node received a request.", 1)
-                neighborsList = []
 
                 ipRequest =  str(client_addr[0])
                 portRequest = int(client_addr[1])
