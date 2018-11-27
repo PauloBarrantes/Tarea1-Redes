@@ -86,19 +86,27 @@ class NodeUDP(Node):
 
 
         # Start listener thread.
-        self.threadListener = threading.Thread(target = self.listener)
-        self.threadListener.daemon = True
-        self.threadListener.start()
+        self.thread_listener = threading.Thread(target = self.listener)
+        self.thread_listener.daemon = True
+        self.thread_listener.start()
+
+
+        # Start message processor thread.
+        self.thread_message_processor = threading.Thread(target = self.listener)
+        self.thread_message_processor.daemon = True
+        self.thread_message_processor.start()
+
+
         # We start threadAliveMessage
-        self.principalThreadAliveMessage = threading.Thread(target = self.aliveMessages)
-        self.principalThreadAliveMessage.daemon = True
-        self.principalThreadAliveMessage.start()
+        self.principal_thread_alive_message = threading.Thread(target = self.alive_messages)
+        self.principal_thread_alive_message.daemon = True
+        self.principal_thread_alive_message.start()
 
 
         ## We start the thread of updates
-        self.threadUpdates = threading.Thread(target = self.sendRT)
-        self.threadUpdates.daemon = True
-        self.threadUpdates.start()
+        self.thread_updates = threading.Thread(target = self.send_RT)
+        self.thread_updates.daemon = True
+        self.thread_updates.start()
 
         # Run our menu.
         self.menu()
@@ -197,7 +205,7 @@ class NodeUDP(Node):
             else:
                 print("gg")
 
-    def sendRT(self):
+    def send_RT(self):
         while True:
             time.sleep(TIMEOUT_UPDATES)
             print(BColors.WARNING + "Iniciamos un UPDATE" + BColors.ENDC)
@@ -213,11 +221,11 @@ class NodeUDP(Node):
                     message = bytearray(MESSAGE_TYPE_UPDATE.to_bytes(1, byteorder="big"))
                     encodeRT(key, message, self.reachability_table)
 
-                    threadSendRT = threading.Thread(target = self.threadSendRT, args=(ip, port, message))
-                    threadSendRT.daemon = True
-                    threadSendRT.start()
+                    thread_send_RT = threading.Thread(target = self.thread_send_RT, args=(ip, port, message))
+                    thread_send_RT.daemon = True
+                    thread_send_RT.start()
 
-    def threadSendRT(self, ip, port, reachability_table):
+    def thread_send_RT(self, ip, port, reachability_table):
         self.log_writer.write_log("Enviamos updates al Nodo (" +ip+","+str(port)+")", 1)
 
         try:
@@ -232,7 +240,7 @@ class NodeUDP(Node):
 
 
     # Send messages to another node.
-    def aliveMessages(self):
+    def alive_messages(self):
         message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
 
         while True:
@@ -244,14 +252,14 @@ class NodeUDP(Node):
                 cost = self.neighbors_table.get_cost(ipNeighbor,portNeighbor)
 
                 # Thread send alive messages to specific neighbor
-                threadAliveMessageToNeighbor = threading.Thread(target = self.threadAliveMessage, args=(ipNeighbor, portNeighbor, cost,message))
-                threadAliveMessageToNeighbor.daemon = True
-                threadAliveMessageToNeighbor.start()
+                thread_alive_message_to_neighbor = threading.Thread(target = self.thread_alive_message, args=(ipNeighbor, portNeighbor, cost,message))
+                thread_alive_message_to_neighbor.daemon = True
+                thread_alive_message_to_neighbor.start()
             time.sleep(TIMEOUT_ALIVE_MESSAGES)
 
     # Thread manda mensajes a cada vecino y espera el ACK
 
-    def threadAliveMessage(self, ipDest, portDest, cost,message):
+    def thread_alive_message(self, ipDest, portDest, cost,message):
         self.log_writer.write_log("Iniciamos el keep alive con (" +ipDest+","+str(portDest)+")", 2)
 
         attempts = 0
@@ -292,7 +300,7 @@ class NodeUDP(Node):
 
 
 
-    def sendMessage(self):
+    def send_message(self):
         self.log_writer.write_log("UDP node is sending a message.", 2)
 
         # Variables that we will use to keep the user's input.
@@ -333,7 +341,7 @@ class NodeUDP(Node):
     def terminate_node(self):
         print("Eliminado el nodo.")
 
-    def changeCost(self):
+    def change_cost(self):
         # Print our menu.
         print(BColors.WARNING + "Bienvenido al cambio de costo de un enlace: " + self.ip, ":", str(self.port) + BColors.ENDC)
         print(BColors.OKGREEN + "Instrucciones: " + BColors.ENDC)
@@ -357,10 +365,10 @@ class NodeUDP(Node):
 
         if user_input == "1":
             print("Cambiando el costo de un enlace")
-            self.changeCost()
+            self.change_cost()
             self.menu()
         elif user_input == "2":
-            self.sendMessage()
+            self.send_message()
             self.menu()
         elif user_input == "3":
             self.terminate_node()
