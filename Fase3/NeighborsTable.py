@@ -2,6 +2,11 @@ from texttable import *
 import threading
 
 
+'''CONSTANTS'''
+
+ERROR = -1
+LOWER_COST = 2
+MAJOR_COST = 1
 class NeighborsTable:
 
     def __init__(self):
@@ -21,6 +26,33 @@ class NeighborsTable:
         return self.neighbors[(ip, port)][0]
     # Save the ip from the source of the message and the mask as the key. For the entry,
     # we will save the message ip address, the cost and the port it is working on.
+
+    def change_cost(self, ip, port, new_cost):
+        # First, we need to make sure that we have the key in table.
+        if self.neighbors.get((ip, port)):
+            try:
+
+                # Acquire the lock.
+                lock = self.neighbors.get((ip, port))[3]
+                lock.acquire()
+                self.neighbors.get((ip, port))[0] = new_cost
+
+                # Now update the table and release the lock when finished.
+                if self.neighbors.get((ip, port))[0] >= new_cost:
+                    return LOWER_COST
+                else:
+                    return MAJOR_COST
+                lock.release()
+
+            except threading.ThreadError:
+
+                # The lock got remove, so just keep going, we know we can't update it.
+                print("No se pudo modificar la entrada: " + ip + ", " + mask + ", " + port + ". Intente de nuevo.")
+                return ERROR
+        else:
+            print("No existe un vecino con la ip: ", ip," - ", port)
+            return ERROR
+
     def save_address(self, ip, mask, port, cost, awake):
 
         # First, we need to make sure that we have the key in table.
@@ -36,8 +68,7 @@ class NeighborsTable:
                 lock.acquire()
 
                 # Now update the table and release the lock when finished.
-                if self.neighbors.get((ip, port))[0] > cost:
-                    self.neighbors.update({(ip, port): [cost, awake,mask, lock]})
+                self.neighbors.update({(ip, port): [cost, awake,mask, lock]})
 
                 lock.release()
 

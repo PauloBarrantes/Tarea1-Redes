@@ -1,6 +1,10 @@
 from texttable import *
 import threading
+'''CONSTANTS'''
 
+ERROR = -1
+LOWER_COST = 2
+MAJOR_COST = 1
 
 class ReachabilityTables:
 
@@ -56,8 +60,30 @@ class ReachabilityTables:
                 self.reach_table.pop(key)
                 entry_lock.release()
 
+    def change_cost(self, ip, port, new_cost):
+        if self.neighbors.get((ip, port)):
+            try:
+                # Acquire the lock.
+                lock = self.neighbors.get((ip, port))[3]
+                lock.acquire()
+                self.neighbors.get((ip, port))[0] = new_cost
 
-    def getPivots(self, ip, port):
+                # Now update the table and release the lock when finished.
+                if self.neighbors.get((ip, port))[0] >= new_cost:
+                    return LOWER_COST
+                else:
+                    return MAJOR_COST
+                lock.release()
+
+            except threading.ThreadError:
+
+                # The lock got remove, so just keep going, we know we can't update it.
+                print("No se pudo modificar la entrada: " + ip + ", " + mask + ", " + port + ". Intente de nuevo.")
+                return ERROR
+        else:
+            print("No existe un vecino con la ip: ", ip," - ", port)
+            return ERROR
+    def get_pivots(self, ip, port):
 
         ip_pivot = self.reach_table.get((ip,port))[1]
         port_pivot = self.reach_table.get((ip,port))[3]

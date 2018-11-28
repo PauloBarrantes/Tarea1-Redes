@@ -33,7 +33,11 @@ HIGH_PRIORITY   = 1
 NORMAL_PRIORITY = 2
 LOW_PRIORITY    = 3
 
+'''CHANGE_COST CONSTANTS'''
 
+ERROR = -1
+LOWER_COST = 2
+MAJOR_COST = 1
 '''CENTRAL NODE'''
 
 CENTRAL_IP = "127.0.0.1"
@@ -228,7 +232,7 @@ class NodeUDP(Node):
                 else:
                     print("No somos el destino de este mensaje, hay que pasarlo a alguien")
 
-                    pivots = self.reachability_table.getPivots(msg_for_me[1], msg_for_me[2])
+                    pivots = self.reachability_table.get_pivots(msg_for_me[1], msg_for_me[2])
                     if pivots != None:
                         self.socket_node.sendto(message, pivots)
                     else:
@@ -363,7 +367,7 @@ class NodeUDP(Node):
         port_destination = int(port)
 
         mensaje = input("Escriba el mensaje que desea enviar:")
-        pivots = self.reachability_table.getPivots(ip_destination,port_destination)
+        pivots = self.reachability_table.get_pivots(ip_destination,port_destination)
         if pivots != None:
             print("HOLA")
 
@@ -389,9 +393,38 @@ class NodeUDP(Node):
     def change_cost(self):
         # Print our menu.
         print(BColors.WARNING + "Bienvenido al cambio de costo de un enlace: " + self.ip, ":", str(self.port) + BColors.ENDC)
-        print(BColors.OKGREEN + "Instrucciones: " + BColors.ENDC)
+        print(BColors.OKGREEN + "Instrucciones: " + BColors.ENDC + "Digite el nodo que al que le vamos a cambiar el costo hacia nosotros")
+        port = ""
+        ip_destination = ""
+        new_cost = ""
+        # Variable to check each input of the user.
+        print("")
+        valid_input = False
+        while not valid_input:
+            ip_destination = input("Digite la ip de destino a la que desea enviar: ")
+            valid_input = self.validate_ip(ip_destination)
 
+        valid_input = False
+        while not valid_input:
+            port = input("Digite el puerto de destino a la que desea enviar: ")
+            valid_input = self.validate_port(port)
+        port_destination = int(port)
 
+        valid_input = False
+        while not valid_input:
+            new_cost = input("Escriba el nuevo costo que desea enviar:")
+            valid_input = self.validate_cost(new_cost)
+        new_cost = int(new_cost)
+
+        change_cost_message = bytearray(MESSAGE_TYPE_COST_CHANGE.to_bytes(1, byteorder="big"))
+        change_cost_message.extend(new_cost.to_bytes(3, byteorder="big"))
+
+        result_neighbor = self.neighbors_table.change_cost(ip_destination, port_destination, new_cost)
+        result_rt = self.reachability_table.change_cost(ip_destination, port_destination, new_cost)
+        if result_neighbor != ERROR and result_rt != ERROR:
+            self.socket_node.sendto(change_cost_message,(ip_destination,port_destination))
+        else:
+            print("Ocurrió un error actualizando el costo")
     def menu(self):
 
         # Print our menu.
