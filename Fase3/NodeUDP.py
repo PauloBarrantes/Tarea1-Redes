@@ -234,7 +234,7 @@ class NodeUDP(Node):
                 self.neighbors_table.mark_awake(ip_source,port_source)
                 cost = self.neighbors_table.get_cost(ip_source,port_source)
 
-                self.reachability_table.save_address(ip_source,16,port_source,cost,ip_source,16,port_source,IS_NEIGHBOR)
+                self.reachability_table.save_address(ip_source,16,port_source,cost,ip_source,16,port_source)
                 ## We send a ACK to the source node
                 messageACK = bytearray(MESSAGE_TYPE_I_AM_ALIVE.to_bytes(1, byteorder="big"))
                 self.socket_node.sendto(messageACK, neighbor)
@@ -381,17 +381,17 @@ class NodeUDP(Node):
             ## We need to make a flush
             self.neighbors_table.mark_dead(ipDest,portDest)
             print(BColors.FAIL + "Murió el nodo " + ipDest+ ":"+ str(portDest) + BColors.ENDC)
-            #self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba despierto, pero ha muerto", 2)
+            self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba despierto, pero ha muerto", 2)
 
 
         elif not awakeNeighbor and alive:
             self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba dormido, pero ha despertado", 2)
 
             self.neighbors_table.mark_awake(ipDest,portDest)
-            self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest, IS_NEIGHBOR)
+            self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
 
         elif awakeNeighbor and alive:
-            self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest,IS_NEIGHBOR)
+            self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
 
 
 
@@ -445,7 +445,13 @@ class NodeUDP(Node):
             print("No hay camino para ese nodo GG")
 
     def terminate_node(self):
-        print("Eliminado el nodo.")
+        print("Eliminado el nodo. - en construcción jejeje :v")
+        for key in list(self.neighbors_table.neighbors):
+            if self.neighbors_table.is_awake(key[0],key[1]) == AWAKE:
+                ip = key[0]
+                port = key[1]
+                message = bytearray(MESSAGE_TYPE_CHANGE_DEATH.to_bytes(1, byteorder="big"))
+                self.socket_node.sendto(message,(str(ip),int(port)))
 
     def change_cost(self):
         # Print our menu.

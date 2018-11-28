@@ -12,10 +12,6 @@ class NeighborsTable:
     def __init__(self):
         self.neighbors = {}
 
-
-    def is_neighbor(self, ip, port):
-        return self.neighbors.get((ip, port))
-
     def is_awake(self, ip, port):
         return self.neighbors.get((ip, port))[1]
 
