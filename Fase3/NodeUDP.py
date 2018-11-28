@@ -27,6 +27,9 @@ MESSAGE_TYPE_REQUEST_NEIGHBORS = 10
 
 
 AWAKE = 1
+IS_NEIGHBOR = True
+
+
 
 '''PRIORITYS'''
 HIGH_PRIORITY   = 1
@@ -144,6 +147,7 @@ class NodeUDP(Node):
             decoded_neighbors = decodeNeighbors(neighbors_message)
 
             for n in range(0, len(decoded_neighbors)):
+
                 self.neighbors_table.save_address(decoded_neighbors[n][0], decoded_neighbors[n][1], decoded_neighbors[n][2], decoded_neighbors[n][3], False)
             self.neighbors_table.print_table()
         except BrokenPipeError:
@@ -230,7 +234,7 @@ class NodeUDP(Node):
                 self.neighbors_table.mark_awake(ip_source,port_source)
                 cost = self.neighbors_table.get_cost(ip_source,port_source)
 
-                self.reachability_table.save_address(ip_source,16,port_source,cost,ip_source,16,port_source)
+                self.reachability_table.save_address(ip_source,16,port_source,cost,ip_source,16,port_source,IS_NEIGHBOR)
                 ## We send a ACK to the source node
                 messageACK = bytearray(MESSAGE_TYPE_I_AM_ALIVE.to_bytes(1, byteorder="big"))
                 self.socket_node.sendto(messageACK, neighbor)
@@ -384,10 +388,10 @@ class NodeUDP(Node):
             self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba dormido, pero ha despertado", 2)
 
             self.neighbors_table.mark_awake(ipDest,portDest)
-            self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
+            self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest, IS_NEIGHBOR)
 
         elif awakeNeighbor and alive:
-            self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
+            self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest,IS_NEIGHBOR)
 
 
 
