@@ -86,6 +86,7 @@ class NodeUDP(Node):
 
         self.bitmapLock = threading.Lock()
         self.flagRequestNeighbors = False
+        self.flagFlu = False
 
         #We request neighborts to central node
         self.request_neighbors()
@@ -159,20 +160,33 @@ class NodeUDP(Node):
 
             if messageType ==  MESSAGE_TYPE_UPDATE:
                 priority = LOW_PRIORITY
+
             elif messageType == MESSAGE_TYPE_ALIVE:
                 priority = LOW_PRIORITY
+
             elif messageType == MESSAGE_TYPE_I_AM_ALIVE:
                 priority = LOW_PRIORITY
+
             elif messageType == MESSAGE_TYPE_FLOOD:
                 priority = HIGH_PRIORITY
+
             elif messageType == MESSAGE_TYPE_DATA:
                 priority = LOW_PRIORITY
+
             elif messageType == MESSAGE_TYPE_COST_CHANGE:
                 priority = NORMAL_PRIORITY
+
             elif messageType ==  MESSAGE_TYPE_CHANGE_DEATH:
                 priority = NORMAL_PRIORITY
+            else:
+                priority = -1
 
-            self.priority_queue_messages.put((priority,message,neighbor))
+            print("Prioridad del mensaje: ", priority)
+
+            if priority != -1:
+                self.priority_queue_messages.put((priority,message,neighbor))
+            else:
+                print("Tipo de mensaje inválido")
 
     def processor_messages(self):
         print ("We are processing messages ")
@@ -238,7 +252,24 @@ class NodeUDP(Node):
                     else:
                         print("We lost")
             elif messageType == MESSAGE_TYPE_COST_CHANGE:
-                pass
+                new_cost = int.from_bytes(message[1:4], byteorder="big")
+                print("Costo de enlance nuevo:" , new_cost )
+                result = self.neighbors_table.change_cost(ip_source, port_source, new_cost)
+
+
+                if result != ERROR:
+                    result_rt = self.reachability_table.change_cost(ip_source, port_source, new_cost)
+                    if result_rt != ERROR:
+
+                        print("Resultado 1:" ,result)
+                        print("Resultado 2:",result_rt)
+                        if result == MAJOR_COST and result_rt == MAJOR_COST:
+                            print("Hay que inundar")
+                        elif result == LOWER_COST and result_rt == LOWER_COST:
+                            print("Eventualmente a todos se les va actualizar el nuevo costo")
+
+
+
             elif messageType ==  MESSAGE_TYPE_CHANGE_DEATH:
                 pass
             else:
@@ -321,8 +352,7 @@ class NodeUDP(Node):
         if awakeNeighbor and not alive:
             ## We need to make a flush
             self.neighbors_table.mark_dead(ipDest,portDest)
-
-            print("Acá hicimos una inundación")
+            print(BColors.FAIL + "Murió el nodo " + ipDest+ ":"+ str(portDest) + BColors.ENDC)
             #self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba despierto, pero ha muerto", 2)
 
 

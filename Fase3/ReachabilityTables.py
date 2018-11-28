@@ -61,15 +61,15 @@ class ReachabilityTables:
                 entry_lock.release()
 
     def change_cost(self, ip, port, new_cost):
-        if self.neighbors.get((ip, port)):
+        if self.reach_table.get((ip, port)):
             try:
                 # Acquire the lock.
-                lock = self.neighbors.get((ip, port))[3]
+                lock = self.reach_table.get((ip, port))[4]
                 lock.acquire()
-                self.neighbors.get((ip, port))[0] = new_cost
+                self.reach_table.get((ip, port))[0] = new_cost
 
                 # Now update the table and release the lock when finished.
-                if self.neighbors.get((ip, port))[0] >= new_cost:
+                if self.reach_table.get((ip, port))[0] >= new_cost:
                     return LOWER_COST
                 else:
                     return MAJOR_COST
