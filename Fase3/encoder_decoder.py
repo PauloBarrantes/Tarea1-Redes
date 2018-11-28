@@ -113,4 +113,4 @@ def check_message(message, ip, port):
     port_bytes = message[5:7]
     port_dest = int.from_bytes(port_bytes, byteorder="big")
 
-    return self.ip == ip_str and port_dest == self.port
+    return ip == ip_str and port_dest == port
