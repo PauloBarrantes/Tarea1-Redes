@@ -104,13 +104,13 @@ def decodeNeighbors(neighbors_message):
 def check_message(message, ip, port):
     response = []
     ip_dest = message[1:5]
-    ip = list(ip_dest)
+    ip_list = list(ip_dest)
     ip_str = ""
-    for byte in range(0,len(ip)):
-        if(byte < len(ip)-1):
-            ip_str += str(ip[byte])+"."
+    for byte in range(0,len(ip_list)):
+        if(byte < len(ip_list)-1):
+            ip_str += str(ip_list[byte])+"."
         else:
-            ip_str += str(ip[byte])
+            ip_str += str(ip_list[byte])
     port_bytes = message[5:7]
     port_dest = int.from_bytes(port_bytes, byteorder="big")
 
