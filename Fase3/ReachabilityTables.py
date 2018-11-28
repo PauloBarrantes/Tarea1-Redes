@@ -12,10 +12,13 @@ class ReachabilityTables:
     def __init__(self):
         self.reach_table = {}
 
+        self.lock_table = threading.Lock()
+
     # Save the ip from the source of the message and the mask as the key. For the entry,
     # we will save the message ip address, the cost and the port it is working on.
     def save_address(self, destination_ip, destination_mask, destination_port, cost, pivot_ip, pivot_mask, pivot_port):
         # First, we need to make sure that we have the key in table.
+
         if self.reach_table.get((destination_ip, destination_port)):
 
             # If we did find the key, then we need to try to acquire the lock, before
@@ -43,10 +46,13 @@ class ReachabilityTables:
                 return
 
         else:
+            updateCost = cost
+            if self.reach_table.get((pivot_ip, pivot_port)):
+                updateCost = cost + self.reach_table.get((pivot_ip, pivot_port))[0]
 
             # Create a new lock for this entry and a lock check, in case we are deleting it.
             entry_lock = threading.Lock()
-            self.reach_table.update({(destination_ip, destination_port): [cost, pivot_ip, pivot_mask, pivot_port, entry_lock, destination_mask]})
+            self.reach_table.update({(destination_ip, destination_port): [updateCost, pivot_ip, pivot_mask, pivot_port, entry_lock, destination_mask]})
 
     # Remove an entry from the reachability table.
     def remove_address(self, ip, mask, port):
@@ -91,6 +97,12 @@ class ReachabilityTables:
         pivots = (ip_pivot, port_pivot)
 
         return pivots
+    def clear(self):
+        self.lock_table.acquire()
+
+        self.reach_table.clear()
+
+        self.lock_table.release()
     # Print the reachability table.
     def print_table(self):
         print("TABLA DE ALCANZABILIDAD")
