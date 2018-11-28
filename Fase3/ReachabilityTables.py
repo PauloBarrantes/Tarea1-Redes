@@ -28,7 +28,7 @@ class ReachabilityTables:
                 lock.acquire()
 
                 # Now update the table and release the lock when finished.
-                updateCost = cost + self.reach_table.get((destination_ip, destination_port))[0]
+                updateCost = cost + self.reach_table.get((pivot_ip, pivot_port))[0]
 
                 if self.reach_table.get((destination_ip, destination_port))[0] > updateCost:
 
