@@ -518,3 +518,259 @@ Message: Iniciamos los updates | Type: Update.
 Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
 Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
 Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos el keep alive con (127.0.0.1,8080) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8083) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8084) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (127.0.0.1,8085) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8080) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8083) | Type: Update. 
+Message: Enviamos updates al Nodo (127.0.0.1,8084) | Type: Update. 
