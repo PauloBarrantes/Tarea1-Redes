@@ -102,6 +102,7 @@ def decodeNeighbors(neighbors_message):
     return decoded_table
 
 def check_message(message, ip, port):
+    response = []
     ip_dest = message[1:5]
     ip = list(ip_dest)
     ip_str = ""
@@ -113,4 +114,12 @@ def check_message(message, ip, port):
     port_bytes = message[5:7]
     port_dest = int.from_bytes(port_bytes, byteorder="big")
 
-    return ip == ip_str and port_dest == port
+    is_for_me = False
+    if ip == ip_str and port_dest == port:
+        is_for_me = True
+
+    response.append(is_for_me)
+    response.append(ip_str)
+    response.append(port_dest)
+
+    return response

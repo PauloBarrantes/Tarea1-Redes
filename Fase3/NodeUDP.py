@@ -189,12 +189,12 @@ class NodeUDP(Node):
                 msg_for_me = check_message(message, self.ip, self.port)
                 elements_quantity = int.from_bytes(message[7:9], byteorder="big")
 
-                if msg_for_me:
+                if msg_for_me[0]:
                     print("Hemos llegado al destino")
                 else:
                     print("No somos el destino de este mensaje, hay que pasarlo a alguien")
 
-                    pivots = self.reachability_table.getPivots(ip_str, port_dest)
+                    pivots = self.reachability_table.getPivots(msg_for_me[1], msg_for_me[2])
                     if pivots != None:
                         self.socket_node.sendto(message, pivots)
                     else:
