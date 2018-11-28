@@ -66,15 +66,16 @@ class ReachabilityTables:
                 # Acquire the lock.
                 lock = self.reach_table.get((ip, port))[4]
                 lock.acquire()
-                self.reach_table.get((ip, port))[0] = new_cost
 
                 # Now update the table and release the lock when finished.
-                if self.reach_table.get((ip, port))[0] >= new_cost:
-                    return LOWER_COST
+                if self.reach_table.get((ip, port))[0] < new_cost:
+                    type_cost =  MAJOR_COST
                 else:
-                    return MAJOR_COST
-                lock.release()
+                    type_cost =  LOWER_COST
+                self.reach_table.get((ip, port))[0] = new_cost
 
+                lock.release()
+                return type_cost
             except threading.ThreadError:
 
                 # The lock got remove, so just keep going, we know we can't update it.

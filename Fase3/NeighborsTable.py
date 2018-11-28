@@ -38,13 +38,15 @@ class NeighborsTable:
                 # Now update the table and release the lock when finished.
 
                 if self.neighbors.get((ip, port))[0] < new_cost:
-                    return MAJOR_COST
+                    type_cost =  MAJOR_COST
                 else:
-                    return LOWER_COST
+                    type_cost =  LOWER_COST
 
                 self.neighbors.get((ip, port))[0] = new_cost
 
                 lock.release()
+
+                return type_cost
 
             except threading.ThreadError:
 

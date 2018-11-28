@@ -45,7 +45,7 @@ CENTRAL_MASK = 16
 CENTRAL_PORT = 9000
 
 '''# HOPS'''
-HOPS = 6
+N_HOPS = 6
 
 '''TERMINAL COLORS'''
 
@@ -78,7 +78,7 @@ class NodeUDP(Node):
 
         self.priority_queue_messages = PriorityQueue()
 
-        self.log_writer = LogWriter()
+        self.log_writer = LogWriter(self.ip, self.port)
 
         #socket node
 
@@ -170,6 +170,7 @@ class NodeUDP(Node):
                 priority = LOW_PRIORITY
 
             elif messageType == MESSAGE_TYPE_FLOOD:
+                print("mensaje de inundación")
                 priority = HIGH_PRIORITY
 
             elif messageType == MESSAGE_TYPE_DATA:
@@ -183,7 +184,8 @@ class NodeUDP(Node):
             else:
                 priority = -1
 
-            print("Prioridad del mensaje: ", priority)
+            if priority != 3:
+                print("Prioridad del mensaje: ", priority)
 
             if priority != -1:
                 self.priority_queue_messages.put((priority,message,neighbor))
@@ -233,8 +235,14 @@ class NodeUDP(Node):
                 self.bitmapLock.release()
             ## We receive a message of flood
             elif messageType == MESSAGE_TYPE_FLOOD:
-                pass
+                print("inundación papa")
+                hops = int.from_bytes(message[1], byteorder="big")
 
+                if hops == 0:
+                    print("Se acabó la inundación")
+                else:
+                    hops = hops - 1
+                    self.flush(hops)
             ## We receive a message data
             elif messageType == MESSAGE_TYPE_DATA:
                 print("ENTRA AC´A")
@@ -256,9 +264,9 @@ class NodeUDP(Node):
             elif messageType == MESSAGE_TYPE_COST_CHANGE:
                 new_cost = int.from_bytes(message[1:4], byteorder="big")
                 print("Costo de enlance nuevo:" , new_cost )
+
+
                 result = self.neighbors_table.change_cost(ip_source, port_source, new_cost)
-
-
                 if result != ERROR:
                     result_rt = self.reachability_table.change_cost(ip_source, port_source, new_cost)
                     if result_rt != ERROR:
@@ -266,7 +274,7 @@ class NodeUDP(Node):
                         print("Resultado 1:" ,result)
                         print("Resultado 2:",result_rt)
                         if result == MAJOR_COST and result_rt == MAJOR_COST:
-                            print("Hay que inundar")
+                            self.flush(N_HOPS)
                         elif result == LOWER_COST and result_rt == LOWER_COST:
                             print("Eventualmente a todos se les va actualizar el nuevo costo")
 
@@ -280,7 +288,7 @@ class NodeUDP(Node):
     def send_RT(self):
         while True:
             time.sleep(TIMEOUT_UPDATES)
-            print(BColors.WARNING + "Iniciamos un UPDATE" + BColors.ENDC)
+            #print(BColors.WARNING + "Iniciamos un UPDATE" + BColors.ENDC)
 
             self.log_writer.write_log("Iniciamos los updates", 1)
 
@@ -312,7 +320,7 @@ class NodeUDP(Node):
         message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
 
         while True:
-            print(BColors.WARNING + "Iniciamos el Keep Alive" + BColors.ENDC)
+            #print(BColors.WARNING + "Iniciamos el Keep Alive" + BColors.ENDC)
 
             for key in list(self.neighbors_table.neighbors):
                 ipNeighbor = key[0]
@@ -367,16 +375,14 @@ class NodeUDP(Node):
 
 
     #We are going to make a flood to our neighbors
-    def flush(self):
+    def flush(self, hops):
         for key in list(self.neighbors_table.neighbors):
             if self.neighbors_table.is_awake(key[0],key[1]) == AWAKE:
                 ip = key[0]
                 port = key[1]
-                cost = self.neighbors_table.neighbors.get(key)[0]
-
-                message = bytearray(MESSAGE_TYPE_UPDATE.to_bytes(1, byteorder="big"))
-                message = bytearray(HOPS.to_bytes(1, byteorder="big"))
-                self.socket_node.sendto(message,(str(ipDest),int(portDest)))
+                message = bytearray(MESSAGE_TYPE_FLOOD.to_bytes(1, byteorder="big"))
+                message.extend(hops.to_bytes(1, byteorder="big"))
+                self.socket_node.sendto(message,(str(ip),int(port)))
 
 
     def send_message(self):
@@ -401,8 +407,6 @@ class NodeUDP(Node):
         mensaje = input("Escriba el mensaje que desea enviar:")
         pivots = self.reachability_table.get_pivots(ip_destination,port_destination)
         if pivots != None:
-            print("HOLA")
-
             print(pivots)
             ## Message Type
             data_message = bytearray(MESSAGE_TYPE_DATA.to_bytes(1, byteorder="big"))
@@ -433,12 +437,12 @@ class NodeUDP(Node):
         print("")
         valid_input = False
         while not valid_input:
-            ip_destination = input("Digite la ip de destino a la que desea enviar: ")
+            ip_destination = input("Digite la ip  a la que vamos a cambiar el costo ")
             valid_input = self.validate_ip(ip_destination)
 
         valid_input = False
         while not valid_input:
-            port = input("Digite el puerto de destino a la que desea enviar: ")
+            port = input("Digite el puerto al que vamos a cambiar el costo")
             valid_input = self.validate_port(port)
         port_destination = int(port)
 
