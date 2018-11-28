@@ -14,7 +14,7 @@ def encodeRT(key, message, reachabilityTable):
             message.extend(reachabilityTable.reach_table.get(key2)[5].to_bytes(1, byteorder="big"))
             message.extend((key2[1]).to_bytes(2, byteorder="big"))
             message.extend(reachabilityTable.reach_table.get(key2)[0].to_bytes(3, byteorder="big"))
-    message[1:3] = reach_counter.to_bytes(2,byteorder="big")
+    message[1:1] = reach_counter.to_bytes(2,byteorder="big")
 
 
 def decodeRT(messageRT):
