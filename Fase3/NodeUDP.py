@@ -183,10 +183,11 @@ class NodeUDP(Node):
 
             ## We receive a message data
             elif messageType == MESSAGE_TYPE_DATA:
-
+                print("ENTRA AC´A")
 
                 ## We check if is ours
                 msg_for_me = check_message(message, self.ip, self.port)
+                elements_quantity = int.from_bytes(message[7:9], byteorder="big")
 
                 if msg_for_me:
                     print("Hemos llegado al destino")
@@ -322,7 +323,9 @@ class NodeUDP(Node):
         mensaje = input("Escriba el mensaje que desea enviar:")
         pivots = self.reachability_table.getPivots(ip_destination,port_destination)
         if pivots != None:
+            print("HOLA")
 
+            print(pivots)
             ## Message Type
             data_message = bytearray(MESSAGE_TYPE_DATA.to_bytes(1, byteorder="big"))
             ## Destination IP
@@ -333,7 +336,7 @@ class NodeUDP(Node):
             data_message.extend(len(mensaje).to_bytes(2, byteorder="big"))
             ## Message (N Bytes)
             data_message.extend(mensaje.encode("utf-8"))
-
+            print("ADIOS")
             self.socket_node.sendto(data_message, pivots)
         else:
             print("No hay camino para ese nodo GG")
