@@ -23,10 +23,12 @@ MESSAGE_TYPE_FLOOD = 4
 MESSAGE_TYPE_DATA = 5
 MESSAGE_TYPE_COST_CHANGE = 6
 MESSAGE_TYPE_CHANGE_DEATH = 7
-
 MESSAGE_TYPE_REQUEST_NEIGHBORS = 10
 
 '''PRIORITYS'''
+HIGH_PRIORITY   = 1
+NORMAL_PRIORITY = 2
+LOW_PRIORITY    = 3
 
 
 '''CENTRAL NODE'''
@@ -92,7 +94,7 @@ class NodeUDP(Node):
 
 
         # Start message processor thread.
-        self.thread_message_processor = threading.Thread(target = self.listener)
+        self.thread_message_processor = threading.Thread(target = self.processor_messages)
         self.thread_message_processor.daemon = True
         self.thread_message_processor.start()
 
@@ -135,22 +137,50 @@ class NodeUDP(Node):
             print("Se perdió la conexión con el nodo central")
 
     ## The messages to me, come here
+
     def listener(self):
 
         print ("We are listening in ", self.ip, self.port)
-
         while True:
             ## Wait for a message
-            message, client_addr = self.socket_node.recvfrom(1024)
+            message, neighbor = self.socket_node.recvfrom(1024)
+            messageType = int (message[0])
 
+            ## We assign the prioritys of each message
+
+            if messageType ==  MESSAGE_TYPE_UPDATE:
+                priority = LOW_PRIORITY
+            elif messageType == MESSAGE_TYPE_ALIVE:
+                priority = LOW_PRIORITY
+            elif messageType == MESSAGE_TYPE_I_AM_ALIVE:
+                priority = LOW_PRIORITY
+            elif messageType == MESSAGE_TYPE_FLOOD:
+                priority = HIGH_PRIORITY
+            elif messageType == MESSAGE_TYPE_DATA:
+                priority = LOW_PRIORITY
+            elif messageType == MESSAGE_TYPE_COST_CHANGE:
+                priority = NORMAL_PRIORITY
+            elif messageType ==  MESSAGE_TYPE_CHANGE_DEATH:
+                priority = NORMAL_PRIORITY
+
+            self.priority_queue_messages.put((priority,message,neighbor))
+
+    def processor_messages(self):
+        print ("We are processing messages ")
+        while True:
+            tuple_message_neighbor = self.priority_queue_messages.get(block=True, timeout=None)
+
+            print(tuple_message_neighbor)
+            message = tuple_message_neighbor[1]
+            neighbor = tuple_message_neighbor[2]
 
             ## The message type (first 1 byte)
 
             messageType = int (message[0])
 
             ## The node that is talking to me
-            ip_source = client_addr[0]
-            port_source = int (client_addr[1])
+            ip_source = neighbor[0]
+            port_source = int (neighbor[1])
 
             ## We receive a RT from another node
             if messageType ==  MESSAGE_TYPE_UPDATE:
@@ -170,7 +200,7 @@ class NodeUDP(Node):
                 self.reachability_table.save_address(ip_source,16,port_source,cost,ip_source,16,port_source)
                 ## We send a ACK to the source node
                 messageACK = bytearray(MESSAGE_TYPE_I_AM_ALIVE.to_bytes(1, byteorder="big"))
-                self.socket_node.sendto(messageACK, client_addr)
+                self.socket_node.sendto(messageACK, neighbor)
 
             ## We receive a ACK of keep alive from one of my neighbors
             elif messageType == MESSAGE_TYPE_I_AM_ALIVE:
@@ -234,10 +264,6 @@ class NodeUDP(Node):
         except BrokenPipeError:
             print("Se perdió la conexión con el servidor")
             self.neighbors_table.mark_dead(ipDest, portDest)
-
-
-
-
 
 
     # Send messages to another node.
