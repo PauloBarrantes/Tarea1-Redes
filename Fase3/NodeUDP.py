@@ -158,7 +158,7 @@ class NodeUDP(Node):
                 decoded_RT = decodeRT(message)
 
                 for i in range(0,len(decoded_RT)):
-                    self.reachability_table.save_address(decodeRT[i][0], decodeRT[i][1], decodeRT[i][2], decodeRT[i][3], ip_source, DEFAULT_MASK, port_source)
+                    self.reachability_table.save_address(decoded_RT[i][0], decoded_RT[i][1], decoded_RT[i][2], decoded_RT[i][3], ip_source, DEFAULT_MASK, port_source)
 
             elif messageType == MESSAGE_TYPE_ALIVE:
                 # Recibir ip,mask,port
