@@ -91,8 +91,8 @@ class NodeUDP(Node):
 
         self.bitmap_lock = threading.Lock()
         self.queue_lock = threading.Lock()
-        self.flagRequestNeighbors = False
-        self.flagFlu = False
+        self.flag_request_neighbors = False
+        self.flag_flush = False
 
         #We request neighborts to central node
         self.request_neighbors()
@@ -260,7 +260,7 @@ class NodeUDP(Node):
                     self.flush(hops)
                 else:
                     print("Finalizó la inundación")
-
+                    flag_flush = True
             ## We receive a message data
             elif messageType == MESSAGE_TYPE_DATA:
                 print("ENTRA AC´A")
@@ -331,6 +331,15 @@ class NodeUDP(Node):
         except BrokenPipeError:
             print("Se perdió la conexión con el servidor")
             self.neighbors_table.mark_dead(ipDest, portDest)
+    def fill_rt(self):
+        timer.sleep(3)
+        for key in list(self.neighbors_table.neighbors):
+            if self.neighbors_table.is_awake(key[0],key[1]) == AWAKE:
+                ip_neighbor = key[0]
+                port_neighbor = key[1]
+                cost = self.neighbors_table.get_cost(ip_neighbor,port_neighbor)
+
+                self.reachability_table.save_address(ip_neighbor,DEFAULT_MASK,port_neighbor,cost,ip_neighbor,DEFAULT_MASK,port_neighbor)
 
 
     # Send messages to another node.
@@ -341,12 +350,12 @@ class NodeUDP(Node):
             #print(BColors.WARNING + "Iniciamos el Keep Alive" + BColors.ENDC)
 
             for key in list(self.neighbors_table.neighbors):
-                ipNeighbor = key[0]
-                portNeighbor = key[1]
-                cost = self.neighbors_table.get_cost(ipNeighbor,portNeighbor)
+                ip_neighbor = key[0]
+                port_neighbor = key[1]
+                cost = self.neighbors_table.get_cost(ip_neighbor,port_neighbor)
 
                 # Thread send alive messages to specific neighbor
-                thread_alive_message_to_neighbor = threading.Thread(target = self.thread_alive_message, args=(ipNeighbor, portNeighbor, cost,message))
+                thread_alive_message_to_neighbor = threading.Thread(target = self.thread_alive_message, args=(ip_neighbor, port_neighbor, cost,message))
                 thread_alive_message_to_neighbor.daemon = True
                 thread_alive_message_to_neighbor.start()
             time.sleep(TIMEOUT_ALIVE_MESSAGES)
@@ -389,11 +398,6 @@ class NodeUDP(Node):
 
             self.neighbors_table.mark_awake(ipDest,portDest)
             self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
-
-        elif awakeNeighbor and alive:
-            self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
-
-
 
     #We are going to make a flood to our neighbors
     def flush(self, hops):

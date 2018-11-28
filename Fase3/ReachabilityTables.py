@@ -31,11 +31,11 @@ class ReachabilityTables:
                 lock.acquire()
 
                 # Now update the table and release the lock when finished.
-                updateCost = cost + self.reach_table.get((pivot_ip, pivot_port))[0]
+                #updateCost = cost + self.reach_table.get((pivot_ip, pivot_port))[0]
 
-                if self.reach_table.get((destination_ip, destination_port))[0] > updateCost:
+                if self.reach_table.get((destination_ip, destination_port))[0] > cost:
 
-                    self.reach_table.update({(destination_ip, destination_port): [updateCost, pivot_ip, pivot_mask, pivot_port, lock, destination_mask]})
+                    self.reach_table.update({(destination_ip, destination_port): [cost, pivot_ip, pivot_mask, pivot_port, lock, destination_mask]})
 
                 lock.release()
 
@@ -48,8 +48,8 @@ class ReachabilityTables:
         else:
             updateCost = cost
 
-            if self.reach_table.get((pivot_ip, pivot_port)):
-                updateCost = cost + self.reach_table.get((pivot_ip, pivot_port))[0]
+            #if self.reach_table.get((pivot_ip, pivot_port)):
+                #updateCost = cost + self.reach_table.get((pivot_ip, pivot_port))[0]
             # Create a new lock for this entry and a lock check, in case we are deleting it.
             entry_lock = threading.Lock()
             self.reach_table.update({(destination_ip, destination_port): [updateCost, pivot_ip, pivot_mask, pivot_port, entry_lock, destination_mask]})
