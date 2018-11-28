@@ -58,7 +58,12 @@ class ReachabilityTables:
 
 
     def getPivots(self, ip, port):
-        return (self.reach_table[(ip,port)][1],self.reach_table[(ip,port)][3])
+
+        ip_pivot = self.reach_table.get((ip,port))[1]
+        port_pivot = self.reach_table.get((ip,port))[3]
+        pivots = (ip_pivot, port_pivot)
+
+        return pivots
     # Print the reachability table.
     def print_table(self):
         print("TABLA DE ALCANZABILIDAD")

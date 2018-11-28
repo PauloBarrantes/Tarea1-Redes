@@ -25,6 +25,9 @@ MESSAGE_TYPE_COST_CHANGE = 6
 MESSAGE_TYPE_CHANGE_DEATH = 7
 MESSAGE_TYPE_REQUEST_NEIGHBORS = 10
 
+
+AWAKE = 1
+
 '''PRIORITYS'''
 HIGH_PRIORITY   = 1
 NORMAL_PRIORITY = 2
@@ -37,6 +40,8 @@ CENTRAL_IP = "127.0.0.1"
 CENTRAL_MASK = 16
 CENTRAL_PORT = 9000
 
+'''# HOPS'''
+HOPS = 6
 
 '''TERMINAL COLORS'''
 
@@ -170,7 +175,6 @@ class NodeUDP(Node):
         while True:
             tuple_message_neighbor = self.priority_queue_messages.get(block=True, timeout=None)
 
-            print(tuple_message_neighbor)
             message = tuple_message_neighbor[1]
             neighbor = tuple_message_neighbor[2]
 
@@ -244,7 +248,7 @@ class NodeUDP(Node):
             #self.log_writer.write_log("Iniciamos los updates", 1)
 
             for key in list(self.neighbors_table.neighbors):
-                if self.neighbors_table.is_awake(key[0],key[1]) == 1:
+                if self.neighbors_table.is_awake(key[0],key[1]) == AWAKE:
                     ip = key[0]
                     port = key[1]
                     cost = self.neighbors_table.neighbors.get(key)[0]
@@ -325,6 +329,18 @@ class NodeUDP(Node):
             self.reachability_table.save_address(ipDest,16,portDest,cost,ipDest,16,portDest)
 
 
+
+    #We are going to make a flood to our neighbors
+    def flush(self):
+        for key in list(self.neighbors_table.neighbors):
+            if self.neighbors_table.is_awake(key[0],key[1]) == AWAKE:
+                ip = key[0]
+                port = key[1]
+                cost = self.neighbors_table.neighbors.get(key)[0]
+
+                message = bytearray(MESSAGE_TYPE_UPDATE.to_bytes(1, byteorder="big"))
+                message = bytearray(HOPS.to_bytes(1, byteorder="big"))
+                self.socket_node.sendto(message,(str(ipDest),int(portDest)))
 
 
     def send_message(self):
