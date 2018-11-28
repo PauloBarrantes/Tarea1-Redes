@@ -263,8 +263,6 @@ class NodeUDP(Node):
                     flag_flush = True
             ## We receive a message data
             elif messageType == MESSAGE_TYPE_DATA:
-                print("ENTRA AC´A")
-
                 ## We check if is ours
                 msg_for_me = check_message(message, self.ip, self.port)
                 elements_quantity = int.from_bytes(message[7:9], byteorder="big")
@@ -397,6 +395,8 @@ class NodeUDP(Node):
             self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba dormido, pero ha despertado", 2)
 
             self.neighbors_table.mark_awake(ipDest,portDest)
+            self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
+        elif awakeNeighbor and alive:
             self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
 
     #We are going to make a flood to our neighbors
