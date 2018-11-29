@@ -166,23 +166,18 @@ class NodeUDP(Node):
             ## We assign the prioritys of each message
 
             if messageType ==  MESSAGE_TYPE_UPDATE:
-                print("Hace eso?")
                 priority = LOW_PRIORITY
 
             elif messageType == MESSAGE_TYPE_ALIVE:
-                print("Hace eso?")
                 priority = LOW_PRIORITY
 
             elif messageType == MESSAGE_TYPE_I_AM_ALIVE:
-                print("Hace eso?")
                 priority = LOW_PRIORITY
 
             elif messageType == MESSAGE_TYPE_FLOOD:
-                print("mensaje de inundación")
                 priority = HIGH_PRIORITY
 
             elif messageType == MESSAGE_TYPE_DATA:
-                print("Hace eso?")
                 priority = LOW_PRIORITY
 
             elif messageType == MESSAGE_TYPE_COST_CHANGE:
@@ -193,8 +188,6 @@ class NodeUDP(Node):
             else:
                 priority = -1
 
-            if priority != 3:
-                print("Prioridad del mensaje: ", priority)
 
             if priority != -1:
                 self.queue_lock.acquire()
@@ -248,30 +241,27 @@ class NodeUDP(Node):
             elif messageType == MESSAGE_TYPE_FLOOD:
 
                 hops = int(message[1])
-                #Delete other messages
-                self.queue_lock.acquire()
-                self.priority_queue_messages.empty()
-                self.queue_lock.release()
-                #Delete RT
-                self.reachability_table.clear()
+
+
 
                 if hops != 0:
                     hops = hops - 1
                     self.flush(hops)
                 else:
-                    print("Finalizó la inundación")
-                    flag_flush = True
+                    self.flag_flush = True
             ## We receive a message data
             elif messageType == MESSAGE_TYPE_DATA:
                 ## We check if is ours
                 msg_for_me = check_message(message, self.ip, self.port)
                 elements_quantity = int.from_bytes(message[7:9], byteorder="big")
-
+                message_data = message[9:9+elements_quantity]
+                message_data_str = message_data.decode("utf-8")
                 if msg_for_me[0]:
                     print("Hemos llegado al destino")
+                    print("Mensaje: ",message_data_str)
                 else:
                     print("No somos el destino de este mensaje, hay que pasarlo a alguien")
-
+                    print("Mensaje: ",message_data_str)
                     pivots = self.reachability_table.get_pivots(msg_for_me[1], msg_for_me[2])
                     if pivots != None:
                         self.socket_node.sendto(message, pivots)
@@ -287,17 +277,18 @@ class NodeUDP(Node):
                     result_rt = self.reachability_table.change_cost(ip_source, port_source, new_cost)
                     if result_rt != ERROR:
 
-                        print("Resultado 1:" ,result)
-                        print("Resultado 2:",result_rt)
                         if result == MAJOR_COST and result_rt == MAJOR_COST:
                             self.flush(N_HOPS)
                         elif result == LOWER_COST and result_rt == LOWER_COST:
-                            print("Eventualmente a todos se les va actualizar el nuevo costo")
+                            print("El costo es menor, eventualmente se va propagar")
 
 
 
             elif messageType ==  MESSAGE_TYPE_CHANGE_DEATH:
-                pass
+                ## We need to make a flush
+                self.neighbors_table.mark_dead(ip_source,port_source)
+                print(BColors.FAIL + "Se va morir el nodo " + ip_source+ ":"+ str(port_source) + BColors.ENDC)
+                self.flush(N_HOPS)
             else:
                 print("gg")
 
@@ -305,6 +296,10 @@ class NodeUDP(Node):
         while True:
             time.sleep(TIMEOUT_UPDATES)
             #print(BColors.WARNING + "Iniciamos un UPDATE" + BColors.ENDC)
+            if self.flag_flush == True:
+                self.fill_rt()
+                self.flag_flush = False
+
 
             self.log_writer.write_log("Iniciamos los updates", 1)
 
@@ -330,7 +325,6 @@ class NodeUDP(Node):
             print("Se perdió la conexión con el servidor")
             self.neighbors_table.mark_dead(ipDest, portDest)
     def fill_rt(self):
-        timer.sleep(3)
         for key in list(self.neighbors_table.neighbors):
             if self.neighbors_table.is_awake(key[0],key[1]) == AWAKE:
                 ip_neighbor = key[0]
@@ -345,8 +339,11 @@ class NodeUDP(Node):
         message = bytearray(MESSAGE_TYPE_ALIVE.to_bytes(1, byteorder="big"))
 
         while True:
-            #print(BColors.WARNING + "Iniciamos el Keep Alive" + BColors.ENDC)
-
+            print(BColors.WARNING + "Iniciamos el Keep Alive" + BColors.ENDC)
+            self.bitmap_lock.acquire()
+            print("Ponemos el false")
+            self.bitmap.set_false()
+            self.bitmap_lock.release()
             for key in list(self.neighbors_table.neighbors):
                 ip_neighbor = key[0]
                 port_neighbor = key[1]
@@ -390,17 +387,26 @@ class NodeUDP(Node):
             print(BColors.FAIL + "Murió el nodo " + ipDest+ ":"+ str(portDest) + BColors.ENDC)
             self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba despierto, pero ha muerto", 2)
 
+            self.flush(N_HOPS)
 
         elif not awakeNeighbor and alive:
+            print("Desperto")
             self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba dormido, pero ha despertado", 2)
 
             self.neighbors_table.mark_awake(ipDest,portDest)
             self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
-        elif awakeNeighbor and alive:
-            self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
+        # elif awakeNeighbor and alive:
+        #     self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
 
     #We are going to make a flood to our neighbors
     def flush(self, hops):
+
+        #Delete other messages
+        self.queue_lock.acquire()
+        self.priority_queue_messages.empty()
+        self.queue_lock.release()
+        #Delete RT
+        self.reachability_table.clear()
         for key in list(self.neighbors_table.neighbors):
             if self.neighbors_table.is_awake(key[0],key[1]) == AWAKE:
                 ip = key[0]
@@ -456,6 +462,8 @@ class NodeUDP(Node):
                 port = key[1]
                 message = bytearray(MESSAGE_TYPE_CHANGE_DEATH.to_bytes(1, byteorder="big"))
                 self.socket_node.sendto(message,(str(ip),int(port)))
+
+        time.sleep(6)
 
     def change_cost(self):
         # Print our menu.
@@ -542,7 +550,7 @@ class bitmap():
     def getBit(self, ip, port):
         return self.bitmap[(ip,port)]
 
-    def setFalse(self):
+    def set_false(self):
         for key in list(self.bitmap):
             self.bitmap[(key[0],key[1])] = False
     def setTrue(self, ip, port):
