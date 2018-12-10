@@ -118,7 +118,7 @@ class ReachabilityTables:
             var = var + 1
 
         print (table.draw() + "\n")
-        print ("Entradas:" + var)
+        print ("Entradas:", var)
 
 '''
 alca = ReachabilityTables()

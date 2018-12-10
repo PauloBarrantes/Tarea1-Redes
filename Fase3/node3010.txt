@@ -96,3 +96,36 @@ Message: Enviamos updates al Nodo (10.1.137.45,3028) | Type: Update.
 Message: Enviamos updates al Nodo (10.1.137.60,3041) | Type: Update. 
 Message: Enviamos updates al Nodo (10.1.137.60,3045) | Type: Update. 
 Message: Enviamos updates al Nodo (10.1.137.60,3049) | Type: Update. 
+Message: Iniciamos el keep alive con (10.1.137.159,3004) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3024) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3028) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3041) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3045) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3049) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.159,3004) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.159,3004) | Type: Update. 
+Message: Iniciamos el keep alive con (10.1.137.159,3004) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3024) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3028) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3041) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3045) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3049) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.159,3004) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.45,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.45,3024) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.45,3028) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.60,3041) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.60,3045) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.159,3004) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.45,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.45,3024) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.45,3028) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.60,3041) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.60,3045) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.60,3049) | Type: Update. 
