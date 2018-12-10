@@ -11,6 +11,7 @@ from encoder_decoder import *
 '''
 IP_CENTRAL = '127.0.0.1'
 PORT_CENTRAL = 9000
+DEFAULT_MASK = 24
 
 '''CONSTANTS'''
 
@@ -78,7 +79,7 @@ class CentralNode(Node):
 
 
 
-                neighbors_message = encodeNeighbors(ipRequest, 16, portRequest, self.neighbors)
+                neighbors_message = encodeNeighbors(ipRequest, DEFAULT_MASK, portRequest, self.neighbors)
                 self.server_socket.sendto(neighbors_message, client_addr)
 
 
