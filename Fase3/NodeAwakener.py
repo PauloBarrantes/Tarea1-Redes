@@ -17,7 +17,9 @@ class BColors:
 nodes = []
 
 def readNodesToAwake():
-    with open('config2.csv', newline='') as csvfile:
+
+    nombreArchivo = input("Archivo CSV para despertar nodos")
+    with open(nombreArchivo, newline='') as csvfile:
 
         nodesCSV = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in nodesCSV:
@@ -63,7 +65,9 @@ def awake():
         elif usuario == "2":
             path = "/Users/Fla/Documents/GitHub/Tarea1-Redes/Fase3"
             flag_users = True
-
+        elif usuario == "3":
+            path = "/Users/alaincruzcasanova/PycharmProjects/Tarea1-Redes/Fase3"
+            flag_users = True
 
     for i in range (0,len(nodes)):
         ip = nodes[i][0]
