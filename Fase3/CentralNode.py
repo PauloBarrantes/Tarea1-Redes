@@ -102,7 +102,7 @@ class CentralNode(Node):
                         neighbor.append(row[3])
                         neighbor.append(row[4])
                         neighbor.append(row[5])
-                        neighbor.append(cost)
+                        neighbor.append(row[6])
                         self.neighbors.append(neighbor)
 
 
