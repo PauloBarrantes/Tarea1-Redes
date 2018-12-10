@@ -107,13 +107,15 @@ class ReachabilityTables:
     def print_table(self):
         print("TABLA DE ALCANZABILIDAD")
         table = Texttable()
-        table.set_cols_align(["c","c","c","c","c","c","c"])
-        table.set_cols_valign(["m","m","m","m","m","m","m"])
-        table.add_row(["IP","Máscara","Puerto","Costo","IP Pivote","Máscara Pivote","Puerto Pivote"])
+        table.set_cols_align(["c","c","c","c","c","c","c","c"])
+        table.set_cols_valign(["m","m","m","m","m","m","m","m"])
+        table.add_row(["ID","IP","Máscara","Puerto","Costo","IP Pivote","Máscara Pivote","Puerto Pivote"])
+        var = 1
         for key in self.reach_table:
-            table.add_row([key[0],  self.reach_table.get(key)[5], key[1], self.reach_table.get(key)[0],
+            table.add_row( var, [key[0],  self.reach_table.get(key)[5], key[1], self.reach_table.get(key)[0],
                            self.reach_table.get(key)[1], self.reach_table.get(key)[2],
                             self.reach_table.get(key)[3]])
+            var = var +1
 
         print (table.draw() + "\n")
 
