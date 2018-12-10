@@ -109,3 +109,9 @@ Message: Enviamos updates al Nodo (10.1.137.45,3013) | Type: Update.
 Message: Enviamos updates al Nodo (10.1.137.45,3023) | Type: Update. 
 Message: Enviamos updates al Nodo (10.1.137.45,3029) | Type: Update. 
 Message: Enviamos updates al Nodo (10.1.137.60,3036) | Type: Update. 
+Message: Iniciamos el keep alive con (10.1.137.45,3012) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3013) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3023) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3029) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3036) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 

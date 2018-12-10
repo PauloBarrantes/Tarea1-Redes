@@ -169,3 +169,28 @@ Message: Enviamos updates al Nodo (10.1.137.60,3036) | Type: Update.
 Message: Enviamos updates al Nodo (10.1.137.60,3037) | Type: Update. 
 Message: Enviamos updates al Nodo (10.1.137.60,3039) | Type: Update. 
 Message: Enviamos updates al Nodo (10.1.137.60,3048) | Type: Update. 
+Message: Iniciamos el keep alive con (10.1.137.159,3007) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3020) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3034) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3036) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3037) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3039) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3048) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.159,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.45,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.45,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.45,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.60,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.60,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.60,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (10.1.137.60,3048) | Type: Update. 
+Message: Iniciamos el keep alive con (10.1.137.159,3007) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3020) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.45,3034) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3036) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3037) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3039) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (10.1.137.60,3048) | Type: KeepAlive. 
