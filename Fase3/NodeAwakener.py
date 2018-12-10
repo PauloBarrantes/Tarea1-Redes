@@ -18,7 +18,7 @@ nodes = []
 
 def readNodesToAwake():
 
-    nombreArchivo = input("Archivo CSV para despertar nodos")
+    nombreArchivo = input("Archivo CSV para despertar nodos: ")
     with open(nombreArchivo, newline='') as csvfile:
 
         nodesCSV = csv.reader(csvfile, delimiter=',', quotechar='|')

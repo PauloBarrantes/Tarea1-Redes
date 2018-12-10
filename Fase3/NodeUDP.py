@@ -370,7 +370,7 @@ class NodeUDP(Node):
 
             except BrokenPipeError:
                 print("Se perdió la conexión con el servidor")
-            time.sleep(5)
+            time.sleep(10)
             self.bitmap_lock.acquire()
             alive = self.bitmap.getBit(ipDest, portDest)
             self.bitmap_lock.release()
