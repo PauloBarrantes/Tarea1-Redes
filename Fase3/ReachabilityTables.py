@@ -112,7 +112,7 @@ class ReachabilityTables:
         table.add_row(["ID","IP","Máscara","Puerto","Costo","IP Pivote","Máscara Pivote","Puerto Pivote"])
         var = 1
         for key in self.reach_table:
-            table.add_row( var, [key[0],  self.reach_table.get(key)[5], key[1], self.reach_table.get(key)[0],
+            table.add_row( var,[key[0],  self.reach_table.get(key)[5], key[1], self.reach_table.get(key)[0],
                            self.reach_table.get(key)[1], self.reach_table.get(key)[2],
                             self.reach_table.get(key)[3]])
             var = var +1
