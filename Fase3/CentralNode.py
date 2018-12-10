@@ -85,21 +85,25 @@ class CentralNode(Node):
 
 
     def extract_neighbors(self):
-        with open('neighbors.csv', newline='') as csvfile:
+        with open('conexiones.csv', newline='') as csvfile:
             # We obtain neighbor from csv file
-            neighborsCSV = csv.reader(csvfile, delimiter=';', quotechar='|')
+            neighborsCSV = csv.reader(csvfile, delimiter=',', quotechar='|')
 
             # and fill a structure with each neighbor pair
             for row in neighborsCSV:
-                neighbor = []
-                neighbor.append(row[0])
-                neighbor.append(row[1])
-                neighbor.append(row[2])
-                neighbor.append(row[3])
-                neighbor.append(row[4])
-                neighbor.append(row[5])
-                neighbor.append(row[6])
-                self.neighbors.append(neighbor)
+                if row[0] !='Node_ip':
+                    maskA = int(row[1])
+                    maskB = int(row[4])
+                    if maskA >= 2 and maskA <= 30 and maskB >= 2 and maskB <= 30 :
+                        neighbor = []
+                        neighbor.append(row[0])
+                        neighbor.append(row[1])
+                        neighbor.append(row[2])
+                        neighbor.append(row[3])
+                        neighbor.append(row[4])
+                        neighbor.append(row[5])
+                        neighbor.append(cost)
+                        self.neighbors.append(neighbor)
 
 
     def printNeighbors(self, neighborsList):
@@ -129,6 +133,8 @@ class CentralNode(Node):
 
         print (table.draw() + "\n")
     def menu(self):
+        self.printNeighbors(self.neighbors)
+
         print(BColors.OKGREEN + "Instrucciones: " + BColors.ENDC)
         print(BColors.BOLD + "-1-" + BColors.ENDC, "Apagar nodo central")
         user_input = input("Qué desea hacer?\n")

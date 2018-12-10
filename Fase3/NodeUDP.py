@@ -14,7 +14,7 @@ TIMEOUT_ACK = 2
 TIMEOUT_ALIVE_MESSAGES = 90
 
 '''CONSTANTS'''
-DEFAULT_MASK = 16
+DEFAULT_MASK = 24
 
 MESSAGE_TYPE_UPDATE = 1
 MESSAGE_TYPE_ALIVE = 2
@@ -227,7 +227,7 @@ class NodeUDP(Node):
                 self.neighbors_table.mark_awake(ip_source,port_source)
                 cost = self.neighbors_table.get_cost(ip_source,port_source)
 
-                self.reachability_table.save_address(ip_source,16,port_source,cost,ip_source,16,port_source)
+                self.reachability_table.save_address(ip_source,DEFAULT_MASK,port_source,cost,ip_source,DEFAULT_MASK,port_source)
                 ## We send a ACK to the source node
                 messageACK = bytearray(MESSAGE_TYPE_I_AM_ALIVE.to_bytes(1, byteorder="big"))
                 self.socket_node.sendto(messageACK, neighbor)

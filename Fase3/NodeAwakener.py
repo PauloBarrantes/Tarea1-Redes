@@ -17,15 +17,16 @@ class BColors:
 nodes = []
 
 def readNodesToAwake():
-    with open('NodesToAwake.csv', newline='') as csvfile:
+    with open('config2.csv', newline='') as csvfile:
 
-        nodesCSV = csv.reader(csvfile, delimiter=';', quotechar='|')
+        nodesCSV = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in nodesCSV:
-            node = []
-            node.append(row[0])
-            node.append(row[1])
-            node.append(row[2])
-            nodes.append(node)
+            if row[0] !='Node_ip':
+                node = []
+                node.append(row[0])
+                node.append(row[1])
+                node.append(row[2])
+                nodes.append(node)
 def printNodesToAwake():
     print("Nodos que vamos a despertar")
     table = Texttable()
@@ -38,8 +39,8 @@ def printNodesToAwake():
 
     for i in range (0,len(nodes)):
         ip = nodes[i][0]
-        puerto = nodes[i][1]
-        mascara = nodes[i][2]
+        mascara = nodes[i][1]
+        puerto = nodes[i][2]
         table.add_row([ip,puerto,mascara])
 
 
@@ -66,7 +67,7 @@ def awake():
 
     for i in range (0,len(nodes)):
         ip = nodes[i][0]
-        puerto = nodes[i][1]
+        puerto = nodes[i][2]
 
         appleScript = '''
 tell application \"Terminal\"
