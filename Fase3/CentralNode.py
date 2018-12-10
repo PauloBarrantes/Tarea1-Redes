@@ -9,7 +9,7 @@ from encoder_decoder import *
 '''
     Central Node
 '''
-IP_CENTRAL = '127.0.0.1'
+IP_CENTRAL = '10.1.137.45'
 PORT_CENTRAL = 9000
 
 '''CONSTANTS'''
@@ -19,14 +19,14 @@ MESSAGE_TYPE_REQUEST_NEIGHBORS = 10
 
 
 class BColors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    GG = '\033[96m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
+    HEADER =    '\033[95m'
+    OKBLUE =    '\033[94m'
+    OKGREEN =   '\033[92m'
+    WARNING =   '\033[93m'
+    FAIL =      '\033[91m'
+    GG =        '\033[96m'
+    ENDC =      '\033[0m'
+    BOLD =      '\033[1m'
     UNDERLINE = '\033[4m'
 
 
