@@ -43,7 +43,7 @@ LOWER_COST = 2
 MAJOR_COST = 1
 '''CENTRAL NODE'''
 
-CENTRAL_IP = "10.1.137.159"
+CENTRAL_IP = "10.1.137.45"
 CENTRAL_MASK = 16
 CENTRAL_PORT = 9000
 
@@ -248,7 +248,7 @@ class NodeUDP(Node):
 
                 print("Origen de inundación: "+ str(ip_source)+ " - " + str(port_source) +" Cantidad de HOPS :" + str(hops))
 
-                if hops > 1:
+                if hops != 1:
                     self.flag_SOS = True
                     hops = hops - 1
                     self.flush(hops)
@@ -377,7 +377,7 @@ class NodeUDP(Node):
 
             except BrokenPipeError:
                 print("Se perdió la conexión con el servidor")
-            time.sleep(200)
+            time.sleep(10)
             self.bitmap_lock.acquire()
             alive = self.bitmap.getBit(ipDest, portDest)
             self.bitmap_lock.release()

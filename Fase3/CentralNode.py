@@ -9,7 +9,7 @@ from encoder_decoder import *
 '''
     Central Node
 '''
-IP_CENTRAL = '10.1.137.159'
+IP_CENTRAL = '10.1.137.45'
 PORT_CENTRAL = 9000
 DEFAULT_MASK = 24
 
@@ -86,7 +86,7 @@ class CentralNode(Node):
 
 
     def extract_neighbors(self):
-        with open('Config.csv', newline='') as csvfile:
+        with open('conexiones.csv', newline='') as csvfile:
             # We obtain neighbor from csv file
             neighborsCSV = csv.reader(csvfile, delimiter=',', quotechar='|')
 
