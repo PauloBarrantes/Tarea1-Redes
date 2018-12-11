@@ -93,6 +93,7 @@ class NodeUDP(Node):
         self.queue_lock = threading.Lock()
         self.flag_request_neighbors = False
         self.flag_flush = False
+        self.flag_SOS = False
 
         #We request neighborts to central node
         self.request_neighbors()
@@ -248,9 +249,11 @@ class NodeUDP(Node):
 
 
                 if hops != 0:
+                    self.flag_SOS = True
                     hops = hops - 1
                     self.flush(hops)
                 else:
+                    self.flag_SOS = False
                     self.flag_flush = True
             ## We receive a message data
             elif messageType == MESSAGE_TYPE_DATA:
@@ -374,7 +377,7 @@ class NodeUDP(Node):
 
             except BrokenPipeError:
                 print("Se perdió la conexión con el servidor")
-            time.sleep(5)
+            time.sleep(15)
             self.bitmap_lock.acquire()
             alive = self.bitmap.getBit(ipDest, portDest)
             self.bitmap_lock.release()
@@ -385,20 +388,21 @@ class NodeUDP(Node):
         ## We need to compare states between neighbortable and bitmap
         awakeNeighbor = self.neighbors_table.is_awake(ipDest,portDest)
         ## My neighbor has died and I do not notice
-        if awakeNeighbor and not alive:
-            ## We need to make a flush
-            self.neighbors_table.mark_dead(ipDest,portDest)
-            print(BColors.FAIL + "Murió el nodo " + ipDest+ ":"+ str(portDest) + BColors.ENDC)
-            self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba despierto, pero ha muerto", 2)
+        if not self.flag_SOS:
+            if awakeNeighbor and not alive:
+                ## We need to make a flush
+                self.neighbors_table.mark_dead(ipDest,portDest)
+                print(BColors.FAIL + "Murió el nodo " + ipDest+ ":"+ str(portDest) + BColors.ENDC)
+                self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba despierto, pero ha muerto", 2)
 
-            self.flush(N_HOPS)
+                self.flush(N_HOPS)
 
-        elif not awakeNeighbor and alive:
-            print("Desperto")
-            self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba dormido, pero ha despertado", 2)
+            elif not awakeNeighbor and alive:
+                print("Desperto")
+                self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba dormido, pero ha despertado", 2)
 
-            self.neighbors_table.mark_awake(ipDest,portDest)
-            self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
+                self.neighbors_table.mark_awake(ipDest,portDest)
+                self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
         # elif awakeNeighbor and alive:
         #     self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
 
