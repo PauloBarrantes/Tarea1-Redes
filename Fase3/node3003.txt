@@ -971,3 +971,320 @@ Message: Enviamos updates al Nodo (169.254.98.115,3036) | Type: Update.
 Message: Enviamos updates al Nodo (169.254.98.115,3037) | Type: Update. 
 Message: Enviamos updates al Nodo (169.254.98.115,3039) | Type: Update. 
 Message: Enviamos updates al Nodo (169.254.98.115,3048) | Type: Update. 
+Message: Iniciamos el keep alive con (169.254.78.9,3007) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3020) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3034) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3036) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3037) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3039) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3048) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Iniciamos el keep alive con (169.254.78.9,3007) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3020) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3034) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3036) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3037) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3039) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3048) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos el keep alive con (169.254.78.9,3007) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3020) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3034) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3036) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3037) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3039) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3048) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos el keep alive con (169.254.78.9,3007) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3020) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3034) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3036) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3037) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3039) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3048) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos el keep alive con (169.254.78.9,3007) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3020) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3034) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3036) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3037) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3039) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3048) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos el keep alive con (169.254.78.9,3007) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3020) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3034) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3036) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3037) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3039) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3048) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos el keep alive con (169.254.78.9,3007) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3020) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3034) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3036) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3037) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3039) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3048) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos el keep alive con (169.254.78.9,3007) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3020) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3034) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3036) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3037) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3039) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3048) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos el keep alive con (169.254.78.9,3007) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3020) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3034) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3036) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3037) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3039) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3048) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos el keep alive con (169.254.78.9,3007) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3020) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3034) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3036) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3037) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3039) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3048) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3007) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3020) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3034) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3036) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3037) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3039) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.78.9,3048) | Type: Update. 
