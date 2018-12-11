@@ -175,7 +175,6 @@ class NodeUDP(Node):
                 priority = LOW_PRIORITY
 
             elif messageType == MESSAGE_TYPE_FLOOD:
-                print("UFALE!")
                 priority = HIGH_PRIORITY
 
             elif messageType == MESSAGE_TYPE_DATA:
