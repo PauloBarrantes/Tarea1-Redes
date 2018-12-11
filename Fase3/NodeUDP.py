@@ -226,6 +226,9 @@ class NodeUDP(Node):
 
                 # Guardar en tabla de vecinos que está vivo.
                 self.neighbors_table.mark_awake(ip_source,port_source)
+                self.bitmap_lock.acquire()
+                alive = self.bitmap.setTrue(ip_source, port_source)
+                self.bitmap_lock.release()
                 cost = self.neighbors_table.get_cost(ip_source,port_source)
 
                 self.reachability_table.save_address(ip_source,DEFAULT_MASK,port_source,cost,ip_source,DEFAULT_MASK,port_source)
