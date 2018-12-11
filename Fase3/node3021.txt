@@ -600,3 +600,10 @@ Message: Iniciamos el keep alive con (10.1.137.60,3046) | Type: KeepAlive.
 Message: Iniciamos los updates | Type: Update. 
 Message: Enviamos updates al Nodo (10.1.137.45,3029) | Type: Update. 
 Message: Enviamos updates al Nodo (10.1.137.60,3046) | Type: Update. 
+Message: Iniciamos el keep alive con (169.254.65.157,3022) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3023) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3029) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.98.115,3046) | Type: KeepAlive. 
+Message: Iniciamos los updates | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3022) | Type: Update. 
+Message: Enviamos updates al Nodo (169.254.65.157,3023) | Type: Update. 

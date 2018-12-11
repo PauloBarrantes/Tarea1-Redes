@@ -595,3 +595,9 @@ Message: Enviamos updates al Nodo (10.1.137.159,3002) | Type: Update.
 Message: Enviamos updates al Nodo (10.1.137.159,3009) | Type: Update. 
 Message: Enviamos updates al Nodo (10.1.137.45,3020) | Type: Update. 
 Message: Enviamos updates al Nodo (10.1.137.60,3040) | Type: Update. 
+Message: Iniciamos el keep alive con (169.254.78.9,3002) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3005) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3009) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3020) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.98.115,3040) | Type: KeepAlive. 
+Message: El nodo(169.254.65.157,3020) estaba dormido, pero ha despertado | Type: KeepAlive. 

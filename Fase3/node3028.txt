@@ -1116,3 +1116,16 @@ Message: Iniciamos el keep alive con (10.1.137.60,3037) | Type: KeepAlive.
 Message: Iniciamos el keep alive con (10.1.137.60,3039) | Type: KeepAlive. 
 Message: Iniciamos los updates | Type: Update. 
 Message: Iniciamos los updates | Type: Update. 
+Message: Iniciamos el keep alive con (169.254.78.9,3000) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3002) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.78.9,3010) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3015) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3016) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3024) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3029) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.65.157,3032) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.98.115,3037) | Type: KeepAlive. 
+Message: Iniciamos el keep alive con (169.254.98.115,3039) | Type: KeepAlive. 
+Message: El nodo(169.254.65.157,3024) estaba dormido, pero ha despertado | Type: KeepAlive. 
+Message: El nodo(169.254.65.157,3015) estaba dormido, pero ha despertado | Type: KeepAlive. 
+Message: El nodo(169.254.65.157,3016) estaba dormido, pero ha despertado | Type: KeepAlive. 
