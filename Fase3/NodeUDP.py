@@ -175,6 +175,7 @@ class NodeUDP(Node):
                 priority = LOW_PRIORITY
 
             elif messageType == MESSAGE_TYPE_FLOOD:
+                print("UFALE!")
                 priority = HIGH_PRIORITY
 
             elif messageType == MESSAGE_TYPE_DATA:
@@ -370,7 +371,7 @@ class NodeUDP(Node):
 
             except BrokenPipeError:
                 print("Se perdió la conexión con el servidor")
-            time.sleep(18)
+            time.sleep(5)
             self.bitmap_lock.acquire()
             alive = self.bitmap.getBit(ipDest, portDest)
             self.bitmap_lock.release()
@@ -455,7 +456,6 @@ class NodeUDP(Node):
             print("No hay camino para ese nodo GG")
 
     def terminate_node(self):
-        print("Eliminado el nodo. - en construcción jejeje :v")
         for key in list(self.neighbors_table.neighbors):
             if self.neighbors_table.is_awake(key[0],key[1]) == AWAKE:
                 ip = key[0]
