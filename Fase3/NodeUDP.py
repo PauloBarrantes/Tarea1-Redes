@@ -246,7 +246,7 @@ class NodeUDP(Node):
 
                 hops = int(message[1])
 
-
+                print("Origen de inundación: ", ip_source+" - " + port_source +" Cantidad de HOPS :" + hops)
 
                 if hops != 0:
                     self.flag_SOS = True
