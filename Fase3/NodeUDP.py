@@ -254,8 +254,8 @@ class NodeUDP(Node):
             elif messageType == MESSAGE_TYPE_DATA:
                 ## We check if is ours
                 msg_for_me = check_message(message, self.ip, self.port)
-                elements_quantity = int.from_bytes(message[7:9], byteorder="big")
-                message_data = message[9:9+elements_quantity]
+                elements_quantity = int.from_bytes(message[13:15], byteorder="big")
+                message_data = message[15:15+elements_quantity]
                 message_data_str = message_data.decode("utf-8")
                 if msg_for_me[0]:
                     print("Hemos llegado al destino")
@@ -442,6 +442,10 @@ class NodeUDP(Node):
             print(pivots)
             ## Message Type
             data_message = bytearray(MESSAGE_TYPE_DATA.to_bytes(1, byteorder="big"))
+            ## Source IP
+            data_message.extend(bytearray(bytes(map(int, self.ip.split(".")))))
+            ## Source Port
+            data_message.extend(self.port.to_bytes(2, byteorder="big"))
             ## Destination IP
             data_message.extend(bytearray(bytes(map(int, ip_destination.split(".")))))
             ## Destination Port
