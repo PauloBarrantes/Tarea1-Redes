@@ -11,7 +11,7 @@ import time
 
 TIMEOUT_UPDATES  = 30
 TIMEOUT_ACK = 2
-TIMEOUT_ALIVE_MESSAGES = 90
+TIMEOUT_ALIVE_MESSAGES = 200
 
 '''CONSTANTS'''
 DEFAULT_MASK = 24
@@ -43,12 +43,12 @@ LOWER_COST = 2
 MAJOR_COST = 1
 '''CENTRAL NODE'''
 
-CENTRAL_IP = "10.1.137.45"
+CENTRAL_IP = "10.1.137.159"
 CENTRAL_MASK = 16
 CENTRAL_PORT = 9000
 
 '''# HOPS'''
-N_HOPS = 6
+N_HOPS = 10
 
 '''TERMINAL COLORS'''
 
@@ -81,7 +81,7 @@ class NodeUDP(Node):
 
         self.priority_queue_messages = PriorityQueue()
 
-        self.log_writer = LogWriter(self.ip, self.port)
+        #self.log_writer = LogWriter(self.ip, self.port)
 
         #socket node
 
@@ -308,7 +308,7 @@ class NodeUDP(Node):
                 self.flag_flush = False
 
 
-            self.log_writer.write_log("Iniciamos los updates", 1)
+            #self.log_writer.write_log("Iniciamos los updates", 1)
 
             for key in list(self.neighbors_table.neighbors):
                 if self.neighbors_table.is_awake(key[0],key[1]) == AWAKE:
@@ -324,7 +324,7 @@ class NodeUDP(Node):
                     thread_send_RT.start()
 
     def thread_send_RT(self, ip, port, reachability_table):
-        self.log_writer.write_log("Enviamos updates al Nodo (" +ip+","+str(port)+")", 1)
+        #self.log_writer.write_log("Enviamos updates al Nodo (" +ip+","+str(port)+")", 1)
 
         try:
              self.socket_node.sendto(reachability_table,(ip,port))
@@ -348,7 +348,7 @@ class NodeUDP(Node):
         while True:
             print(BColors.WARNING + "Iniciamos el Keep Alive" + BColors.ENDC)
             self.bitmap_lock.acquire()
-            print("Ponemos el false")
+            #print("Ponemos el false")
             self.bitmap.set_false()
             self.bitmap_lock.release()
             for key in list(self.neighbors_table.neighbors):
@@ -365,7 +365,7 @@ class NodeUDP(Node):
     # Thread manda mensajes a cada vecino y espera el ACK
 
     def thread_alive_message(self, ipDest, portDest, cost,message):
-        self.log_writer.write_log("Iniciamos el keep alive con (" +ipDest+","+str(portDest)+")", 2)
+        #self.log_writer.write_log("Iniciamos el keep alive con (" +ipDest+","+str(portDest)+")", 2)
 
         attempts = 0
         self.bitmap_lock.acquire()
@@ -377,7 +377,7 @@ class NodeUDP(Node):
 
             except BrokenPipeError:
                 print("Se perdió la conexión con el servidor")
-            time.sleep(15)
+            time.sleep(200)
             self.bitmap_lock.acquire()
             alive = self.bitmap.getBit(ipDest, portDest)
             self.bitmap_lock.release()
@@ -393,13 +393,13 @@ class NodeUDP(Node):
                 ## We need to make a flush
                 self.neighbors_table.mark_dead(ipDest,portDest)
                 print(BColors.FAIL + "Murió el nodo " + ipDest+ ":"+ str(portDest) + BColors.ENDC)
-                self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba despierto, pero ha muerto", 2)
+                #self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba despierto, pero ha muerto", 2)
 
                 self.flush(N_HOPS)
 
             elif not awakeNeighbor and alive:
-                print("Desperto")
-                self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba dormido, pero ha despertado", 2)
+                #print("Desperto")
+                #self.log_writer.write_log("El nodo(" +ipDest+","+str(portDest)+") estaba dormido, pero ha despertado", 2)
 
                 self.neighbors_table.mark_awake(ipDest,portDest)
                 self.reachability_table.save_address(ipDest,DEFAULT_MASK,portDest,cost,ipDest,DEFAULT_MASK,portDest)
@@ -425,7 +425,7 @@ class NodeUDP(Node):
 
 
     def send_message(self):
-        self.log_writer.write_log("UDP node is sending a message.", 2)
+        #self.log_writer.write_log("UDP node is sending a message.", 2)
 
         # Variables that we will use to keep the user's input.
         port = ""
@@ -474,7 +474,7 @@ class NodeUDP(Node):
                 message = bytearray(MESSAGE_TYPE_CHANGE_DEATH.to_bytes(1, byteorder="big"))
                 self.socket_node.sendto(message,(str(ip),int(port)))
 
-        time.sleep(6)
+        time.sleep(10)
 
     def change_cost(self):
         # Print our menu.
