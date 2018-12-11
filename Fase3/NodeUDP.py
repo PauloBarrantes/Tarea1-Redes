@@ -267,6 +267,7 @@ class NodeUDP(Node):
                     print("No somos el destino de este mensaje, hay que pasarlo a alguien")
                     print("Mensaje: ",message_data_str)
                     pivots = self.reachability_table.get_pivots(msg_for_me[1], msg_for_me[2])
+                    print("Vamos a pasar por: ", pivots)
                     if pivots != None:
                         self.socket_node.sendto(message, pivots)
                     else:
