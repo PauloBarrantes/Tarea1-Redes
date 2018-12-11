@@ -9,7 +9,7 @@ from encoder_decoder import *
 '''
     Central Node
 '''
-IP_CENTRAL = '10.1.137.45'
+IP_CENTRAL = '169.254.65.157'
 PORT_CENTRAL = 9000
 DEFAULT_MASK = 24
 
